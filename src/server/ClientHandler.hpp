@@ -2,5 +2,5 @@
 #include <ostream>
 
 class ClientHandler {
-    void handleClient(std::istream in, std::ostream out);
+    virtual void handleClient(std::istream in, std::ostream out) = 0;
 };
