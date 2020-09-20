@@ -1,5 +1,8 @@
 #include "Server.hpp"
 
-class MySerialServer: public side_server::Server{
-
+namespace server_side {
+    class MySerialServer: public Server{
+        virtual void open(int port, ClientHandler ch);
+        virtual void stop();
+    };
 };

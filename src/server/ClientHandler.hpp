@@ -1,6 +1,8 @@
 #include <istream>
 #include <ostream>
 
-class ClientHandler {
-    virtual void handleClient(std::istream in, std::ostream out) = 0;
+namespace server_side {
+    class ClientHandler {
+        virtual void handleClient(std::istream in, std::ostream out) = 0;
+    };
 };
