@@ -1,13 +1,16 @@
 #pragma once
 
-#include "Solution.hpp"
+#include "StringSolution.hpp"
+#include "MatrixGraphProblem.hpp"
 #include <iostream>
 
-class MatrixGraphDFS : public Solution {
+class MatrixGraphDFS : public StringSolution {
 public:
-    std::string getOutputFileType() const;
+    std::string getOutputFileType() const override;
 
-    std::string getCacheCode() const;
+    std::string getCacheCode() const override;
 
-    void writeToFile(Problem* problem, const std::string& fileName) const;
+    std::string getSolutionString(Problem* const problem) const override;
+
+    void writeToFile(Problem* const problem, const std::string& fileName) const override;
 };

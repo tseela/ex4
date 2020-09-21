@@ -2,7 +2,7 @@
 
 #include "crc32FileReader.hpp"
 #include "Problem.hpp"
-#include "MatrixClass.hpp"
+#include "Graph.hpp"
 
 #include <string>
 #include <memory>
@@ -12,14 +12,21 @@
  */
 class MatrixGraphProblem : public Problem {
 public:
-    MatrixGraphProblem(const MatrixClass& matrix);
+    MatrixGraphProblem(const MatrixClass& matrix, std::uint32_t startX, std::uint32_t startY, std::uint32_t endX,
+        std::uint32_t endY);
     
     string getCacheCode() const override;
 
     string getCacheString() const override;
 
-    MatrixClass getGraph() const;
+    Graph getGraph() const;
+
+    double getEndX() const;
+
+    double getEndY() const;
 
 private:
-    unique_ptr<MatrixClass> graph;
+    unique_ptr<Graph> m_graph;
+    std::uint32_t m_endX;
+    std::uint32_t m_endY;
 };
