@@ -2,7 +2,7 @@
 
 #include "file_reading.hpp"
 #include "CurrentTime.hpp"
-#include "Operation.hpp"
+#include "Command.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -17,8 +17,6 @@
 #include <filesystem>
 #include <errno.h>
 #include <system_error>
-
-class Operation;
 
 /**
  * @brief this class stands for the cache.
@@ -36,26 +34,27 @@ public:
     /**
      * @brief Construct a new Cache Manager object.
      * 
-     * @param op the operation that is given.
      */
-    CacheManager(std::unique_ptr<Operation>& op);
+    CacheManager();
 
     /**
-     * @brief Does an operation.
+     * @brief Saves a command in the cache.
      * 
-     * @param operation - the operation.
+     * @param command - the command.
      * @param isSearched - is the operation is searched or not.
      * @param isClear - if the operation is clear or not.
      */
-    void performOperation(bool isSearched = false, bool isClear = false) const;
+    void saveInCache(const Command& command, bool isSearched = false, bool isClear = false) const;
 
     /**
-     * @brief Search an operation in the cache.
+     * @brief Search a command in the cache.
      * 
-     * @param operation
-     * @return string 
+     * @param command - the command.
+     * @return string - the date of the last use of the command.
      */
-    std::string search() const;
+    std::string search(const Command& command) const;
+
+    std::string getBackUpFile(const Command& command) const;
 
     /**
      * @brief Checks if a command is search operation.
@@ -74,7 +73,4 @@ public:
      * @return true if the operation is clear, else false. 
      */
     static bool isClear(int argc, const char* argv[]);
-
-private:
-    std::unique_ptr<Operation> _operation;
 };

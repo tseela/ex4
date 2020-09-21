@@ -8,8 +8,7 @@ MatrixGraphProblem::MatrixGraphProblem(const MatrixClass& matrix, uint32_t start
     m_endX = endX;
     m_endY = endY;
 
-    m_cacheString = getCacheCode() + " ";
-    m_cacheString += to_string(crc32FromString(m_graph->toString()));
+    m_cacheString = to_string(crc32FromString(m_graph->toString()));
 }
 
 string MatrixGraphProblem::getCacheCode() const { return "graph"; }

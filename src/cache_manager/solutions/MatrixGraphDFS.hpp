@@ -10,6 +10,8 @@ public:
 
     std::string getCacheCode() const override;
 
+    std::string getCacheString() const override;
+
     std::string getSolutionString(Problem* const problem) const override;
 
     void writeToFile(Problem* const problem, const std::string& fileName) const override;

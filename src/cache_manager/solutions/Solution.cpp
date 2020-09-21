@@ -27,14 +27,14 @@ Solution& Solution::operator=(Solution&& op) {
    return *this;
 }
 
-void Solution::writeToOutputFile(Problem* const problem) const {
+void Solution::writeToOutputFile(const Problem* problem) const {
     if (m_outputFilePath.compare(NOT_INITIALIZED) == 0) {//no output file
         return;
     }
     writeToFile(problem, m_outputFilePath);
 }
 
-void Solution::writeToOutputFile(Problem* const problem, const string& content) const {
+void Solution::writeToOutputFile(const Problem* problem, const string& content) const {
     if (m_outputFilePath.compare(NOT_INITIALIZED) == 0) {//no output file
         return;
     }
@@ -45,6 +45,6 @@ void Solution::writeToOutputFile(Problem* const problem, const string& content) 
     }
 }
 
-bool Solution::isStringSolution() const {
-    return false;
-}
+bool Solution::isStringSolution() const { return false; }
+
+string Solution::getCacheString() const { return ""; }

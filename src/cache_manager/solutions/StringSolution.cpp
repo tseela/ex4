@@ -2,7 +2,7 @@
 
 using namespace std;
 
-string StringSolution::getSolutionString(Problem* const problem) const {
+string StringSolution::getSolutionString(const Problem* problem) const {
     return NOT_INITIALIZED;
 }
 

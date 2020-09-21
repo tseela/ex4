@@ -68,23 +68,25 @@ public:
      * @brief Writes the result to the output file.
      * 
      */
-    void writeToOutputFile(Problem* const problem) const;
+    void writeToOutputFile(const Problem* problem) const;
 
     /**
      * @brief Writes to the output file.
      * 
      * @param content - what it will write to the file.
      */
-    void writeToOutputFile(Problem* const problem, const std::string& content) const;
+    void writeToOutputFile(const Problem* problem, const std::string& content) const;
 
     /**
      * @brief Writes the result of the Solution.
      * 
      * @param fileName - the name of the file we write to.
      */
-    virtual void writeToFile(Problem* const problem, const std::string& fileName) const = 0;
+    virtual void writeToFile(const Problem* problem, const std::string& fileName) const = 0;
 
     virtual bool isStringSolution() const;
+
+    virtual std::string getCacheString() const;
 
     /**
      * @brief Destroy the Solution object.
