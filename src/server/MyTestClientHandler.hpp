@@ -4,6 +4,7 @@
 
 namespace server_side {
     class MyTestClientHandler: public ClientHandler {
-        virtual void handleClient(std::istream in, std::ostream out) const override;
+            virtual void handleClient(const std::unique_ptr<SocketIStream> in,
+                 const std::unique_ptr<SocketOStream> out) const override;
     };
 };

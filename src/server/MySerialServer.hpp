@@ -1,10 +1,14 @@
 #pragma once
 
 #include "SocketServer.hpp"
+#include "SocketIStream.hpp"
+#include "SocketOStream.hpp"
+
 #include <atomic>
 #include <thread>
- #include <pthread.h>
-#include <chrono>
+#include <pthread.h>
+#include <istream>
+#include <ostream>
 namespace server_side {
     
     class MySerialServer: public SocketServer{
@@ -13,6 +17,7 @@ namespace server_side {
         std::thread m_tAccept;
 
         public:
+
             MySerialServer();
             virtual void acceptClients(int sockfd, const std::shared_ptr<ClientHandler> ch) override;
             virtual void stop() override;

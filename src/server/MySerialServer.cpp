@@ -40,6 +40,10 @@ void MySerialServer::threadAccept(int sockfd, const std::shared_ptr<ClientHandle
 
             m_accepting = true;
 
+            std::unique_ptr<SocketIStream> in = std::make_unique<SocketIStream>(sockfd);
+            std::unique_ptr<SocketOStream> out = std::make_unique<SocketOStream>(sockfd);
+            ch->handleClient(std::move(in), std::move(out));      
+
         }
     } catch (const std::exception& e) {
         m_tExp = std::current_exception();
@@ -49,13 +53,13 @@ void MySerialServer::threadAccept(int sockfd, const std::shared_ptr<ClientHandle
 void MySerialServer::stop() {
     do {
         m_accepting = false;
-        std::this_thread::sleep_for(5s);
+        std::this_thread::sleep_for(SERVER_TIMEOUT);
 
     } while (m_accepting);
 
     if (0 != pthread_cancel(m_tAccept.native_handle())) {
             THROW_SYSTEM_ERROR(); 
     }
-    
+
     m_tAccept.join();
 }
