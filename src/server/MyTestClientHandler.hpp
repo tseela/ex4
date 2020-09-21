@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ClientHandler.hpp"
 
 namespace server_side {

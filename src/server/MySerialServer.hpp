@@ -1,10 +1,23 @@
-#include "SocketServer.hpp"
+#pragma once
 
+#include "SocketServer.hpp"
+#include <atomic>
+#include <thread>
+ #include <pthread.h>
+#include <chrono>
 namespace server_side {
+    
     class MySerialServer: public SocketServer{
-        bool m_stop;
-        
+        std::atomic_bool m_accepting;
+        std::exception_ptr m_tExp = nullptr;
+        std::thread m_tAccept;
+
         public:
-        virtual void acceptClients() const override;
+            MySerialServer();
+            virtual void acceptClients(int sockfd, const std::shared_ptr<ClientHandler> ch) override;
+            virtual void stop() override;
+
+        private:
+            void threadAccept(int sockfd, const std::shared_ptr<ClientHandler> ch);
     };
-};
+}

@@ -5,9 +5,8 @@
 
 using namespace server_side;
 
-SocketServer::SocketServer() : m_stop(false) {};
+void SocketServer::open(int port, const std::shared_ptr<ClientHandler> ch) {
 
-void SocketServer::open(int port, const std::shared_ptr<ClientHandler> ch) const {
     //creating the socket
     const auto sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
@@ -30,10 +29,15 @@ void SocketServer::open(int port, const std::shared_ptr<ClientHandler> ch) const
         THROW_SYSTEM_ERROR(); 
     }
 
+    //intalize num of clients to listen to
+
+    if(0 > listen(sockfd, SERVER_BACKLOG)) {
+        close(sockfd);
+        THROW_SYSTEM_ERROR(); 
+    }
+
     //accepting the clients
-    acceptClients();
+    acceptClients(sockfd, ch);
 
     close(sockfd);
 }
-
-void SocketServer::stop() { m_stop = true; };
