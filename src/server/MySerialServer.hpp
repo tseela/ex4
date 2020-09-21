@@ -1,8 +1,10 @@
-#include "Server.hpp"
+#include "SocketServer.hpp"
 
 namespace server_side {
-    class MySerialServer: public Server{
-        virtual void open(int port, ClientHandler ch);
-        virtual void stop();
+    class MySerialServer: public SocketServer{
+        bool m_stop;
+        
+        public:
+        virtual void acceptClients() const override;
     };
 };

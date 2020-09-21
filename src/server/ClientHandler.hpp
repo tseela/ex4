@@ -3,6 +3,6 @@
 
 namespace server_side {
     class ClientHandler {
-        virtual void handleClient(std::istream in, std::ostream out) = 0;
+        virtual void handleClient(std::istream in, std::ostream out) const = 0;
     };
 };
