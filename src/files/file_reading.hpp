@@ -7,6 +7,8 @@
 #include <system_error>
 #include <errno.h>
 
+namespace files {
+
 /**
  * @brief Read the content of a file at path filePath.
  *
@@ -23,3 +25,5 @@ std::string readFileContent(const std::string& filePath);
  * @param content Content to write.
  */
 void writeFileContent(const std::string& filePath, const std::string& content);
+
+}
