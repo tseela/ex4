@@ -9,8 +9,7 @@
 #include <mutex>
 #include <thread>
 #include <pthread.h>
-#include <istream>
-#include <ostream>
+
 namespace server_side {
     
     class MySerialServer: public SocketServer{
@@ -23,9 +22,10 @@ namespace server_side {
 
             MySerialServer();
             virtual void acceptClients(int sockfd, const std::shared_ptr<ClientHandler> ch) override;
-            virtual void stop() override;
+            
 
         private:
             void threadAccept(int sockfd, const std::shared_ptr<ClientHandler> ch);
+            void stop();
     };
 }

@@ -33,7 +33,7 @@ add_executable(ex4.out main.cpp
                 cache_manager/operations/Operation.cpp cache_manager/time/CurrentTime.cpp files/file_reading.cpp
                 hash/crc32.cpp hash/crc32FileReader.cpp matrix/ErrorCodeException.cpp matrix/MatrixClass.cpp
                 server/MySerialServer.cpp server/SocketServer.cpp server/ProblemsClientHandler.cpp server/socketStreams/SocketIStream.cpp
-                server/socketStreams/SocketOStream.cpp)
+                server/socketStreams/SocketOStream.cpp server/MyParallelServer.cpp)
 target_link_libraries(ex4.out matrix)
 target_link_libraries(ex4.out pthread)
 

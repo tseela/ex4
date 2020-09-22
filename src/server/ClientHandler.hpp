@@ -3,8 +3,6 @@
 #include "SocketIStream.hpp"
 #include "SocketOStream.hpp"
 
-#include <istream>
-#include <ostream>
 #include <memory>
 
 namespace server_side {

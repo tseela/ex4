@@ -1,4 +1,5 @@
 #include "MySerialServer.hpp"
+#include "MyParallelServer.hpp"
 #include "ProblemsClientHandler.hpp"
 #include <iostream>
 
@@ -7,9 +8,9 @@ using namespace std;
 
 int main() {
     try{
-    MySerialServer server = MySerialServer();
+    MyParallelServer server = MyParallelServer();
     const std::shared_ptr<ClientHandler> ch = make_shared<ProblemsClientHandler>();
-    server.open(8888, ch);
+    server.start(7550, ch);
     } catch (const exception& e) {
         cerr<<e.what()<<endl;
     }

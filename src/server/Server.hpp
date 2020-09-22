@@ -2,12 +2,16 @@
 
 #include "ClientHandler.hpp"
 
+#include <chrono>
 #include <memory>
+
 namespace server_side {
     class Server {
         public:
-        virtual void open(int port, const std::shared_ptr<ClientHandler> ch) = 0;
-        virtual void stop() = 0;
+        static constexpr int SERVER_BACKLOG = 5;
+        static constexpr std::chrono::seconds SERVER_TIMEOUT = std::chrono::minutes(30);
+
+        virtual void start(int port, const std::shared_ptr<ClientHandler> ch) = 0;
         virtual ~Server() = default;
     };
 }

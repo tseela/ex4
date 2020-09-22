@@ -5,7 +5,7 @@
 
 using namespace server_side;
 
-void SocketServer::open(int port, const std::shared_ptr<ClientHandler> ch) {
+void SocketServer::start(int port, const std::shared_ptr<ClientHandler> ch) {
 
     //creating the socket
     const auto sockfd = socket(AF_INET, SOCK_STREAM, 0);

@@ -25,7 +25,7 @@ void MySerialServer::acceptClients(int sockfd, const std::shared_ptr<ClientHandl
 
 void MySerialServer::threadAccept(int sockfd, const std::shared_ptr<ClientHandler> ch) {
     try{
-        while(1) {
+        while(true) {
             m_accepting = false;
             sockaddr_in cliAddr;
             socklen_t cliLen = sizeof(cliAddr);
