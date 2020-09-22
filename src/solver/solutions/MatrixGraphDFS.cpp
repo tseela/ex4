@@ -2,6 +2,9 @@
 
 using namespace std;
 using namespace graph;
+using namespace solver::problem;
+
+solver::string_solution::MatrixGraphDFS::MatrixGraphDFS() {}
 
 string solver::string_solution::MatrixGraphDFS::getOutputFileType() const { return "txt"; }
 
@@ -26,7 +29,7 @@ string solver::string_solution::MatrixGraphDFS::getSolutionString(const Problem*
 }
 
 string DFS_search(const Graph& graph) {
-    string solution = "";
+    string solution = "pp lala pp";
 
     // dfs algorithem
 

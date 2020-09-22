@@ -10,6 +10,8 @@ namespace string_solution {
 
 class MatrixGraphDFS : public solver::string_solution::StringSolution {
 public:
+    MatrixGraphDFS();
+
     std::string getOutputFileType() const override;
 
     std::string getCacheCode() const override;

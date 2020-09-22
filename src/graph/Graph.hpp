@@ -1,5 +1,7 @@
 #pragma once
+
 #include "MatrixClass.hpp"
+#include <memory>
 
 enum Direction {
     NONE = 0,
@@ -13,7 +15,7 @@ namespace graph {
 
 class Graph {
 public:
-	Graph(const matrix::MatrixClass& matrix, std::uint32_t startX, std::uint32_t startY);
+	Graph(const matrix::MatrixClass *matrix, std::uint32_t startX, std::uint32_t startY);
 
 	/**
 	 * @brief Returns height of given graph.
@@ -47,9 +49,9 @@ public:
 	~Graph();
 
 private:
-    const matrix::MatrixClass m_matrixGraph;
+    const matrix::MatrixClass *m_matrixGraph;
     // m_steps(i, j) = 0 --> the cell wasn't stepped yet (else, we stepped on this one allready)
-    matrix::MatrixClass m_steps;
+    std::unique_ptr<matrix::MatrixClass> m_steps;
 
     // the cost of the path we made this far
     double m_cost;
