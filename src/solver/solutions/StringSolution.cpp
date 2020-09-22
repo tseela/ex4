@@ -2,10 +2,10 @@
 
 using namespace std;
 
-string StringSolution::getSolutionString(const Problem* problem) const {
+string solver::string_solution::StringSolution::getSolutionString(const Problem* problem) const {
     return NOT_INITIALIZED;
 }
 
-bool StringSolution::isStringSolution() const {
+bool solver::string_solution::StringSolution::isStringSolution() const {
     return true;
 }

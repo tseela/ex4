@@ -1,25 +1,26 @@
 #include "MatrixGraphDFS.hpp"
 
 using namespace std;
+using namespace graph;
 
-string MatrixGraphDFS::getOutputFileType() const { return "txt"; }
+string solver::string_solution::MatrixGraphDFS::getOutputFileType() const { return "txt"; }
 
-string MatrixGraphDFS::getCacheCode() const { return "matrix_graph"; }
+string solver::string_solution::MatrixGraphDFS::getCacheCode() const { return "matrix_graph"; }
 
-string MatrixGraphDFS::getCacheString() const { return "DFS"; }
+string solver::string_solution::MatrixGraphDFS::getCacheString() const { return "DFS"; }
 
-void MatrixGraphDFS::writeToFile(Problem* const graphProblem, const string& fileName) const {
+void solver::string_solution::MatrixGraphDFS::writeToFile(const Problem* graphProblem, const string& fileName) const {
     const Graph graph = dynamic_cast<MatrixGraphProblem *>(const_cast<Problem *>(graphProblem))->getGraph();
     string solution = DFS_search(graph);
 
     if (fileName == PRINT) {
         cout << solution << endl;
     } else {
-        writeFileContent(fileName, solution);
+        files::writeFileContent(fileName, solution);
     }
 }
 
-string MatrixGraphDFS::getSolutionString(Problem* const graphProblem) const {
+string solver::string_solution::MatrixGraphDFS::getSolutionString(const Problem* graphProblem) const {
     const Graph graph = dynamic_cast<MatrixGraphProblem *>(const_cast<Problem *>(graphProblem))->getGraph();
     return DFS_search(graph);
 }

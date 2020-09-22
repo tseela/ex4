@@ -2,12 +2,12 @@
 
 using namespace std;
 
-server_side::Solver::Solver(const Problem* problem, const Solution* solution) {
+solver::Solver::Solver(const Problem* problem, const Solution* solution) {
     m_problem = problem;
     m_solution = solution;
 }
 
-string server_side::Solver::getStringSolution() const {
+string solver::Solver::getStringSolution() const {
     // we can't return the string of the solution if our solution isn't a string solution...
     if (!m_solution->isStringSolution()) {
         throw runtime_error("You can't get a string from this solution!");

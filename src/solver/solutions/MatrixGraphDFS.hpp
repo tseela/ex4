@@ -4,7 +4,11 @@
 #include "MatrixGraphProblem.hpp"
 #include <iostream>
 
-class MatrixGraphDFS : public StringSolution {
+namespace solver {
+
+namespace string_solution {
+
+class MatrixGraphDFS : public solver::string_solution::StringSolution {
 public:
     std::string getOutputFileType() const override;
 
@@ -12,7 +16,11 @@ public:
 
     std::string getCacheString() const override;
 
-    std::string getSolutionString(Problem* const problem) const override;
+    std::string getSolutionString(const Problem* problem) const override;
 
-    void writeToFile(Problem* const problem, const std::string& fileName) const override;
+    void writeToFile(const Problem* problem, const std::string& fileName) const override;
 };
+
+}
+
+}

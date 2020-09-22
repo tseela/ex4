@@ -9,6 +9,8 @@
 #include <iostream>
 #include <stdexcept>
 
+namespace solver {
+
 class Solution {
 public:
     static constexpr char NOT_INITIALIZED[] = "";
@@ -97,3 +99,5 @@ public:
 protected:
     std::string m_outputFilePath = NOT_INITIALIZED; //no output file
 };
+
+}

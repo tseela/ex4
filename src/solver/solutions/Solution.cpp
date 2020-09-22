@@ -2,16 +2,16 @@
 
 using namespace std;
 
-Solution::Solution(const Solution& op) : m_outputFilePath(op.m_outputFilePath){}
+solver::Solution::Solution(const Solution& op) : m_outputFilePath(op.m_outputFilePath){}
 
-Solution& Solution::operator=(const Solution& op) {
+solver::Solution& solver::Solution::operator=(const Solution& op) {
     // copying the data
     m_outputFilePath = op.m_outputFilePath;
 
     return *this;
 }
 
-Solution::Solution(Solution&& op) : m_outputFilePath(op.m_outputFilePath){
+solver::Solution::Solution(Solution&& op) : m_outputFilePath(op.m_outputFilePath){
     // copying the data
     m_outputFilePath = op.m_outputFilePath;
 
@@ -19,7 +19,7 @@ Solution::Solution(Solution&& op) : m_outputFilePath(op.m_outputFilePath){
    op.m_outputFilePath = NOT_INITIALIZED;
 }
 
-Solution& Solution::operator=(Solution&& op) {
+solver::Solution& solver::Solution::operator=(Solution&& op) {
 
     // Nulling out the deta of op
    op.m_outputFilePath = NOT_INITIALIZED;
@@ -27,14 +27,14 @@ Solution& Solution::operator=(Solution&& op) {
    return *this;
 }
 
-void Solution::writeToOutputFile(const Problem* problem) const {
+void solver::Solution::writeToOutputFile(const Problem* problem) const {
     if (m_outputFilePath.compare(NOT_INITIALIZED) == 0) {//no output file
         return;
     }
     writeToFile(problem, m_outputFilePath);
 }
 
-void Solution::writeToOutputFile(const Problem* problem, const string& content) const {
+void solver::Solution::writeToOutputFile(const Problem* problem, const string& content) const {
     if (m_outputFilePath.compare(NOT_INITIALIZED) == 0) {//no output file
         return;
     }
@@ -45,6 +45,6 @@ void Solution::writeToOutputFile(const Problem* problem, const string& content) 
     }
 }
 
-bool Solution::isStringSolution() const { return false; }
+bool solver::Solution::isStringSolution() const { return false; }
 
-string Solution::getCacheString() const { return ""; }
+string solver::Solution::getCacheString() const { return ""; }

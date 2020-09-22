@@ -1,7 +1,7 @@
 #include "CacheManager.hpp"
 #include "StringSolution.hpp"
 
-namespace server_side {
+namespace solver {
     class Solver {
         public:
             Solver(const Problem* problem, const Solution* solution);
