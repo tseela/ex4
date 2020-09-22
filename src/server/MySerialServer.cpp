@@ -51,11 +51,13 @@ void MySerialServer::threadAccept(int sockfd, const std::shared_ptr<ClientHandle
 
 void MySerialServer::stop() {
     do {
-        if(!m_accepting) {
-            std::this_thread::sleep_for(SERVER_TIMEOUT);
-        } else {
+        if(m_accepting) {
             std::lock_guard<std::mutex> guard(m_mut);
         }
+
+        if(!m_accepting) {
+            std::this_thread::sleep_for(SERVER_TIMEOUT);
+        } 
         
     } while (m_accepting);
 
