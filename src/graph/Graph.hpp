@@ -9,9 +9,11 @@ enum Direction {
     RIGHT = 4
 };
 
+namespace graph {
+
 class Graph {
 public:
-	Graph(const MatrixClass& matrix, std::uint32_t startX, std::uint32_t startY);
+	Graph(const matrix::MatrixClass& matrix, std::uint32_t startX, std::uint32_t startY);
 
 	/**
 	 * @brief Returns height of given graph.
@@ -31,7 +33,7 @@ public:
 
     bool step(Direction& direction);
 
-    bool wasStepped(uint32_t x, uint32_t y) const;
+    bool wasStepped(std::uint32_t x, std::uint32_t y) const;
 
     bool wasStepped(std::uint32_t x, std::uint32_t y, Direction& direction) const;
 
@@ -45,9 +47,9 @@ public:
 	~Graph();
 
 private:
-    const MatrixClass m_matrixGraph;
+    const matrix::MatrixClass m_matrixGraph;
     // m_steps(i, j) = 0 --> the cell wasn't stepped yet (else, we stepped on this one allready)
-    MatrixClass m_steps;
+    matrix::MatrixClass m_steps;
 
     // the cost of the path we made this far
     double m_cost;
@@ -56,3 +58,5 @@ private:
     std::uint32_t m_x;
     std::uint32_t m_y;
 };
+
+}

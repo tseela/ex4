@@ -12,6 +12,8 @@ using std::uint32_t;
 using std::string;
 using std::ifstream;
 
+namespace matrix {
+
 class MatrixClass{
 //Fields
 PMatrix _matrix;
@@ -219,3 +221,5 @@ public:
 	 */
 	friend MatrixClass& operator*(double scalar, const MatrixClass& matrix);
 };
+
+}

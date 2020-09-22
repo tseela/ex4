@@ -1,17 +1,17 @@
 #include "MatrixClass.hpp"
 
 //Implementing methods
-	MatrixClass::MatrixClass(uint32_t height, uint32_t width){
+	matrix::MatrixClass::MatrixClass(uint32_t height, uint32_t width){
         //creating the matrix & throwing exception if needed
         ErrorCodeException::throwErrorIfNeeded(matrix_create(&_matrix, height, width));
     }
 
-    MatrixClass::MatrixClass(const MatrixClass& source){
+    matrix::MatrixClass::MatrixClass(const MatrixClass& source){
         //copy the matrix & throwing excepstion if needed
         ErrorCodeException::throwErrorIfNeeded(matrix_copy(&_matrix, source._matrix));
     }
 
-    MatrixClass::MatrixClass(const string& filePath) {
+    matrix::MatrixClass::MatrixClass(const string& filePath) {
         //opening the file
         ifstream matrixFile;
         matrixFile.open(filePath);
@@ -154,7 +154,7 @@
         matrixFile.close();
     }
 
-    MatrixClass& MatrixClass::operator=(const MatrixClass& source){
+    matrix::MatrixClass& matrix::MatrixClass::operator=(const MatrixClass& source){
 
         //Trying to destroy the matrix in the field (if not intalized yet would do nothing)
         matrix_destroy(_matrix);
@@ -165,7 +165,7 @@
         return *this;
     }
 
-    uint32_t MatrixClass::getHeight() const {
+    uint32_t matrix::MatrixClass::getHeight() const {
         uint32_t height;
 
         //gets the height & throwing exception if needed
@@ -174,7 +174,7 @@
         return height;
     }
 
-    uint32_t MatrixClass::getWidth() const {
+    uint32_t matrix::MatrixClass::getWidth() const {
         uint32_t width;
 
         //gets the width & throwing exception if needed
@@ -183,14 +183,14 @@
         return width;
     }
 
-    void MatrixClass::setValue(uint32_t rowIndex, uint32_t colIndex,
+    void matrix::MatrixClass::setValue(uint32_t rowIndex, uint32_t colIndex,
                            double value) {
         //sets the value & throwing exception if needed
         ErrorCodeException::throwErrorIfNeeded(
             matrix_setValue(_matrix, rowIndex, colIndex, value));
     }
 
-    double MatrixClass::operator()(uint32_t rowIndex, uint32_t colIndex) const{
+    double matrix::MatrixClass::operator()(uint32_t rowIndex, uint32_t colIndex) const{
         double value;
 
         //gets the value & throwing exception if needed
@@ -200,7 +200,7 @@
         return value;
     }
 
-    MatrixClass& MatrixClass::operator+=(const MatrixClass& other) {
+    matrix::MatrixClass& matrix::MatrixClass::operator+=(const MatrixClass& other) {
         //Creating the result matrix 
         PMatrix result;
         matrix_create(&result, this->getHeight(), this->getWidth());
@@ -218,14 +218,14 @@
         return *this;
     }
 
-    MatrixClass&  MatrixClass::operator-=(const MatrixClass& other) {
+    matrix::MatrixClass&  matrix::MatrixClass::operator-=(const MatrixClass& other) {
         MatrixClass* minusOther = &(other * (-1));
         (*this) += *minusOther;
         delete minusOther;
         return *this;
     }
 
-    MatrixClass& MatrixClass::operator*=(const MatrixClass& other) {
+    matrix::MatrixClass& matrix::MatrixClass::operator*=(const MatrixClass& other) {
         //Creating the result matrix 
         PMatrix result;
         matrix_create(&result, this->getHeight(), other.getWidth());
@@ -243,7 +243,7 @@
         return *this;
     }
 
-    MatrixClass& MatrixClass::operator*=(double scalar){
+    matrix::MatrixClass& matrix::MatrixClass::operator*=(double scalar){
         //Multipling this matrix with the scalar into 
         //this matrix & throwing exception if needed
         ErrorCodeException::throwErrorIfNeeded(
@@ -252,17 +252,17 @@
         return *this;
     }
 
-    MatrixClass& MatrixClass::operator/=(double scalar) {
+    matrix::MatrixClass& matrix::MatrixClass::operator/=(double scalar) {
         return *(this) *= (1 / scalar);
     }
 
-    MatrixClass::~MatrixClass() {
+    matrix::MatrixClass::~MatrixClass() {
         //destroying the corrent matrix
         matrix_destroy(_matrix);
     }
 
 //another operators. warning! they return new MatrixClass
-    MatrixClass& MatrixClass::operator+(const MatrixClass& other) const{
+    matrix::MatrixClass& matrix::MatrixClass::operator+(const MatrixClass& other) const{
         //Creating the result matrix 
         MatrixClass* result = new MatrixClass(this->getHeight(), this->getWidth());
 
@@ -273,14 +273,14 @@
         return *result;
     }
 
-    MatrixClass& MatrixClass::operator-(const MatrixClass& other) const {
+    matrix::MatrixClass& matrix::MatrixClass::operator-(const MatrixClass& other) const {
         MatrixClass* minusOther = &(other * (-1));
         MatrixClass* result = &((*this) + *minusOther);
         delete minusOther;
         return *result;
     }
 
-    MatrixClass& MatrixClass::operator*(const MatrixClass& other) const{
+    matrix::MatrixClass& matrix::MatrixClass::operator*(const MatrixClass& other) const{
         //Creating the result matrix 
         MatrixClass* result = new MatrixClass(this->getHeight(), other.getWidth());
 
@@ -291,7 +291,7 @@
         return *result;
     }
 
-    MatrixClass& MatrixClass::operator*(double scalar) const {
+    matrix::MatrixClass& matrix::MatrixClass::operator*(double scalar) const {
         //Creating the result matrix (copying this matrix)
         MatrixClass* result = new MatrixClass(*this);
 
@@ -303,11 +303,11 @@
         return *result;
     }
 
-    MatrixClass& MatrixClass::operator/(double scalar) const {
+    matrix::MatrixClass& matrix::MatrixClass::operator/(double scalar) const {
         return *this * (1 / scalar);
     }
 
-    string MatrixClass::toString() const{
+    string matrix::MatrixClass::toString() const{
         //var to use
         uint32_t height = getHeight();
         uint32_t width = getWidth();
@@ -329,7 +329,7 @@
     }
 
 //friends functins
-    std::ostream& operator<<(std::ostream& stream, const MatrixClass& matrix){
+    std::ostream& operator<<(std::ostream& stream, const matrix::MatrixClass& matrix){
         //var to use
         uint32_t height = matrix.getHeight();
         uint32_t width = matrix.getWidth();
@@ -348,6 +348,6 @@
         return stream;
     }
 
-    MatrixClass& operator*(double scalar, const MatrixClass& matrix) {
+    matrix::MatrixClass& operator*(double scalar, const matrix::MatrixClass& matrix) {
         return matrix * scalar;
     }
