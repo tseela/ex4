@@ -5,6 +5,8 @@
 #include "SocketOStream.hpp"
 
 #include <atomic>
+#include <exception>
+#include <mutex>
 #include <thread>
 #include <pthread.h>
 #include <istream>
@@ -15,6 +17,7 @@ namespace server_side {
         std::atomic_bool m_accepting;
         std::exception_ptr m_tExp = nullptr;
         std::thread m_tAccept;
+        std::mutex m_mut;
 
         public:
 
