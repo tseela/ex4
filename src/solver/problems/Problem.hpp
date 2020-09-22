@@ -11,6 +11,8 @@
 #define NUMBER_OF_ARGUMENTS_ERROR std::runtime_error("Invalid input! Number of arguments does not suit to the chosen Problem.")
 #define UNKNOWN_COMMAND std::runtime_error("Invalid input! Unknown command.")
 
+namespace solver {
+
 /**
  * @brief this class represent one Problem in the cache
  * that is not cache Problem. But it could be uses
@@ -82,3 +84,5 @@ protected:
     std::string m_cacheString = NOT_INITIALIZED;
     std::vector<std::string> m_inputFilesPath;
 };
+
+}

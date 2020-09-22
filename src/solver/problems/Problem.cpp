@@ -2,10 +2,10 @@
 
 using namespace std;
 
-Problem::Problem(const Problem& op) : m_cacheString(op.m_cacheString),
+solver::Problem::Problem(const Problem& op) : m_cacheString(op.m_cacheString),
  m_inputFilesPath(op.m_inputFilesPath) {}
 
-Problem& Problem::operator=(const Problem& op) {
+solver::Problem& solver::Problem::operator=(const Problem& op) {
     //copying the data
     m_cacheString = op.m_cacheString;
     m_inputFilesPath = op.m_inputFilesPath;
@@ -13,7 +13,7 @@ Problem& Problem::operator=(const Problem& op) {
     return *this;
 }
 
-Problem::Problem(Problem&& op) : m_cacheString(op.m_cacheString),
+solver::Problem::Problem(Problem&& op) : m_cacheString(op.m_cacheString),
  m_inputFilesPath(op.m_inputFilesPath) {
      //copying the data
     m_cacheString = op.m_cacheString;
@@ -24,7 +24,7 @@ Problem::Problem(Problem&& op) : m_cacheString(op.m_cacheString),
    op.m_inputFilesPath.clear();
 }
 
-Problem& Problem::operator=(Problem&& op) {
+solver::Problem& solver::Problem::operator=(Problem&& op) {
     // Nulling out the deta of op
    op.m_cacheString = NOT_INITIALIZED;
    op.m_inputFilesPath.clear();

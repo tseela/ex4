@@ -4,6 +4,10 @@
 #include "Problem.hpp"
 #include "Solution.hpp"
 
+namespace solver {
+
+namespace cache {
+
 class Command {
 public:
     Command(const Problem* problem, const Solution* solution);
@@ -16,3 +20,7 @@ private:
     const Problem* m_problem;
     const Solution* m_solution;
 };
+
+}
+
+}

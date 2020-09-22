@@ -18,6 +18,10 @@
 #include <errno.h>
 #include <system_error>
 
+namespace solver {
+
+namespace cache {
+
 /**
  * @brief this class stands for the cache.
  */
@@ -74,3 +78,7 @@ public:
      */
     static bool isClear(int argc, const char* argv[]);
 };
+
+}
+
+}

@@ -2,7 +2,7 @@
 
 using namespace std;
 
-CacheManager::CacheManager() {}
+solver::cache::CacheManager::CacheManager() {}
 
 /**
  * @brief throws an error if the user added a file named like our cache file.
@@ -10,28 +10,29 @@ CacheManager::CacheManager() {}
  */
 void checkCacheFileExists() {
     //make the dir cache
-    mkdir(CacheManager::CACHE_DIR, 0777);
+    mkdir(solver::cache::CacheManager::CACHE_DIR, 0777);
     //make the dir for the cache files
-    mkdir(CacheManager::CACHE_FILES_DIR, 0777);
+    mkdir(solver::cache::CacheManager::CACHE_FILES_DIR, 0777);
     // opening the cache file
-    const auto cachefd = open(CacheManager::CACHE_FILE, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+    const auto cachefd = open(solver::cache::CacheManager::CACHE_FILE, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
     if (cachefd < 0) {
         throw system_error{errno, system_category()};
     }
 
     // to specify that we are in our cache manager file we make sure that the folowing line in the first one
     // or the file is empty (and we will write the line)
-    char cacheID[CacheManager::CACHE_LINE_LENGTH + 1];
-    cacheID[CacheManager::CACHE_LINE_LENGTH] = '\0';
+    char cacheID[solver::cache::CacheManager::CACHE_LINE_LENGTH + 1];
+    cacheID[solver::cache::CacheManager::CACHE_LINE_LENGTH] = '\0';
 
-    int errorID = read(cachefd, cacheID, CacheManager::CACHE_LINE_LENGTH);
+    int errorID = read(cachefd, cacheID, solver::cache::CacheManager::CACHE_LINE_LENGTH);
     if (errorID == 0) { // empty file
-        int errorWriting = write(cachefd, CacheManager::CACHE_LINE, CacheManager::CACHE_LINE_LENGTH);
+        int errorWriting = write(cachefd, solver::cache::CacheManager::CACHE_LINE, 
+            solver::cache::CacheManager::CACHE_LINE_LENGTH);
         if (errorWriting < 0) {
           close(cachefd);
           throw system_error{errno, system_category()}; 
         }
-    } else if (errorID > 0 && (strcmp(cacheID, CacheManager::CACHE_LINE) != 0)) { // the file does not start with our line
+    } else if (errorID > 0 && (strcmp(cacheID, solver::cache::CacheManager::CACHE_LINE) != 0)) { // the file does not start with our line
         close(cachefd);
         throw runtime_error("A file named 'Cache__DONT_TOUCH_THIS_FILE.txt' which is not a cache manager allready exists. Changed it's name and run the program again.");
     } else if (errorID < 0) { // a system error
@@ -77,7 +78,7 @@ void createBeckupFile(const Command& command, unsigned int index) {
 uint32_t getCashFileIndex() {
     //opens the catche file
     ifstream cacheFile;
-    cacheFile.open(CacheManager::CACHE_FILE);
+    cacheFile.open(solver::cache::CacheManager::CACHE_FILE);
     if (cacheFile.fail()) {
         throw std::system_error(errno, system_category());
     }
@@ -98,7 +99,7 @@ uint32_t getCashFileIndex() {
     return std::stoi(line.substr(line.find("|") + 1)) + 1;
 }
 
-void CacheManager::saveInCache(const Command& command, bool isSearched /*= false*/, bool isClear /*= false*/) const {
+void solver::cache::CacheManager::saveInCache(const Command& command, bool isSearched /*= false*/, bool isClear /*= false*/) const {
     //chcking if the catch file exists & creating it if neede.
     checkCacheFileExists();
 
@@ -135,9 +136,9 @@ void CacheManager::saveInCache(const Command& command, bool isSearched /*= false
         replace = ct.getTime() + '|' + std::to_string(index);
 
         // replace the date (the whole line) in the cache file
-        string cache = readFileContent(CACHE_FILE);
+        string cache = files::readFileContent(CACHE_FILE);
         cache.replace(cache.find(result), result.size(), replace);
-        writeFileContent(CACHE_FILE, cache);
+        files::writeFileContent(CACHE_FILE, cache);
 
         return;
     }
@@ -147,7 +148,7 @@ void CacheManager::saveInCache(const Command& command, bool isSearched /*= false
     // writes the operation line into the cache file
     string cacheCopy = "";
     if (!isSearched) {
-        cacheCopy += readFileContent(CACHE_FILE);
+        cacheCopy += files::readFileContent(CACHE_FILE);
         cacheCopy.erase(0, CACHE_LINE_LENGTH);
         string cache = CACHE_LINE + command.getCacheString();
         //adding the time & date
@@ -163,13 +164,13 @@ void CacheManager::saveInCache(const Command& command, bool isSearched /*= false
         //adding the other cache
         cache += cacheCopy;
 
-        writeFileContent(CACHE_FILE, cache);
+        files::writeFileContent(CACHE_FILE, cache);
 
         createBeckupFile(command, index);
     }
 }
 
-string CacheManager::search(const Command& command) const {   
+string solver::cache::CacheManager::search(const Command& command) const {   
     //opens the catch file 
     ifstream cacheFile;
     cacheFile.open(CACHE_FILE);
@@ -195,7 +196,7 @@ string CacheManager::search(const Command& command) const {
     return ""; //didn't find
 }
 
-string CacheManager::getBackUpFile(const Command& command) const {
+string solver::cache::CacheManager::getBackUpFile(const Command& command) const {
     string result = search(command);
     if (result.compare("") == 0) {
         return "";
@@ -203,7 +204,7 @@ string CacheManager::getBackUpFile(const Command& command) const {
     return CACHE_FILES_DIR_ + result.substr(result.find_last_of('|') + 1) + '.' + command.getOutputFileType();
 }
 
-bool CacheManager::isSearch(int argc, const char* argv[]) {
+bool solver::cache::CacheManager::isSearch(int argc, const char* argv[]) {
     // to few arguments
     if (argc < 3) {
         return false;
@@ -211,7 +212,7 @@ bool CacheManager::isSearch(int argc, const char* argv[]) {
     return strcmp(argv[0], "cache") == 0 && strcmp(argv[1], "search") == 0;
 }
 
-bool CacheManager::isClear(int argc, const char* argv[]) {
+bool solver::cache::CacheManager::isClear(int argc, const char* argv[]) {
     // only 2 arguments in this cache operation
     if (argc != 2) {
         return false;
