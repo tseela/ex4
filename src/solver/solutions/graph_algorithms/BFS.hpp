@@ -11,8 +11,8 @@ struct Step {
     double my_cost;
     matrix::MatrixClass isStepped;
 
-    Step(std::uint32_t x, std::uint32_t y, std::string path, double cost, matrix::MatrixClass isStepped);
-    Step(const graph::Graph& graph, Step before, Direction direction);
+    Step(std::uint32_t x, std::uint32_t y, std::string path, double cost, const matrix::MatrixClass& isStepped);
+    Step(const graph::Graph& graph, const Step& before, Direction direction);
 };
 
 namespace solver {

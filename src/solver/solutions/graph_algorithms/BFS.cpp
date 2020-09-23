@@ -50,53 +50,51 @@ void BFS_search(const graph::Graph& graph, matrix::MatrixClass isStepped, BestPa
 
         // if we can make a step (in any direction) we will push it's trail into our queue
         if (graph.canStep(this_step.vertex_x, this_step.vertex_y, UP) && 
-            isStepped(this_step.vertex_x - 1, this_step.vertex_y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
+            this_step.isStepped(this_step.vertex_x - 1, this_step.vertex_y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
                 trails.push(Step(graph, this_step, UP));
         }
 
         if (graph.canStep(this_step.vertex_x, this_step.vertex_y, DOWN) && 
-            isStepped(this_step.vertex_x + 1, this_step.vertex_y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
+            this_step.isStepped(this_step.vertex_x + 1, this_step.vertex_y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
                 trails.push(Step(graph, this_step, DOWN));
         }
 
         if (graph.canStep(this_step.vertex_x, this_step.vertex_y, LEFT) && 
-            isStepped(this_step.vertex_x, this_step.vertex_y - 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
+            this_step.isStepped(this_step.vertex_x, this_step.vertex_y - 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
                 trails.push(Step(graph, this_step, LEFT));
         }
 
         if (graph.canStep(this_step.vertex_x, this_step.vertex_y, RIGHT) && 
-            isStepped(this_step.vertex_x, this_step.vertex_y + 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
+            this_step.isStepped(this_step.vertex_x, this_step.vertex_y + 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
                 trails.push(Step(graph, this_step, RIGHT));
         }
     }
 }
 
-Step::Step(std::uint32_t x, std::uint32_t y, std::string path, double cost, matrix::MatrixClass steps) {
+Step::Step(std::uint32_t x, std::uint32_t y, std::string path, double cost, const matrix::MatrixClass& steps) : isStepped(steps) {
     vertex_x = x;
     vertex_y = y;
     my_path = path;
     my_cost = cost;
-    isStepped = steps;
 }
 
-Step::Step(const graph::Graph& graph, Step before, Direction direction) {
+Step::Step(const graph::Graph& graph, const Step& before, Direction direction) : isStepped(before.isStepped) {
     auto x = before.vertex_x;
     auto y = before.vertex_y;
-    my_path = before.my_path + "," + to_string(direction);
-    my_cost = before.my_cost + graph(x, y);
-    before.isStepped.setValue(x, y, MatrixGraphSolution::WAS_STEPPED);
-    isStepped = before.isStepped;
+    my_path = before.my_path + "," + graph::Graph::to_string(direction);
+    isStepped.setValue(x, y, MatrixGraphSolution::WAS_STEPPED);
 
     if (direction == UP) {
-        --y;
-    } else if (direction == DOWN) {
-        ++y;
-    } else if (direction == LEFT) {
         --x;
-    } else if (direction == RIGHT) {
+    } else if (direction == DOWN) {
         ++x;
+    } else if (direction == LEFT) {
+        --y;
+    } else if (direction == RIGHT) {
+        ++y;
     }
-
+    
+    my_cost = before.my_cost + graph(x, y);
     vertex_x = x;
     vertex_y = y;
 }

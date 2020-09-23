@@ -1,5 +1,5 @@
 #include "MatrixClass.hpp"
-#include "DFS.hpp"
+#include "BFS.hpp"
 #include "MatrixGraphProblem.hpp"
 #include "Solver.hpp"
 
@@ -19,7 +19,7 @@ int main() {
     matrix->setValue(0, 0, 1);
 
     auto p = new problem::MatrixGraphProblem(matrix, 0, 0, 2, 1);
-    auto s = new graph_solution::DFS();
+    auto s = new graph_solution::BFS();
 
     auto solver = new Solver(p, s);
     try {
