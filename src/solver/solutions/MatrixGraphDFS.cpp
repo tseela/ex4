@@ -13,7 +13,8 @@ string solver::string_solution::MatrixGraphDFS::getCacheCode() const { return "m
 string solver::string_solution::MatrixGraphDFS::getCacheString() const { return "DFS"; }
 
 void solver::string_solution::MatrixGraphDFS::writeToFile(const Problem* graphProblem, const string& fileName) const {
-    const Graph graph = dynamic_cast<MatrixGraphProblem *>(const_cast<Problem *>(graphProblem))->getGraph();
+    auto problem = dynamic_cast<MatrixGraphProblem *>(const_cast<Problem *>(graphProblem));
+    auto graph = problem->getGraph();
     string solution = DFS_search(graph);
 
     if (fileName == PRINT) {
@@ -25,13 +26,15 @@ void solver::string_solution::MatrixGraphDFS::writeToFile(const Problem* graphPr
 
 string solver::string_solution::MatrixGraphDFS::getSolutionString(const Problem* graphProblem) const {
     const Graph graph = dynamic_cast<MatrixGraphProblem *>(const_cast<Problem *>(graphProblem))->getGraph();
-    return DFS_search(graph);
+    string start = "DFS,";
+    return DFS_search(graph, start);
 }
 
-string DFS_search(const Graph& graph) {
-    string solution = "pp lala pp";
+string DFS_search(const Graph& graph, string& path) {
+    if ()
+    return path;
+}
 
-    // dfs algorithem
-
-    return solution;
+int DFS_search(const Graph& graph, int cost) {
+    if (graph.)
 }

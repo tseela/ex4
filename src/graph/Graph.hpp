@@ -41,9 +41,12 @@ public:
 
     bool wasStepped(std::uint32_t x, std::uint32_t y, Direction& direction) const;
 
-    string toString() const;
+    std::string toString() const;
 
     double getCost() const;
+
+    std::uint32_t getX() const;
+    std::uint32_t getY() const;
 
 	/**
 	 * @brief Destructor for destroying the graph.

@@ -23,7 +23,7 @@ public:
 
     string getCacheString() const override;
 
-    graph::Graph getGraph() const;
+    graph::Graph& getGraph() const;
 
     double getEndX() const;
 

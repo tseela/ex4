@@ -13,7 +13,7 @@ int main() {
     matrix->setValue(0,1, 7);
     matrix->setValue(1, 0, 3);
 
-    auto p = new problem::MatrixGraphProblem(*matrix, 0, 0, 1, 1);
+    auto p = new problem::MatrixGraphProblem(matrix, 0, 0, 1, 1);
     auto s = new string_solution::MatrixGraphDFS();
 
     auto solver = new Solver(p, s);
