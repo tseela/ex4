@@ -1,18 +1,16 @@
-#include "MatrixGraphDFS.hpp"
+#include "MatrixGraphSolution.hpp"
 
 using namespace std;
 using namespace graph;
 using namespace solver::problem;
 
-solver::MatrixGraphDFS::MatrixGraphDFS() {}
+solver::MatrixGraphSolution::MatrixGraphSolution() {}
 
-string solver::MatrixGraphDFS::getOutputFileType() const { return "txt"; }
+string solver::MatrixGraphSolution::getOutputFileType() const { return "txt"; }
 
-string solver::MatrixGraphDFS::getCacheCode() const { return "graph"; }
+string solver::MatrixGraphSolution::getCacheCode() const { return "graph"; }
 
-string solver::MatrixGraphDFS::getCacheString() const { return "DFS"; }
-
-void solver::MatrixGraphDFS::writeToFile(const Problem* graphProblem, const string& fileName) const {
+void solver::MatrixGraphSolution::writeToFile(const Problem* graphProblem, const string& fileName) const {
     // auto problem = dynamic_cast<MatrixGraphProblem *>(const_cast<Problem *>(graphProblem));
     // auto graph = problem->getGraph();
     string solution = "DFS," + graphProblem->getCacheCode();
@@ -25,7 +23,7 @@ void solver::MatrixGraphDFS::writeToFile(const Problem* graphProblem, const stri
     }
 }
 
-string solver::MatrixGraphDFS::getSolutionString(const Problem* graphProblem) const {
+string solver::MatrixGraphSolution::getSolutionString(const Problem* graphProblem) const {
     // auto problem = dynamic_cast<MatrixGraphProblem *>(const_cast<Problem *>(graphProblem));
     // auto graph = problem->getGraph();
     string solution = "DFS," + graphProblem->getCacheCode();

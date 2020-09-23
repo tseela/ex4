@@ -6,19 +6,20 @@
 
 namespace solver {
 
-class MatrixGraphDFS : public solver::Solution {
+class MatrixGraphSolution : public solver::Solution {
 public:
-    MatrixGraphDFS();
+    MatrixGraphSolution();
 
     std::string getOutputFileType() const override;
 
     std::string getCacheCode() const override;
 
-    std::string getCacheString() const override;
-
     std::string getSolutionString(const Problem* problem) const override;
 
     void writeToFile(const Problem* problem, const std::string& fileName) const override;
+
+private:
+    virtual std::string algorithm(graph::Graph);
 };
 
 }
