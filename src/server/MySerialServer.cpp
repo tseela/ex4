@@ -52,12 +52,12 @@ void MySerialServer::threadAccept(int sockfd, const std::shared_ptr<ClientHandle
                 try{
                     std::string contant = readFileContent(SocketServer::LOG_LOCATION);
                     writeFileContent(SocketServer::LOG_LOCATION,
-                     contant + "Task Faild, Client was disconnected with this exceptoin: " + error);
+                     contant + "Task Failed, Client disconnected with this exception: " + error);
                 } catch (const std::exception& eLog) {
-                    std::cerr<<"Couldn't write to client this server log file that was an exception in client"<<std::endl;
+                    std::cerr<<"Couldn't write to server log file that was an exception in client"<<std::endl;
                 }
                 if (write(cliSockfd, error.data(), error.size()) < 0) {
-                    std::cerr<<"Couldn't write to client this exceptoin:"<<e.what()<<std::endl;
+                    std::cerr<<"Couldn't write to client this exception:"<<e.what()<<std::endl;
                 }
                 close(cliSockfd);
             } else {

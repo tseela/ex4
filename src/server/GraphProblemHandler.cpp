@@ -17,5 +17,5 @@ void GraphProblemHandler::handleProblem(const std::unique_ptr<SocketIStream> in,
                 cout<<firstLine<<endl;
 
                 std::string contant = readFileContent(SocketServer::LOG_LOCATION);
-                writeFileContent(SocketServer::LOG_LOCATION, contant + "Task complited, Client was disconnected");
+                writeFileContent(SocketServer::LOG_LOCATION, contant + "Task complited, Client disconnected");
      }

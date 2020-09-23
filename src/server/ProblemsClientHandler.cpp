@@ -3,7 +3,7 @@
 #include <iostream>//////////////////////////////
 
 #define NOT_ENOUGH_ARGUMENS std::runtime_error("Expecting more arguments")
-#define NOT_SUPPORT_PROBLEM std::runtime_error("The problem given isn't supported")
+#define NOT_SUPPORT_PROBLEM std::runtime_error("The given problem isn't supported")
 using namespace server_side;
 
 ProblemsClientHandler::ProblemsClientHandler() {
