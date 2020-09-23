@@ -2,6 +2,9 @@
 
 #include "ClientHandler.hpp"
 
+#include <string>
+#include <algorithm>
+
 namespace server_side {
     class ProblemsClientHandler: public ClientHandler {
         public:

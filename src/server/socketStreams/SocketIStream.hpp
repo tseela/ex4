@@ -10,7 +10,7 @@ namespace server_side {
         int m_sockfd;
 
         public:
-        static constexpr int BUFFER_SIZE = 1024;
+        static constexpr auto BUFFER_SIZE = 1024;
 
         explicit SocketIStream(int sockfd);
         std::string readOneLine() const;
