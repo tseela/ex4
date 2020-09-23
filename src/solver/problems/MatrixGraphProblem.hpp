@@ -25,14 +25,8 @@ public:
 
     const graph::Graph* getGraph() const;
 
-    double getEndX() const;
-
-    double getEndY() const;
-
 private:
     std::unique_ptr<graph::Graph> m_graph;
-    std::uint32_t m_endX;
-    std::uint32_t m_endY;
 };
 
 }
