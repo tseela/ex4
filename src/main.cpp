@@ -1,5 +1,5 @@
 #include "MatrixClass.hpp"
-#include "MatrixGraphDFS.hpp"
+#include "DFS.hpp"
 #include "MatrixGraphProblem.hpp"
 #include "Solver.hpp"
 
@@ -14,7 +14,7 @@ int main() {
     matrix->setValue(1, 0, 3);
 
     auto p = new problem::MatrixGraphProblem(matrix, 0, 0, 1, 1);
-    auto s = new MatrixGraphDFS();
+    auto s = new DFS();
 
     auto solver = new Solver(p, s);
     cout << solver->getStringSolution() << endl;

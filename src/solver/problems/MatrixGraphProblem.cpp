@@ -10,7 +10,7 @@ solver::problem::MatrixGraphProblem::MatrixGraphProblem(const MatrixClass *matri
     m_endX = endX;
     m_endY = endY;
 
-    m_cacheString = to_string(crc32FromString(m_graph->toString()));
+    m_cacheString = to_string(crc32FromString(m_graph->to_string()));
 }
 
 string solver::problem::MatrixGraphProblem::getCacheCode() const { return "graph"; }

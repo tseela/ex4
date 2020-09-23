@@ -5,7 +5,7 @@
 
 enum Direction {
     NONE = 0,
-    UPP = 1,
+    UP = 1,
     DOWN = 2,
     LEFT = 3,
     RIGHT = 4
@@ -17,7 +17,8 @@ class Graph {
 public:
     static constexpr int BORDER = 0;
 
-	Graph(const matrix::MatrixClass *matrix, std::uint32_t startX, std::uint32_t startY);
+	Graph(const matrix::MatrixClass *matrix, std::uint32_t startX, std::uint32_t startY, 
+        std::uint32_t endX, std::uint32_t endY);
 
 	/**
 	 * @brief Returns height of given graph.
@@ -35,18 +36,14 @@ public:
 
     double operator()(std::uint32_t x, std::uint32_t y) const;
 
-    bool step(Direction& direction);
+    bool canStep(std::uint32_t x, std::uint32_t y, const Direction& direction = NONE) const;
 
-    bool wasStepped(std::uint32_t x, std::uint32_t y) const;
+    std::uint32_t startX() const;
+    std::uint32_t startY() const;
+    std::uint32_t endX() const;
+    std::uint32_t endY() const;
 
-    bool wasStepped(std::uint32_t x, std::uint32_t y, Direction& direction) const;
-
-    std::string toString() const;
-
-    double getCost() const;
-
-    std::uint32_t getX() const;
-    std::uint32_t getY() const;
+    std::string to_string() const;
 
 	/**
 	 * @brief Destructor for destroying the graph.
@@ -54,19 +51,16 @@ public:
 	~Graph();
 
 private:
-    void stepOnBorders();
-
 
     const matrix::MatrixClass *m_matrixGraph;
-    // m_steps(i, j) = 0 --> the cell wasn't stepped yet (else, we stepped on this one allready)
-    std::unique_ptr<matrix::MatrixClass> m_steps;
 
-    // the cost of the path we made this far
-    double m_cost;
+    // start point
+    std::uint32_t m_start_x;
+    std::uint32_t m_start_y;
 
-    // current point
-    std::uint32_t m_x;
-    std::uint32_t m_y;
+    // end point
+    std::uint32_t m_end_x;
+    std::uint32_t m_end_y;
 };
 
 }
