@@ -1,6 +1,7 @@
 #include "Solver.hpp"
 
 using namespace std;
+using namespace solver::cache;
 
 solver::Solver::Solver(const Problem* problem, const Solution* solution) {
     m_problem = problem;
@@ -18,9 +19,9 @@ string solver::Solver::getStringSolution() const {
         throw runtime_error("Problem & Solution doesn't match!");
     }
     
-    auto solution = dynamic_cast<StringSolution *>(const_cast<Solution *>(m_solution));
+    auto solution = dynamic_cast<solver::string_solution::StringSolution *>(const_cast<Solution *>(m_solution));
 
-    auto command = Command(m_problem, solution);
+    auto command = Operation(m_problem, solution);
     auto cache = CacheManager();
     cache.saveInCache(command);
 
@@ -30,5 +31,5 @@ string solver::Solver::getStringSolution() const {
     }
 
     // else, we return the backup file's content.
-    return readFileContent(cache.getBackUpFile(command));
+    return files::readFileContent(cache.getBackUpFile(command));
 }
