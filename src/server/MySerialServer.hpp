@@ -9,6 +9,7 @@
 #include <pthread.h>
 #include <mutex>
 #include <thread>
+#include <iostream>
 
 
 namespace server_side {

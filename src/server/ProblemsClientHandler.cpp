@@ -1,5 +1,7 @@
 #include "ProblemsClientHandler.hpp"
 
+#include <iostream>//////////////////////////////
+
 #define NOT_ENOUGH_ARGUMENS std::runtime_error("Expecting more arguments")
 #define NOT_SUPPORT_PROBLEM std::runtime_error("The problem given isn't supported")
 using namespace server_side;
@@ -40,22 +42,25 @@ void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
                 problemString = problemString.substr(0, problemEndIndex);    
         }
 
-        std::lock_guard<std::mutex> guard(m_lockMap);
+        std::unique_lock<std::mutex> lock(m_lockMap);
 
         auto pair = m_problems.find(problemString);
         if(pair == m_problems.end()) {
                 throw NOT_SUPPORT_PROBLEM;
         }
 
+        lock.unlock();
+
         std::shared_ptr<ProblemHandler> problem = pair->second;
 
+        
         problem->handleProblem(std::move(in), std::move(out), std::move(algString));
      }
 
         void ProblemsClientHandler::addProblemHandler(std::string problemString,
                 std::shared_ptr<ProblemHandler> problem){
 
-                        std::lock_guard<std::mutex> guard(m_lockMap);
+                        std::unique_lock<std::mutex> lock(m_lockMap);
 
                         m_problems.insert(std::pair<std::string,
                                 std::shared_ptr<ProblemHandler>>(problemString, problem));

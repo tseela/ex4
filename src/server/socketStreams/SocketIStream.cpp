@@ -13,22 +13,29 @@ std::string SocketIStream::readOneLine() {
     m_tRead = std::thread(&SocketIStream::tryToRead, this);
     stop();
 
-    return m_line;
+    if (m_tExp) {
+        std::rethrow_exception(m_tExp);
+    }
+    return m_line.data();
 }
 
 void SocketIStream::tryToRead() {
-    std::string buffer(BUFFER_SIZE, '\0');
+    try{
+        std::string buffer(BUFFER_SIZE, '\0');
 
-    const auto numBytesRead = read(m_sockfd, buffer.data(), buffer.size() - 1);
-    m_isSecceded = true;
-    if (numBytesRead < 0) {
-        //close(sockfd) is handeled in the servers
-        THROW_SYSTEM_ERROR();
+        const auto numBytesRead = read(m_sockfd, buffer.data(), buffer.size() - 1);
+        m_isSecceded = true;
+        if (numBytesRead < 0) {
+            //close(sockfd) is handeled in the servers
+            THROW_SYSTEM_ERROR();
+        }
+
+        buffer[numBytesRead] = '\0';
+
+        m_line = buffer;
+    } catch (const std::exception& e) {
+        m_tExp = std::current_exception();
     }
-
-    buffer[numBytesRead] = '\0';
-
-    m_line = buffer;
 }
 
 void SocketIStream::stop() {

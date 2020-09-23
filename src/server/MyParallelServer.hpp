@@ -12,6 +12,7 @@
 #include <queue>
 #include <pthread.h>
 #include <condition_variable>
+#include <iostream>
 
 namespace server_side {
     

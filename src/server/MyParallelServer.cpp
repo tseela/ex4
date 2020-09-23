@@ -9,30 +9,19 @@ using namespace std::chrono;
 MyParallelServer::MyParallelServer() : m_accepting(false), m_terminatePool(false) {}
 
 void MyParallelServer::acceptClients(int sockfd, const std::shared_ptr<ClientHandler> ch) {
-    try{
+    m_tAccept = std::thread(&MyParallelServer::threadAccept, this, sockfd);
 
-        m_tAccept = std::thread(&MyParallelServer::threadAccept, this, sockfd);
-
-        for(int i = 0; i < NUM_ACCEPTING_THREADS; ++i) {
-            m_threadPool.push_back(std::thread(&MyParallelServer::oneThreadAccept,
+    for(int i = 0; i < NUM_ACCEPTING_THREADS; ++i) {
+        m_threadPool.push_back(std::thread(&MyParallelServer::oneThreadAccept,
                      this, ch));
-        }
-
-        stop(); //detroys also the thread
-
-        if (m_tExp) {
-            std::rethrow_exception(m_tExp);
-        }
-    } catch (const std::exception& e) {
-        m_tAccept.join();
-        close(sockfd);
-        throw e;
     }
+
+    stop(); //detroys also the thread
 }
 
 void MyParallelServer::threadAccept(int sockfd) {
-    try{
-        while(true) {
+    while(true) {
+        try{
             sockaddr_in cliAddr;
             socklen_t cliLen = sizeof(cliAddr);
             const auto cliSockfd = accept(sockfd,  reinterpret_cast<sockaddr*>(&cliAddr), &cliLen);
@@ -47,18 +36,17 @@ void MyParallelServer::threadAccept(int sockfd) {
             lock.unlock();
 
             m_acceptingCV.notify_one();
+        } catch (const std::exception& e) {
+            std::cerr<<e.what()<<std::endl;
         }
-    } catch (const std::exception& e) {
-        m_tExp = std::current_exception();
-        m_accepting = false;
-        m_stoppingCV.notify_all();
     }
+
 }
 
 void MyParallelServer::oneThreadAccept(const std::shared_ptr<ClientHandler> ch) {
-    try{
-        while(true) {
-            int cliSockfd;
+    while(true) {
+        int cliSockfd;
+        try{
 
             std::unique_lock<std::mutex> lock(m_mutCliVec);
 
@@ -85,12 +73,14 @@ void MyParallelServer::oneThreadAccept(const std::shared_ptr<ClientHandler> ch) 
                  m_accepting = false;
                  m_stoppingCV.notify_all();
             }
+        } catch (const std::exception& e) {
+            std::string error = e.what();
+            if (write(cliSockfd, error.data(), error.size()) < 0) {
+                std::cerr<<"Couldn't write to client this exceptoin:"<<e.what()<<std::endl;
+            }
         }
-    } catch (const std::exception& e) {
-        m_tExp = std::current_exception();
-        m_accepting = false;
-        m_stoppingCV.notify_all();
     }
+
 }
 
 void MyParallelServer::stop() {

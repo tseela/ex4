@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ProblemsClientHandler.hpp"
+#include "ProblemHandler.hpp"
 
 namespace server_side {
     class GraphProblemHandler: public ProblemHandler {
