@@ -11,6 +11,9 @@ ProblemsClientHandler::ProblemsClientHandler() {
 void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
      std::unique_ptr<SocketOStream> out) const {
         std::string firstLine = in->readOneLine();
+        if(firstLine.compare(SocketIStream::STRING_TIMEOUT) == 0) {
+                return; //leave the client
+        }
 
         auto problemStartIndex = firstLine.find_first_of(SPACE);
         if(problemStartIndex == std::string::npos) {

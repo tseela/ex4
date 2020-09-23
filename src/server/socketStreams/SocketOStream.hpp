@@ -10,7 +10,7 @@ namespace server_side {
         int m_sockfd;
 
         public:
-        explicit SocketOStream(int sockfd);
-        void writeOneLine(std::string output) const;
+            explicit SocketOStream(int sockfd);
+            void writeOneLine(std::string output) const;
     };
 }

@@ -6,9 +6,10 @@
 
 #include <atomic>
 #include <exception>
+#include <pthread.h>
 #include <mutex>
 #include <thread>
-#include <pthread.h>
+
 
 namespace server_side {
     
@@ -16,7 +17,7 @@ namespace server_side {
         std::atomic_bool m_accepting;
         std::exception_ptr m_tExp = nullptr;
         std::thread m_tAccept;
-        mutable std::mutex m_mut;
+        std::mutex m_mut;
 
         public:
             MySerialServer();

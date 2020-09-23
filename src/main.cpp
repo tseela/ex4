@@ -2,6 +2,8 @@
 #include "MyParallelServer.hpp"
 #include "Server.hpp"
 #include "ProblemsClientHandler.hpp"
+#include "ProblemHandler.hpp"
+#include "GraphProblemHandler.hpp"
 
 #include <exception>
 #include <memory>
@@ -21,7 +23,11 @@ int main(int argc, const char *argv[]) {
         }
 
         std::unique_ptr<Server> server;
-        std::shared_ptr<ProblemsClientHandler> probCH = std::make_unique<ProblemsClientHandler>();
+        std::shared_ptr<ProblemsClientHandler> probCH = std::make_shared<ProblemsClientHandler>();
+
+        std::shared_ptr<ProblemHandler> graphProblem = std::make_shared<GraphProblemHandler>();
+
+        probCH->addProblemHandler("find-graph-path", graphProblem);
 
         auto port = 0;
 

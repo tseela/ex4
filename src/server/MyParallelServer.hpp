@@ -22,7 +22,7 @@ namespace server_side {
         std::vector<std::thread> m_threadPool;
         std::queue<int> m_cliSocketfd;
         std::thread m_tAccept;
-        mutable std::mutex m_mutCliVec;
+        std::mutex m_mutCliVec;
         std::condition_variable m_acceptingCV;
         std::condition_variable m_stoppingCV;
         
