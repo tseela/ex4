@@ -5,7 +5,7 @@ using namespace std;
 uint32_t crc32(const string& filePath) {
     //reads the file as needed
     string s =  "";
-    s += readFileContent(filePath);
+    s += files::readFileContent(filePath);
 
     return crc32FromString(s);
 }

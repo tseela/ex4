@@ -1,7 +1,7 @@
 #pragma once
 
-#include "crc32FileReader.hpp"
 #include "Problem.hpp"
+#include "crc32FileReader.hpp"
 #include "Graph.hpp"
 
 #include <string>

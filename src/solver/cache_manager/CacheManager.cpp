@@ -1,6 +1,7 @@
 #include "CacheManager.hpp"
 
 using namespace std;
+using namespace solver::cache;
 
 solver::cache::CacheManager::CacheManager() {}
 
@@ -10,29 +11,29 @@ solver::cache::CacheManager::CacheManager() {}
  */
 void checkCacheFileExists() {
     //make the dir cache
-    mkdir(solver::cache::CacheManager::CACHE_DIR, 0777);
+    mkdir(CacheManager::CACHE_DIR, 0777);
     //make the dir for the cache files
-    mkdir(solver::cache::CacheManager::CACHE_FILES_DIR, 0777);
+    mkdir(CacheManager::CACHE_FILES_DIR, 0777);
     // opening the cache file
-    const auto cachefd = open(solver::cache::CacheManager::CACHE_FILE, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+    const auto cachefd = open(CacheManager::CACHE_FILE, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
     if (cachefd < 0) {
         throw system_error{errno, system_category()};
     }
 
     // to specify that we are in our cache manager file we make sure that the folowing line in the first one
     // or the file is empty (and we will write the line)
-    char cacheID[solver::cache::CacheManager::CACHE_LINE_LENGTH + 1];
-    cacheID[solver::cache::CacheManager::CACHE_LINE_LENGTH] = '\0';
+    char cacheID[CacheManager::CACHE_LINE_LENGTH + 1];
+    cacheID[CacheManager::CACHE_LINE_LENGTH] = '\0';
 
-    int errorID = read(cachefd, cacheID, solver::cache::CacheManager::CACHE_LINE_LENGTH);
+    int errorID = read(cachefd, cacheID, CacheManager::CACHE_LINE_LENGTH);
     if (errorID == 0) { // empty file
-        int errorWriting = write(cachefd, solver::cache::CacheManager::CACHE_LINE, 
-            solver::cache::CacheManager::CACHE_LINE_LENGTH);
+        int errorWriting = write(cachefd, CacheManager::CACHE_LINE, 
+            CacheManager::CACHE_LINE_LENGTH);
         if (errorWriting < 0) {
           close(cachefd);
           throw system_error{errno, system_category()}; 
         }
-    } else if (errorID > 0 && (strcmp(cacheID, solver::cache::CacheManager::CACHE_LINE) != 0)) { // the file does not start with our line
+    } else if (errorID > 0 && (strcmp(cacheID, CacheManager::CACHE_LINE) != 0)) { // the file does not start with our line
         close(cachefd);
         throw runtime_error("A file named 'Cache__DONT_TOUCH_THIS_FILE.txt' which is not a cache manager allready exists. Changed it's name and run the program again.");
     } else if (errorID < 0) { // a system error
@@ -49,7 +50,7 @@ void checkCacheFileExists() {
  * @param command the command to make beckup file for.
  * @param index the index of the beckup file.
  */
-void createBeckupFile(const Command& command, unsigned int index) {
+void createBeckupFile(const Operation& command, unsigned int index) {
     //gets the files name.
     string fileName = "src/bin/cache/files/" + std::to_string(index) + "." + command.getOutputFileType();
 
@@ -78,7 +79,7 @@ void createBeckupFile(const Command& command, unsigned int index) {
 uint32_t getCashFileIndex() {
     //opens the catche file
     ifstream cacheFile;
-    cacheFile.open(solver::cache::CacheManager::CACHE_FILE);
+    cacheFile.open(CacheManager::CACHE_FILE);
     if (cacheFile.fail()) {
         throw std::system_error(errno, system_category());
     }
@@ -99,7 +100,7 @@ uint32_t getCashFileIndex() {
     return std::stoi(line.substr(line.find("|") + 1)) + 1;
 }
 
-void solver::cache::CacheManager::saveInCache(const Command& command, bool isSearched /*= false*/, bool isClear /*= false*/) const {
+void solver::cache::CacheManager::saveInCache(const Operation& command, bool isSearched /*= false*/, bool isClear /*= false*/) const {
     //chcking if the catch file exists & creating it if neede.
     checkCacheFileExists();
 
@@ -170,7 +171,7 @@ void solver::cache::CacheManager::saveInCache(const Command& command, bool isSea
     }
 }
 
-string solver::cache::CacheManager::search(const Command& command) const {   
+string solver::cache::CacheManager::search(const Operation& command) const {   
     //opens the catch file 
     ifstream cacheFile;
     cacheFile.open(CACHE_FILE);
@@ -196,7 +197,7 @@ string solver::cache::CacheManager::search(const Command& command) const {
     return ""; //didn't find
 }
 
-string solver::cache::CacheManager::getBackUpFile(const Command& command) const {
+string solver::cache::CacheManager::getBackUpFile(const Operation& command) const {
     string result = search(command);
     if (result.compare("") == 0) {
         return "";

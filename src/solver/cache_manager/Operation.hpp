@@ -8,9 +8,9 @@ namespace solver {
 
 namespace cache {
 
-class Command {
+class Operation {
 public:
-    Command(const Problem* problem, const Solution* solution);
+    Operation(const Problem* problem, const Solution* solution);
 
     void writeToFile(const std::string& fileName) const;
     std::string getOutputFileType() const;

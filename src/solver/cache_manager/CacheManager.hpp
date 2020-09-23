@@ -2,7 +2,7 @@
 
 #include "file_reading.hpp"
 #include "CurrentTime.hpp"
-#include "Command.hpp"
+#include "Operation.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -44,11 +44,11 @@ public:
     /**
      * @brief Saves a command in the cache.
      * 
-     * @param command - the command.
+     * @param command - the operation.
      * @param isSearched - is the operation is searched or not.
      * @param isClear - if the operation is clear or not.
      */
-    void saveInCache(const Command& command, bool isSearched = false, bool isClear = false) const;
+    void saveInCache(const solver::cache::Operation& command, bool isSearched = false, bool isClear = false) const;
 
     /**
      * @brief Search a command in the cache.
@@ -56,9 +56,9 @@ public:
      * @param command - the command.
      * @return string - the date of the last use of the command.
      */
-    std::string search(const Command& command) const;
+    std::string search(const solver::cache::Operation& command) const;
 
-    std::string getBackUpFile(const Command& command) const;
+    std::string getBackUpFile(const solver::cache::Operation& command) const;
 
     /**
      * @brief Checks if a command is search operation.
