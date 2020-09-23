@@ -13,7 +13,7 @@ string solver::solution::MatrixGraphSolution::getCacheCode() const { return "gra
 void solver::solution::MatrixGraphSolution::writeToFile(const Problem* graphProblem, const string& fileName) const {
     auto problem = dynamic_cast<MatrixGraphProblem *>(const_cast<Problem *>(graphProblem));
     auto graph = problem->getGraph();
-    string solution = solver::solution::MatrixGraphSolution::algorithm(*graph);
+    string solution = algorithm(*graph);
 
     if (fileName == PRINT) {
         cout << solution << endl;
@@ -25,7 +25,7 @@ void solver::solution::MatrixGraphSolution::writeToFile(const Problem* graphProb
 string solver::solution::MatrixGraphSolution::getSolutionString(const Problem* graphProblem) const {
     auto problem = dynamic_cast<MatrixGraphProblem *>(const_cast<Problem *>(graphProblem));
     auto graph = problem->getGraph();
-    return solver::solution::MatrixGraphSolution::algorithm(*graph);
+    return algorithm(*graph);
 }
 
 void solver::solution::MatrixGraphSolution::initialSteps(matrix::MatrixClass& steps) {
