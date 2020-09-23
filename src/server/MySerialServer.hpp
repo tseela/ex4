@@ -19,7 +19,6 @@ namespace server_side {
         std::mutex m_mut;
 
         public:
-
             MySerialServer();
             virtual void acceptClients(int sockfd, const std::shared_ptr<ClientHandler> ch) override;
             

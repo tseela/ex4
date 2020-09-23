@@ -6,7 +6,7 @@
 #include <memory>
 
 namespace server_side {
-    class ClientHandler { //needs rule of 5 because smart pointer?????
+    class ClientHandler {
         public:
             virtual void handleClient(const std::unique_ptr<SocketIStream> in,
                  const std::unique_ptr<SocketOStream> out) const = 0;
