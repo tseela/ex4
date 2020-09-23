@@ -6,6 +6,7 @@ graph::Graph::Graph(const matrix::MatrixClass *matrix, uint32_t startX, uint32_t
     m_matrixGraph = matrix;
     m_steps = make_unique<matrix::MatrixClass>(matrix->getHeight(), matrix->getWidth());
     m_steps->setValue(startX, startY, true);
+    stepOnBorders();
     m_x = startX;
     m_y = startY;
     m_cost = (*matrix)(startX, startY);
@@ -76,4 +77,14 @@ double graph::Graph::getCost() const { return m_cost; }
 
 graph::Graph::~Graph() {
     delete(m_matrixGraph);
+}
+
+void graph::Graph::stepOnBorders() {
+    for (uint32_t i = 0; i < m_steps->getHeight(); ++i) {
+        for (uint32_t j = 0; j < m_steps->getWidth(); ++j) {
+            if ((*m_matrixGraph)(i, j) == BORDER) {
+                m_steps->setValue(i, j, true);
+            }
+        }
+    }
 }

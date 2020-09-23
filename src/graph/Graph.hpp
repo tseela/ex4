@@ -15,6 +15,8 @@ namespace graph {
 
 class Graph {
 public:
+    static constexpr int BORDER = 0;
+
 	Graph(const matrix::MatrixClass *matrix, std::uint32_t startX, std::uint32_t startY);
 
 	/**
@@ -49,6 +51,9 @@ public:
 	~Graph();
 
 private:
+    void stepOnBorders();
+
+
     const matrix::MatrixClass *m_matrixGraph;
     // m_steps(i, j) = 0 --> the cell wasn't stepped yet (else, we stepped on this one allready)
     std::unique_ptr<matrix::MatrixClass> m_steps;

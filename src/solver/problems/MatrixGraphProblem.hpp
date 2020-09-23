@@ -16,7 +16,7 @@ namespace problem {
  */
 class MatrixGraphProblem : public Problem {
 public:
-    MatrixGraphProblem(const matrix::MatrixClass& matrix, std::uint32_t startX, std::uint32_t startY, 
+    MatrixGraphProblem(const matrix::MatrixClass *matrix, std::uint32_t startX, std::uint32_t startY, 
         std::uint32_t endX, std::uint32_t endY);
     
     string getCacheCode() const override;
