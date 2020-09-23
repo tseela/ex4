@@ -1,6 +1,5 @@
 #pragma once
 
-#include "CacheManager.hpp"
 #include "Problem.hpp"
 #include "Solution.hpp"
 

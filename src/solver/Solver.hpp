@@ -1,5 +1,4 @@
 #include "CacheManager.hpp"
-#include "StringSolution.hpp"
 
 namespace solver {
     class Solver {
@@ -12,4 +11,4 @@ namespace solver {
             const Problem* m_problem;
             const Solution* m_solution;
     };
-};
+}

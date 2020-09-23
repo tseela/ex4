@@ -4,15 +4,15 @@ using namespace std;
 using namespace graph;
 using namespace solver::problem;
 
-solver::string_solution::MatrixGraphDFS::MatrixGraphDFS() {}
+solver::MatrixGraphDFS::MatrixGraphDFS() {}
 
-string solver::string_solution::MatrixGraphDFS::getOutputFileType() const { return "txt"; }
+string solver::MatrixGraphDFS::getOutputFileType() const { return "txt"; }
 
-string solver::string_solution::MatrixGraphDFS::getCacheCode() const { return "matrix_graph"; }
+string solver::MatrixGraphDFS::getCacheCode() const { return "matrix_graph"; }
 
-string solver::string_solution::MatrixGraphDFS::getCacheString() const { return "DFS"; }
+string solver::MatrixGraphDFS::getCacheString() const { return "DFS"; }
 
-void solver::string_solution::MatrixGraphDFS::writeToFile(const Problem* graphProblem, const string& fileName) const {
+void solver::MatrixGraphDFS::writeToFile(const Problem* graphProblem, const string& fileName) const {
     auto problem = dynamic_cast<MatrixGraphProblem *>(const_cast<Problem *>(graphProblem));
     auto graph = problem->getGraph();
     string solution = DFS_search(graph);
@@ -24,7 +24,7 @@ void solver::string_solution::MatrixGraphDFS::writeToFile(const Problem* graphPr
     }
 }
 
-string solver::string_solution::MatrixGraphDFS::getSolutionString(const Problem* graphProblem) const {
+string solver::MatrixGraphDFS::getSolutionString(const Problem* graphProblem) const {
     const Graph graph = dynamic_cast<MatrixGraphProblem *>(const_cast<Problem *>(graphProblem))->getGraph();
     string start = "DFS,";
     return DFS_search(graph, start);
@@ -35,6 +35,11 @@ string DFS_search(const Graph& graph, string& path) {
     return path;
 }
 
-int DFS_search(const Graph& graph, int cost) {
-    if (graph.)
+double DFS_search(const Graph& graph, uint32_t endX, uint32_t endY, double cost) {
+    auto x = graph.getX();
+    auto y = graph.getY();
+    if (x == endX && x == endY) {
+        return cost + graph(x, y);
+    }
+
 }

@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Operation.hpp"
 #include "file_reading.hpp"
 #include "CurrentTime.hpp"
-#include "Operation.hpp"
 
 #include <iostream>
 #include <fstream>

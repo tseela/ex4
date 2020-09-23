@@ -1,14 +1,12 @@
 #pragma once
 
-#include "StringSolution.hpp"
 #include "MatrixGraphProblem.hpp"
+#include "Solution.hpp"
 #include <iostream>
 
 namespace solver {
 
-namespace string_solution {
-
-class MatrixGraphDFS : public solver::string_solution::StringSolution {
+class MatrixGraphDFS : public solver::Solution {
 public:
     MatrixGraphDFS();
 
@@ -22,7 +20,5 @@ public:
 
     void writeToFile(const Problem* problem, const std::string& fileName) const override;
 };
-
-}
 
 }

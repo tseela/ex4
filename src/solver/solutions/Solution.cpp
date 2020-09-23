@@ -34,17 +34,15 @@ void solver::Solution::writeToOutputFile(const Problem* problem) const {
     writeToFile(problem, m_outputFilePath);
 }
 
-void solver::Solution::writeToOutputFile(const Problem* problem, const string& content) const {
+void solver::Solution::writeToOutputFile(const string& content) const {
     if (m_outputFilePath.compare(NOT_INITIALIZED) == 0) {//no output file
         return;
     }
     if (!m_outputFilePath.compare(PRINT)) {//if output is stdout
         cout << content << endl;
     } else {
-        writeFileContent(m_outputFilePath, content);
+        files::writeFileContent(m_outputFilePath, content);
     }
 }
-
-bool solver::Solution::isStringSolution() const { return false; }
 
 string solver::Solution::getCacheString() const { return ""; }

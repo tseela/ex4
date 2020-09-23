@@ -30,7 +30,7 @@ public:
     double getEndY() const;
 
 private:
-    unique_ptr<graph::Graph> m_graph;
+    std::unique_ptr<graph::Graph> m_graph;
     std::uint32_t m_endX;
     std::uint32_t m_endY;
 };

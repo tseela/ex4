@@ -77,7 +77,7 @@ public:
      * 
      * @param content - what it will write to the file.
      */
-    void writeToOutputFile(const Problem* problem, const std::string& content) const;
+    void writeToOutputFile(const std::string& content) const;
 
     /**
      * @brief Writes the result of the Solution.
@@ -86,7 +86,7 @@ public:
      */
     virtual void writeToFile(const Problem* problem, const std::string& fileName) const = 0;
 
-    virtual bool isStringSolution() const;
+    virtual std::string getSolutionString(const Problem* problem) const = 0;
 
     virtual std::string getCacheString() const;
 
