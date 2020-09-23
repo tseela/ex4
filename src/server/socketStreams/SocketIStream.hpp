@@ -1,5 +1,7 @@
 #pragma once
 
+#include "file_reading.hpp"
+
 #include <unistd.h>
 
 #include <string>
@@ -19,6 +21,7 @@ namespace server_side {
         std::thread m_tRead;
 
         public:
+            static constexpr auto FILE_TO_NOTIFY = "SERVER_LOG.txt";
             static constexpr auto BUFFER_SIZE = 1024;
             static constexpr std::string_view STRING_TIMEOUT= "";
             static constexpr std::chrono::seconds READ_TIMEOUT = std::chrono::seconds(5);

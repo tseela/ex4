@@ -15,7 +15,6 @@
 #include <iostream>
 
 namespace server_side {
-    
     class MyParallelServer: public SocketServer{
         std::atomic_bool m_accepting;
         std::atomic_bool m_terminatePool;

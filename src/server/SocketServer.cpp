@@ -5,6 +5,10 @@
 
 using namespace server_side;
 
+SocketServer::SocketServer() {
+    writeFileContent(LOG_LOCATION, LOG_TITLE);
+}
+
 void SocketServer::start(int port, const std::shared_ptr<ClientHandler> ch) {
 
     //creating the socket

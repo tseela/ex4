@@ -30,6 +30,9 @@ void MyParallelServer::threadAccept(int sockfd) {
             }
 
             std::unique_lock<std::mutex> lock(m_mutCliVec);
+            
+            std::string contant = readFileContent(SocketServer::LOG_LOCATION);
+            writeFileContent(SocketServer::LOG_LOCATION, contant + "New client was accepted!\n");
 
             m_cliSocketfd.push(cliSockfd);
 
@@ -68,6 +71,8 @@ void MyParallelServer::oneThreadAccept(const std::shared_ptr<ClientHandler> ch) 
             std::unique_ptr<SocketOStream> out = std::make_unique<SocketOStream>(cliSockfd);
             ch->handleClient(std::move(in), std::move(out));
 
+            close(cliSockfd);
+
             std::unique_lock<std::mutex> lockAgain(m_mutCliVec);
             if(m_cliSocketfd.empty()) {
                  m_accepting = false;
@@ -78,6 +83,7 @@ void MyParallelServer::oneThreadAccept(const std::shared_ptr<ClientHandler> ch) 
             if (write(cliSockfd, error.data(), error.size()) < 0) {
                 std::cerr<<"Couldn't write to client this exceptoin:"<<e.what()<<std::endl;
             }
+            close(cliSockfd);
         }
     }
 

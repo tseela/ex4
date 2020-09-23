@@ -37,17 +37,22 @@ void MySerialServer::threadAccept(int sockfd, const std::shared_ptr<ClientHandle
 
             std::lock_guard<std::mutex> guard(m_mut);
 
+            std::string contant = readFileContent(SocketServer::LOG_LOCATION);
+            writeFileContent(SocketServer::LOG_LOCATION, contant + "New client was accepted!\n");
+
             m_accepting = true;
 
             std::unique_ptr<SocketIStream> in = std::make_unique<SocketIStream>(cliSockfd);
             std::unique_ptr<SocketOStream> out = std::make_unique<SocketOStream>(cliSockfd);
             ch->handleClient(std::move(in), std::move(out));
+            close(cliSockfd);
         } catch (const std::exception& e) {
             if(m_accepting) {
                 std::string error = e.what();
                 if (write(cliSockfd, error.data(), error.size()) < 0) {
                     std::cerr<<"Couldn't write to client this exceptoin:"<<e.what()<<std::endl;
                 }
+                close(cliSockfd);
             } else {
                 std::cerr<<e.what()<<std::endl;
             }

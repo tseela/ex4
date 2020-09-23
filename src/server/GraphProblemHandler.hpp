@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ProblemHandler.hpp"
+#include "SocketServer.hpp"
 
 namespace server_side {
     class GraphProblemHandler: public ProblemHandler {

@@ -45,6 +45,9 @@ void SocketIStream::stop() {
         if (0 != pthread_cancel(m_tRead.native_handle())) {
             THROW_SYSTEM_ERROR(); 
         }
+
+        std::string contant = readFileContent(FILE_TO_NOTIFY);
+        writeFileContent(FILE_TO_NOTIFY, contant + "Timeout has past, Client was disconnected\n");
     }
 
     m_tRead.join();
