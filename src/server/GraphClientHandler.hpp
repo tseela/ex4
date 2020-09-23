@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ClientHandler.hpp"
+#include "ProblemsClientHandler.hpp"
 
 namespace server_side {
-    class ProblemsClientHandler: public ClientHandler {
+    class GraphClientHandler: public ProblemsClientHandler {
         public:
             virtual void handleClient(const std::unique_ptr<SocketIStream> in,
                  const std::unique_ptr<SocketOStream> out) const override;
