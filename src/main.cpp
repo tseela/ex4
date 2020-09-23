@@ -18,4 +18,5 @@ int main() {
 
     auto solver = new Solver(p, s);
     cout << solver->getStringSolution() << endl;
+    cout << solver->getStringSolution() << endl;
 }

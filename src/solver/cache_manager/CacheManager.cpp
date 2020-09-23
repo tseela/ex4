@@ -19,12 +19,9 @@ void checkCacheFileExists() {
         throw system_error{errno, system_category()};
     }
     // opening the cache file
-    auto cachefd = 0;
-    if (!std::filesystem::exists(CacheManager::CACHE_FILE)) {
-        cachefd = open(CacheManager::CACHE_FILE, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-        if (cachefd < 0) {
-            throw system_error{errno, system_category()};
-        }
+    const auto cachefd = open(CacheManager::CACHE_FILE, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+    if (cachefd < 0) {
+        throw system_error{errno, system_category()};
     }
 
     // to specify that we are in our cache manager file we make sure that the folowing line in the first one
@@ -58,8 +55,8 @@ void checkCacheFileExists() {
  * @param index the index of the beckup file.
  */
 void createBeckupFile(const Operation& command, unsigned int index) {
-    //gets the files name.
-    string fileName = "src/bin/cache/files/" + std::to_string(index) + "." + command.getOutputFileType();
+    //gets the files name
+    string fileName = CacheManager::CACHE_FILES_DIR_ + std::to_string(index) + "." + command.getOutputFileType();
 
     //opening (& creating if needed) the file.
     const auto cachefd = open(fileName.c_str(), O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
@@ -209,7 +206,8 @@ string solver::cache::CacheManager::getBackUpFile(const Operation& command) cons
     if (result.compare("") == 0) {
         return "";
     }
-    return CACHE_FILES_DIR_ + result.substr(result.find_last_of('|') + 1) + '.' + command.getOutputFileType();
+    result = CACHE_FILES_DIR_ + result.substr(result.find_last_of('|') + 1) + '.' + command.getOutputFileType();
+    return result;
 }
 
 bool solver::cache::CacheManager::isSearch(int argc, const char* argv[]) {
