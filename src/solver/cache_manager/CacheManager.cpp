@@ -206,8 +206,7 @@ string solver::cache::CacheManager::getBackUpFile(const Operation& command) cons
     if (result.compare("") == 0) {
         return "";
     }
-    result = CACHE_FILES_DIR_ + result.substr(result.find_last_of('|') + 1) + '.' + command.getOutputFileType();
-    return result;
+    return CACHE_FILES_DIR_ + result.substr(result.find_last_of('|') + 1) + '.' + command.getOutputFileType();
 }
 
 bool solver::cache::CacheManager::isSearch(int argc, const char* argv[]) {
