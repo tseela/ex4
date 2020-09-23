@@ -16,7 +16,7 @@ namespace server_side {
         std::atomic_bool m_accepting;
         std::exception_ptr m_tExp = nullptr;
         std::thread m_tAccept;
-        std::mutex m_mut;
+        mutable std::mutex m_mut;
 
         public:
             MySerialServer();

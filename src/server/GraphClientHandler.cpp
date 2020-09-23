@@ -2,7 +2,7 @@
 
 using namespace server_side;
 
-void GraphClientHandler::handleClient(const std::unique_ptr<SocketIStream> in,
-     const std::unique_ptr<SocketOStream> out) const {
+void GraphClientHandler::handleProblem(const std::unique_ptr<SocketIStream> in,
+        const std::unique_ptr<SocketOStream> out, std::string alg) const {
 
      }

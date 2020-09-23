@@ -3,9 +3,9 @@
 #include "ProblemsClientHandler.hpp"
 
 namespace server_side {
-    class GraphClientHandler: public ProblemsClientHandler {
+    class GraphClientHandler: public ProblemHandler {
         public:
-            virtual void handleClient(const std::unique_ptr<SocketIStream> in,
-                 const std::unique_ptr<SocketOStream> out) const override;
+            virtual void handleProblem(const std::unique_ptr<SocketIStream> in,
+                 const std::unique_ptr<SocketOStream> out, std::string alg) const override;
     };
 }
