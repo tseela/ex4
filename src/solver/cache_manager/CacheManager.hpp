@@ -27,11 +27,11 @@ namespace cache {
  */
 class CacheManager {
 public:
-    static constexpr char CACHE_FILE[] = "src/bin/cache/Cache__DONT_TOUCH_THIS_FILE.txt";
+    static constexpr char CACHE_FILE[] = "cache/Cache__DONT_TOUCH_THIS_FILE.txt";
     static constexpr char CACHE_LINE[] = "Cache Manager is running!\n";
-    static constexpr char CACHE_DIR[] = "src/bin/cache";
-    static constexpr char CACHE_FILES_DIR[] = "src/bin/cache/files";
-    static constexpr char CACHE_FILES_DIR_[] = "src/bin/cache/files/";
+    static constexpr char CACHE_DIR[] = "cache";
+    static constexpr char CACHE_FILES_DIR[] = "cache/files";
+    static constexpr char CACHE_FILES_DIR_[] = "cache/files/";
 
     static constexpr int CACHE_LINE_LENGTH = 26;
 
