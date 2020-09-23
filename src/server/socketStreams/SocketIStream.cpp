@@ -10,6 +10,8 @@ SocketIStream::SocketIStream(int sockfd) : m_sockfd(sockfd), m_isSecceded(false)
 }
 
 std::string SocketIStream::readOneLine() {
+    m_isSecceded = false;
+    m_line = STRING_TIMEOUT;
     m_tRead = std::thread(&SocketIStream::tryToRead, this);
     stop();
 

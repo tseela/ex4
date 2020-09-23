@@ -1,3 +1,5 @@
 Welcome to the server log file!
 New client was accepted!
 Timeout has past, Client was disconnected
+New client was accepted!
+Task Faild, Client was disconnected with this exceptoin: The problem given isn't supported

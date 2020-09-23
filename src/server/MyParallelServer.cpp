@@ -30,7 +30,7 @@ void MyParallelServer::threadAccept(int sockfd) {
             }
 
             std::unique_lock<std::mutex> lock(m_mutCliVec);
-            
+
             std::string contant = readFileContent(SocketServer::LOG_LOCATION);
             writeFileContent(SocketServer::LOG_LOCATION, contant + "New client was accepted!\n");
 
@@ -80,6 +80,15 @@ void MyParallelServer::oneThreadAccept(const std::shared_ptr<ClientHandler> ch) 
             }
         } catch (const std::exception& e) {
             std::string error = e.what();
+
+            try{
+                std::string contant = readFileContent(SocketServer::LOG_LOCATION);
+                writeFileContent(SocketServer::LOG_LOCATION,
+                contant + "Task Faild, Client was disconnected with this exceptoin: " + error);
+            } catch (const std::exception& eLog) {
+                std::cerr<<"Couldn't write to client this server log file that was an exception in client"<<std::endl;
+            }
+
             if (write(cliSockfd, error.data(), error.size()) < 0) {
                 std::cerr<<"Couldn't write to client this exceptoin:"<<e.what()<<std::endl;
             }
