@@ -20,5 +20,10 @@ int main() {
     auto s = new DFS();
 
     auto solver = new Solver(p, s);
-    cout << solver->getStringSolution() << endl;
+    try {
+        cout << solver->getStringSolution() << endl;
+        cout << solver->getStringSolution() << endl;
+    } catch (matrix::ErrorCodeException e) {
+        e.printErrorMessage();
+    }
 }

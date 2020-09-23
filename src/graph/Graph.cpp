@@ -30,8 +30,8 @@ bool graph::Graph::canStep(std::uint32_t p_x, std::uint32_t p_y, const Direction
         ++x;
     }
 
-    if (x < 0 || y < 0 || x > static_cast<int>(m_matrixGraph->getWidth()) || 
-        y > static_cast<int>(m_matrixGraph->getHeight()) || (*m_matrixGraph)(x, y) == BORDER) {
+    if (x < 0 || y < 0 || x >= static_cast<int>(m_matrixGraph->getWidth()) || 
+        y >= static_cast<int>(m_matrixGraph->getHeight()) || (*m_matrixGraph)(x, y) == BORDER) {
         return false;
     }
     return true;

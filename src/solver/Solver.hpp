@@ -5,7 +5,7 @@ namespace solver {
         public:
             Solver(const Problem* problem, const Solution* solution);
 
-            std::string getStringSolution() const;
+            std::string getStringSolution(bool useCache = false) const;
 
         private:
             const Problem* m_problem;

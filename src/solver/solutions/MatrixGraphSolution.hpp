@@ -24,7 +24,7 @@ public:
     void writeToFile(const Problem* problem, const std::string& fileName) const override final;
 
 protected:
-    virtual std::string algorithm(const graph::Graph& graph) const;
+    virtual std::string algorithm(const graph::Graph& graph) const = 0;
 
     static void initialSteps(matrix::MatrixClass& steps);
 };
