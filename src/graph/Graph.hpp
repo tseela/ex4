@@ -15,7 +15,7 @@ namespace graph {
 
 class Graph {
 public:
-    static constexpr int BORDER = 0;
+    static constexpr auto BORDER = 0;
 
 	Graph(const matrix::MatrixClass *matrix, std::uint32_t startX, std::uint32_t startY, 
         std::uint32_t endX, std::uint32_t endY);

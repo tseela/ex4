@@ -1,27 +1,26 @@
 #pragma once
 
 #include "MatrixGraphSolution.hpp"
-
-struct BestPath {
-    double bestCost;
-    std::string bestPath;
-
-    void initialFields(const graph::Graph& graph);
-};
+#include "BestPath.hpp"
+#include <queue>
 
 namespace solver {
 
 namespace solution {
 
-class DFS : public solver::solution::MatrixGraphSolution {
+namespace graph_solution {
+
+class BFS : public solver::solution::MatrixGraphSolution {
 public:
-    DFS();
+    BFS();
 
     std::string getCacheString() const override;
 
 private:
     std::string algorithm(const graph::Graph& graph) const override;
 };
+
+}
 
 }
 

@@ -21,17 +21,17 @@ bool graph::Graph::canStep(std::uint32_t p_x, std::uint32_t p_y, const Direction
     int x = p_x;
     int y = p_y;
     if (direction == UP) {
-        --y;
-    } else if (direction == DOWN) {
-        ++y;
-    } else if (direction == LEFT) {
         --x;
-    } else if (direction == RIGHT) {
+    } else if (direction == DOWN) {
         ++x;
+    } else if (direction == LEFT) {
+        --y;
+    } else if (direction == RIGHT) {
+        ++y;
     }
 
-    if (x < 0 || y < 0 || x >= static_cast<int>(m_matrixGraph->getWidth()) || 
-        y >= static_cast<int>(m_matrixGraph->getHeight()) || (*m_matrixGraph)(x, y) == BORDER) {
+    if (x < 0 || y < 0 || x >= static_cast<int>(m_matrixGraph->getHeight()) || 
+        y >= static_cast<int>(m_matrixGraph->getWidth()) || (*m_matrixGraph)(x, y) == BORDER) {
         return false;
     }
     return true;
