@@ -13,7 +13,7 @@ using namespace server_side;
 int main(int argc, const char *argv[]) {
     try{
         // first arg is ex4.out and we don't need it
-        int startIndex = 1;
+        auto startIndex = 1;
         --argc;
 
         if(argc != 2 && argc != 1) {
@@ -21,9 +21,9 @@ int main(int argc, const char *argv[]) {
         }
 
         std::unique_ptr<Server> server;
-        std::shared_ptr<ProblemsClientHandler> probCH;
+        std::shared_ptr<ProblemsClientHandler> probCH = std::make_unique<ProblemsClientHandler>();
 
-        int port;
+        auto port = 0;
 
         try{
             port = std::stoi(argv[startIndex]);

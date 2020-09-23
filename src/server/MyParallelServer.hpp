@@ -28,7 +28,7 @@ namespace server_side {
         
 
         public:
-            static constexpr int NUM_ACCEPTING_THREADS = 10;
+            static constexpr auto NUM_ACCEPTING_THREADS = 10;
 
             MyParallelServer();
             virtual void acceptClients(int sockfd, const std::shared_ptr<ClientHandler> ch) override;
