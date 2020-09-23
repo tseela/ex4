@@ -14,7 +14,7 @@ int main() {
     matrix->setValue(1, 0, 3);
 
     auto p = new problem::MatrixGraphProblem(matrix, 0, 0, 1, 1);
-    auto s = new string_solution::MatrixGraphDFS();
+    auto s = new MatrixGraphDFS();
 
     auto solver = new Solver(p, s);
     cout << solver->getStringSolution() << endl;

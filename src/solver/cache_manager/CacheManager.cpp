@@ -11,9 +11,11 @@ solver::cache::CacheManager::CacheManager() {}
  */
 void checkCacheFileExists() {
     //make the dir cache
-    mkdir(CacheManager::CACHE_DIR, 0777);
+    if (mkdir(CacheManager::CACHE_DIR, 0777) < 0)
+        throw system_error{errno, system_category()};
     //make the dir for the cache files
-    mkdir(CacheManager::CACHE_FILES_DIR, 0777);
+    if (mkdir(CacheManager::CACHE_FILES_DIR, 0777) < 0)
+        throw system_error{errno, system_category()};
     // opening the cache file
     const auto cachefd = open(CacheManager::CACHE_FILE, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
     if (cachefd < 0) {

@@ -21,4 +21,4 @@ double solver::problem::MatrixGraphProblem::getEndX() const { return m_endX; }
 
 double solver::problem::MatrixGraphProblem::getEndY() const { return m_endY; }
 
-Graph& solver::problem::MatrixGraphProblem::getGraph() const { return *m_graph; }
+const Graph* solver::problem::MatrixGraphProblem::getGraph() const { return m_graph.get(); }
