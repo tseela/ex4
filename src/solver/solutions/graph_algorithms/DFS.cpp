@@ -2,15 +2,16 @@
 
 using namespace std;
 using namespace solver::solution;
+using namespace graph;
 
-void DFS_search(const graph::Graph& graph, matrix::MatrixClass isStepped, string path, 
+void DFS_search(const Graph& graph, matrix::MatrixClass isStepped, string path, 
 double cost, uint32_t x, uint32_t y, BestPath& best);
 
 solver::solution::graph_solution::DFS::DFS() {}
 
 string solver::solution::graph_solution::DFS::getCacheString() const { return "DFS"; }
 
-string solver::solution::graph_solution::DFS::algorithm(const graph::Graph& graph) const {
+string solver::solution::graph_solution::DFS::algorithm(const Graph& graph) const {
     // if the end point and the start point are the same, the cost is 0
     if (graph.startX() == graph.endX() && graph.startY() == graph.endY()) {
         return "0," + getCacheString();
@@ -33,7 +34,7 @@ string solver::solution::graph_solution::DFS::algorithm(const graph::Graph& grap
     return to_string(best.bestCost) + "," + getCacheString() + best.bestPath;
 }
 
-void DFS_search(const graph::Graph& graph, matrix::MatrixClass isStepped, string path, 
+void DFS_search(const Graph& graph, matrix::MatrixClass isStepped, string path, 
     double cost, uint32_t x, uint32_t y, BestPath& best) {
     
     cost += graph(x, y);
@@ -50,18 +51,18 @@ void DFS_search(const graph::Graph& graph, matrix::MatrixClass isStepped, string
 
     // if we can make a step (in any direction) we will make it and activate our recursive func on it
     if (graph.canStep(x, y, UP) && isStepped(x - 1, y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-        DFS_search(graph, isStepped, path + ",Up", cost, x - 1, y, best);
+        DFS_search(graph, isStepped, path + "," + to_string(UP), cost, x - 1, y, best);
     }
 
     if (graph.canStep(x, y, DOWN) && isStepped(x + 1, y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-        DFS_search(graph, isStepped, path + ",Down", cost, x + 1, y, best);
+        DFS_search(graph, isStepped, path + "," + to_string(DOWN), cost, x + 1, y, best);
     }
 
     if (graph.canStep(x, y, LEFT) && isStepped(x, y - 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-        DFS_search(graph, isStepped, path + ",Left", cost, x, y - 1, best);
+        DFS_search(graph, isStepped, path + "," + to_string(LEFT), cost, x, y - 1, best);
     }
 
     if (graph.canStep(x, y, RIGHT) && isStepped(x, y + 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-        DFS_search(graph, isStepped, path + ",Right", cost, x, y + 1, best);
+        DFS_search(graph, isStepped, path + "," + to_string(RIGHT), cost, x, y + 1, best);
     }
 }

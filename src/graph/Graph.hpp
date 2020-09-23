@@ -50,6 +50,8 @@ public:
 	 */
 	~Graph();
 
+    static std::string to_string(const Direction& direction);
+
 private:
 
     const matrix::MatrixClass *m_matrixGraph;

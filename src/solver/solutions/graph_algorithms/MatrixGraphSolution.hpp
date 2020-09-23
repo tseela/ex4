@@ -3,6 +3,7 @@
 #include "MatrixGraphProblem.hpp"
 #include "Solution.hpp"
 #include <iostream>
+#include <string_view>
 
 namespace solver {
 

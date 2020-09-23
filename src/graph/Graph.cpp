@@ -52,3 +52,16 @@ string graph::Graph::to_string() const {
 graph::Graph::~Graph() {
     delete(m_matrixGraph);
 }
+
+string graph::Graph::to_string(const Direction& direction) {
+    if (direction == UP) {
+        return "Up";
+    } else if (direction == DOWN) {
+        return "Down";
+    } else if (direction == LEFT) {
+        return "Left";
+    } else if (direction == RIGHT) {
+        return "Right";
+    }
+    return "";
+}
