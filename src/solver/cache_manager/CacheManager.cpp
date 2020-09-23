@@ -15,13 +15,16 @@ void checkCacheFileExists() {
         throw system_error{errno, system_category()};
     }
     //make the dir for the cache files
-    if (!std::filesystem::exists(CacheManager::CACHE_DIR) && mkdir(CacheManager::CACHE_FILES_DIR, 0777) < 0) {
+    if (!std::filesystem::exists(CacheManager::CACHE_FILES_DIR) && mkdir(CacheManager::CACHE_FILES_DIR, 0777) < 0) {
         throw system_error{errno, system_category()};
     }
     // opening the cache file
-    const auto cachefd = open(CacheManager::CACHE_FILE, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-    if (cachefd < 0) {
-        throw system_error{errno, system_category()};
+    auto cachefd = 0;
+    if (!std::filesystem::exists(CacheManager::CACHE_FILE)) {
+        cachefd = open(CacheManager::CACHE_FILE, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+        if (cachefd < 0) {
+            throw system_error{errno, system_category()};
+        }
     }
 
     // to specify that we are in our cache manager file we make sure that the folowing line in the first one
