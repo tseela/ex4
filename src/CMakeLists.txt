@@ -15,13 +15,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/files ${CMAKE_SOURCE_DIR}/solver
 ${CMAKE_SOURCE_DIR}/matrix ${CMAKE_SOURCE_DIR}/graph ${CMAKE_SOURCE_DIR}/time
-${CMAKE_SOURCE_DIR}/solver/cache_manager ${CMAKE_SOURCE_DIR}solver/problems ${CMAKE_SOURCE_DIR}solver/solutions
-${CMAKE_SOURCE_DIR}solver/cache_manager/hash ${CMAKE_SOURCE_DIR}/server ${PARENT_DIR}/lib)
+${CMAKE_SOURCE_DIR}/solver/cache_manager ${CMAKE_SOURCE_DIR}/solver/problems ${CMAKE_SOURCE_DIR}/solver/solutions
+${CMAKE_SOURCE_DIR}/solver/cache_manager/hash ${CMAKE_SOURCE_DIR}/server ${PARENT_DIR}/lib)
 
 link_directories(${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/files ${CMAKE_SOURCE_DIR}/solver
 ${CMAKE_SOURCE_DIR}/matrix ${CMAKE_SOURCE_DIR}/graph ${CMAKE_SOURCE_DIR}/time
-${CMAKE_SOURCE_DIR}/solver/cache_manager ${CMAKE_SOURCE_DIR}solver/problems ${CMAKE_SOURCE_DIR}solver/solutions
-${CMAKE_SOURCE_DIR}solver/cache_manager/hash ${CMAKE_SOURCE_DIR}/server ${PARENT_DIR}/lib)
+${CMAKE_SOURCE_DIR}/solver/cache_manager ${CMAKE_SOURCE_DIR}/solver/problems ${CMAKE_SOURCE_DIR}/solver/solutions
+${CMAKE_SOURCE_DIR}/solver/cache_manager/hash ${CMAKE_SOURCE_DIR}/server ${PARENT_DIR}/lib)
 
 
 add_executable(ex4.out main.cpp
