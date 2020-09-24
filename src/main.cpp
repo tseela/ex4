@@ -1,5 +1,7 @@
 #include "MatrixClass.hpp"
 #include "BFS.hpp"
+#include "DFS.hpp"
+#include "AStar.hpp"
 #include "MatrixGraphProblem.hpp"
 #include "Solver.hpp"
 
@@ -19,12 +21,17 @@ int main() {
     matrix->setValue(0, 0, 1);
 
     auto p = new problem::MatrixGraphProblem(matrix, 0, 0, 2, 1);
-    auto s = new graph_solution::BFS();
+    auto dfs = new graph_solution::DFS();
+    auto bfs = new graph_solution::BFS();
+    auto a_star = new graph_solution::AStar();
 
-    auto solver = new Solver(p, s);
+    auto solver1 = new Solver(p, dfs);
+    auto solver2 = new Solver(p, dfs);
+    auto solver3 = new Solver(p, a_star);
     try {
-        cout << solver->getStringSolution() << endl;
-        cout << solver->getStringSolution() << endl;
+        cout << solver1->getStringSolution() << endl;
+        cout << solver2->getStringSolution() << endl;
+        cout << solver3->getStringSolution() << endl;
     } catch (matrix::ErrorCodeException e) {
         e.printErrorMessage();
     }

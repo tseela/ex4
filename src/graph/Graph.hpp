@@ -16,9 +16,10 @@ namespace graph {
 class Graph {
 public:
     static constexpr auto BORDER = 0;
+    static constexpr auto MIN_STEP_COST = 1;
 
-	Graph(const matrix::MatrixClass *matrix, std::uint32_t startX, std::uint32_t startY, 
-        std::uint32_t endX, std::uint32_t endY);
+	Graph(const matrix::MatrixClass *matrix, const std::uint32_t startX, const std::uint32_t startY, 
+        const std::uint32_t endX, const std::uint32_t endY);
 
 	/**
 	 * @brief Returns height of given graph.
@@ -34,9 +35,9 @@ public:
 	 */
 	std::uint32_t getWidth() const;
 
-    double operator()(std::uint32_t x, std::uint32_t y) const;
+    double operator()(const std::uint32_t x, const std::uint32_t y) const;
 
-    bool canStep(std::uint32_t x, std::uint32_t y, const Direction& direction = NONE) const;
+    bool canStep(const std::uint32_t x, const std::uint32_t y, const Direction& direction = NONE) const;
 
     std::uint32_t startX() const;
     std::uint32_t startY() const;
@@ -51,6 +52,8 @@ public:
 	~Graph();
 
     static std::string to_string(const Direction& direction);
+
+    static void updateByDirection(std::uint32_t& x, std::uint32_t y, const Direction& direction);
 
 private:
 

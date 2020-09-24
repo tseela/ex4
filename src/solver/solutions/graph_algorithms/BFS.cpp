@@ -84,15 +84,7 @@ Step::Step(const graph::Graph& graph, const Step& before, Direction direction) :
     my_path = before.my_path + "," + graph::Graph::to_string(direction);
     isStepped.setValue(x, y, MatrixGraphSolution::WAS_STEPPED);
 
-    if (direction == UP) {
-        --x;
-    } else if (direction == DOWN) {
-        ++x;
-    } else if (direction == LEFT) {
-        --y;
-    } else if (direction == RIGHT) {
-        ++y;
-    }
+    graph::Graph::updateByDirection(x, y, direction);
     
     my_cost = before.my_cost + graph(x, y);
     vertex_x = x;
