@@ -13,10 +13,11 @@ using namespace graph;
 using namespace solver;
 using namespace solver::solution;
 
-void initializeMatrix(matrix::MatrixClass* matrix) {
+void initializeMatrix(matrix::MatrixClass* matrix, const int x) {
+    auto b = x / 7 + 10;
     for (uint32_t i = 0; i < matrix->getHeight(); ++i) {
         for (uint32_t j = 0; j < matrix->getWidth(); ++j) {
-            matrix->setValue(i, j, rand() % 99 + 1);
+            matrix->setValue(i, j, rand() % b + 1);
         }
     }
 }
@@ -59,7 +60,7 @@ int main() {
         auto size = x * y;
 
         auto matrix = new matrix::MatrixClass(x, y);
-        initializeMatrix(matrix);
+        initializeMatrix(matrix, i);
 
         s += to_string(x) + "," + to_string(y) + "\n" + matrix->toString() + "\n\n";
 
