@@ -19,7 +19,7 @@ namespace solver {
 class Problem {
 public:
     static constexpr int START_INDEX = 0;
-    static constexpr char NOT_INITIALIZED[] = "";
+    static constexpr auto NOT_INITIALIZED = "";
 
     /**
      * @brief Construct a new Problem object.

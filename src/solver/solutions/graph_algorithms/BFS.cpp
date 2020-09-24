@@ -41,6 +41,7 @@ void BFS_search(const graph::Graph& graph, const matrix::MatrixClass& isStepped,
         Step this_step = trails.front();
         trails.pop();
 
+        // if this is the end point we will save it (if needed) in best and move to the next step in trails
         if (this_step.vertex_x == graph.endX() && this_step.vertex_y == graph.endY()) {
             if (best.bestCost > this_step.my_cost) {
                 best.bestCost = this_step.my_cost;
@@ -49,25 +50,26 @@ void BFS_search(const graph::Graph& graph, const matrix::MatrixClass& isStepped,
             continue;
         }
 
-        // if we can make a step (in any direction) we will push it's trail into our queue
-        if (graph.canStep(this_step.vertex_x, this_step.vertex_y, UP) && 
-            this_step.isStepped(this_step.vertex_x - 1, this_step.vertex_y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-                trails.push(Step(graph, this_step, UP));
-        }
+        vector<Direction> all_directions;
+        all_directions.push_back(UP);
+        all_directions.push_back(DOWN);
+        all_directions.push_back(LEFT);
+        all_directions.push_back(RIGHT);
 
-        if (graph.canStep(this_step.vertex_x, this_step.vertex_y, DOWN) && 
-            this_step.isStepped(this_step.vertex_x + 1, this_step.vertex_y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-                trails.push(Step(graph, this_step, DOWN));
-        }
+        // we will try to move in any direction
+        for (Direction direction : all_directions) {
+            auto x = this_step.vertex_x;
+            auto y = this_step.vertex_y;
 
-        if (graph.canStep(this_step.vertex_x, this_step.vertex_y, LEFT) && 
-            this_step.isStepped(this_step.vertex_x, this_step.vertex_y - 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-                trails.push(Step(graph, this_step, LEFT));
-        }
+            // only if we can move in the direction we will update x & y.
+            // if we won't check the step an exception might be thrown.
+            if (graph.canStep(this_step.vertex_x, this_step.vertex_y, direction)) {
+                graph::Graph::updateByDirection(x, y, direction);
 
-        if (graph.canStep(this_step.vertex_x, this_step.vertex_y, RIGHT) && 
-            this_step.isStepped(this_step.vertex_x, this_step.vertex_y + 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-                trails.push(Step(graph, this_step, RIGHT));
+                if (this_step.isStepped(x, y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
+                    trails.push(Step(graph, this_step, direction));
+                }
+            }
         }
     }
 }

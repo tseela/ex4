@@ -25,8 +25,8 @@ public:
      * @param endX 
      * @param endY 
      */
-    MatrixGraphProblem(const matrix::MatrixClass *matrix, std::uint32_t startX, std::uint32_t startY, 
-        std::uint32_t endX, std::uint32_t endY);
+    MatrixGraphProblem(const matrix::MatrixClass *matrix, const std::uint32_t startX, const std::uint32_t startY, 
+        const std::uint32_t endX, const std::uint32_t endY);
     /**
      * @brief Gets the Cache Code of the problem.
      * 

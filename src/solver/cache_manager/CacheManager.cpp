@@ -104,7 +104,8 @@ uint32_t getCashFileIndex() {
     return std::stoi(line.substr(line.find("|") + 1)) + 1;
 }
 
-void solver::cache::CacheManager::saveInCache(const Operation& command, bool isSearched /*= false*/, bool isClear /*= false*/) const {
+void solver::cache::CacheManager::saveInCache(const Operation& command, const bool isSearched /*= false*/, 
+    const bool isClear /*= false*/) const {
     //chcking if the catch file exists & creating it if neede.
     checkCacheFileExists();
 
@@ -209,7 +210,7 @@ string solver::cache::CacheManager::getBackUpFile(const Operation& command) cons
     return CACHE_FILES_DIR_ + result.substr(result.find_last_of('|') + 1) + '.' + command.getOutputFileType();
 }
 
-bool solver::cache::CacheManager::isSearch(int argc, const char* argv[]) {
+bool solver::cache::CacheManager::isSearch(const int argc, const char* argv[]) {
     // to few arguments
     if (argc < 3) {
         return false;
@@ -217,7 +218,7 @@ bool solver::cache::CacheManager::isSearch(int argc, const char* argv[]) {
     return strcmp(argv[0], "cache") == 0 && strcmp(argv[1], "search") == 0;
 }
 
-bool solver::cache::CacheManager::isClear(int argc, const char* argv[]) {
+bool solver::cache::CacheManager::isClear(const int argc, const char* argv[]) {
     // only 2 arguments in this cache operation
     if (argc != 2) {
         return false;

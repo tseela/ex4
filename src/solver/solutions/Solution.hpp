@@ -12,8 +12,8 @@ namespace solver {
 
 class Solution {
 public:
-    static constexpr char NOT_INITIALIZED[] = "";
-    static constexpr char PRINT[] = "stdout";
+    static constexpr auto NOT_INITIALIZED = "";
+    static constexpr auto PRINT = "stdout";
 
     /**
      * @brief Construct a new Solution object.

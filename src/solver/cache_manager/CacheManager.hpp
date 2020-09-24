@@ -27,11 +27,11 @@ namespace cache {
  */
 class CacheManager {
 public:
-    static constexpr char CACHE_FILE[] = "cache/Cache__DONT_TOUCH_THIS_FILE.txt";
-    static constexpr char CACHE_LINE[] = "Cache Manager is running!\n";
-    static constexpr char CACHE_DIR[] = "cache";
-    static constexpr char CACHE_FILES_DIR[] = "cache/files";
-    static constexpr char CACHE_FILES_DIR_[] = "cache/files/";
+    static constexpr auto CACHE_FILE = "cache/Cache__DONT_TOUCH_THIS_FILE.txt";
+    static constexpr auto CACHE_LINE = "Cache Manager is running!\n";
+    static constexpr auto CACHE_DIR = "cache";
+    static constexpr auto CACHE_FILES_DIR = "cache/files";
+    static constexpr auto CACHE_FILES_DIR_ = "cache/files/";
 
     static constexpr int CACHE_LINE_LENGTH = 26;
 
@@ -48,7 +48,7 @@ public:
      * @param isSearched - is the operation is searched or not.
      * @param isClear - if the operation is clear or not.
      */
-    void saveInCache(const solver::cache::Operation& command, bool isSearched = false, bool isClear = false) const;
+    void saveInCache(const solver::cache::Operation& command, const bool isSearched = false, const bool isClear = false) const;
 
     /**
      * @brief Search a command in the cache.
@@ -67,7 +67,7 @@ public:
      * @param argv the command.
      * @return true if the operation is search, else false.
      */
-    static bool isSearch(int argc, const char* argv[]);
+    static bool isSearch(const int argc, const char* argv[]);
 
     /**
      * @brief Checks if a command is clear operation.
@@ -76,7 +76,7 @@ public:
      * @param argv the command.
      * @return true if the operation is clear, else false. 
      */
-    static bool isClear(int argc, const char* argv[]);
+    static bool isClear(const int argc, const char* argv[]);
 };
 
 }

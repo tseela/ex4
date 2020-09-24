@@ -57,25 +57,26 @@ void AStar_search(const Graph& graph, const matrix::MatrixClass& isStepped, Best
             continue;
         }
 
-        // if we can make a step (in any direction) we will push it's trail into our success queue
-        if (graph.canStep(this_step.vertex_x, this_step.vertex_y, UP) && 
-            closed(this_step.vertex_x - 1, this_step.vertex_y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-                success.push_back(Step(graph, this_step, UP));
-        }
+        vector<Direction> all_directions;
+        all_directions.push_back(UP);
+        all_directions.push_back(DOWN);
+        all_directions.push_back(LEFT);
+        all_directions.push_back(RIGHT);
 
-        if (graph.canStep(this_step.vertex_x, this_step.vertex_y, DOWN) && 
-            closed(this_step.vertex_x + 1, this_step.vertex_y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-                success.push_back(Step(graph, this_step, DOWN));
-        }
+        // we will try to move in any direction
+        for (Direction direction : all_directions) {
+            auto x = this_step.vertex_x;
+            auto y = this_step.vertex_y;
 
-        if (graph.canStep(this_step.vertex_x, this_step.vertex_y, LEFT) && 
-            closed(this_step.vertex_x, this_step.vertex_y - 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-                success.push_back(Step(graph, this_step, LEFT));
-        }
+            // only if we can move in the direction we will update x & y.
+            // if we won't check the step an exception might be thrown.
+            if (graph.canStep(this_step.vertex_x, this_step.vertex_y, direction)) {
+                graph::Graph::updateByDirection(x, y, direction);
 
-        if (graph.canStep(this_step.vertex_x, this_step.vertex_y, RIGHT) && 
-            closed(this_step.vertex_x, this_step.vertex_y + 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-                success.push_back(Step(graph, this_step, RIGHT));
+                if (closed(x, y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
+                    success.push_back(Step(graph, this_step, direction));
+                }
+            }
         }
 
         queue<Step> helper;

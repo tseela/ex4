@@ -50,20 +50,25 @@ void DFS_search(const Graph& graph, matrix::MatrixClass& isStepped, const string
         return;
     }
 
-    // if we can make a step (in any direction) we will make it and activate our recursive func on it
-    if (graph.canStep(x, y, UP) && isStepped(x - 1, y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-        DFS_search(graph, isStepped, path + "," + graph::Graph::to_string(UP), cost, x - 1, y, best);
-    }
+    vector<Direction> all_directions;
+    all_directions.push_back(UP);
+    all_directions.push_back(DOWN);
+    all_directions.push_back(LEFT);
+    all_directions.push_back(RIGHT);
 
-    if (graph.canStep(x, y, DOWN) && isStepped(x + 1, y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-        DFS_search(graph, isStepped, path + "," + graph::Graph::to_string(DOWN), cost, x + 1, y, best);
-    }
+    // we will try to move in any direction
+    for (Direction direction : all_directions) {
+        auto try_x = x;
+        auto try_y = y;
 
-    if (graph.canStep(x, y, LEFT) && isStepped(x, y - 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-        DFS_search(graph, isStepped, path + "," + graph::Graph::to_string(LEFT), cost, x, y - 1, best);
-    }
+        // only if we can move in the direction we will update x & y.
+        // if we won't check the step an exception might be thrown.
+        if (graph.canStep(x, y, direction)) {
+            graph::Graph::updateByDirection(try_x, try_y, direction);
 
-    if (graph.canStep(x, y, RIGHT) && isStepped(x, y + 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-        DFS_search(graph, isStepped, path + "," + graph::Graph::to_string(RIGHT), cost, x, y + 1, best);
+            if (isStepped(try_x, try_y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
+                DFS_search(graph, isStepped, path + "," + graph::Graph::to_string(direction), cost, try_x, try_y, best);
+            }
+        }
     }
 }

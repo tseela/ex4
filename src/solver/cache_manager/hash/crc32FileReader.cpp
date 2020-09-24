@@ -14,7 +14,7 @@ uint32_t crc32FromString(const string& file) {
     //because of /0
     unsigned int length = file.length() + 1;
 
-   // declaring character array 
+    // declaring character array 
     char *buffer = new char[length];
 
     // copying the contents of the 
