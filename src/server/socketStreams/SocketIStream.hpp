@@ -27,7 +27,7 @@ namespace server_side {
             static constexpr auto FILE_TO_NOTIFY = "SERVER_LOG.txt";
             static constexpr auto BUFFER_SIZE = 1024;
             static constexpr auto START_STRING = "";
-            static constexpr std::chrono::seconds READ_TIMEOUT = std::chrono::seconds(5);
+            static constexpr std::chrono::seconds READ_TIMEOUT = std::chrono::seconds(30);
 
             explicit SocketIStream(int sockfd);
             std::string readOneMassege();

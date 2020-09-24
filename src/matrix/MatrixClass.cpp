@@ -22,6 +22,24 @@
         return *this;
     }
 
+    matrix::MatrixClass::MatrixClass(matrix::MatrixClass&& source) {
+        //copying the data
+        m_matrix = source.m_matrix;
+
+        // Nulling out the deta of op
+        source.m_matrix = nullptr;
+    }
+
+    matrix::MatrixClass& matrix::MatrixClass::operator=(matrix::MatrixClass&& source){
+        //copying the data
+        m_matrix = source.m_matrix;
+
+        // Nulling out the deta of op
+        source.m_matrix = nullptr;
+
+        return *this;
+    }
+
     matrix::MatrixClass::MatrixClass(const string& filePath) {
         //opening the file
         ifstream matrixFile;

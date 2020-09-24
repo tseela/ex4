@@ -70,7 +70,6 @@ void MyParallelServer::oneThreadAccept(const std::shared_ptr<ClientHandler> ch) 
             std::unique_ptr<SocketIStream> in = std::make_unique<SocketIStream>(cliSockfd);
             std::unique_ptr<SocketOStream> out = std::make_unique<SocketOStream>(cliSockfd);
             ch->handleClient(std::move(in), std::move(out));
-
             close(cliSockfd);
 
             std::unique_lock<std::mutex> lockAgain(m_mutCliVec);

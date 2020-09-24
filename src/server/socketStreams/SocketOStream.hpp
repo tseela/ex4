@@ -26,6 +26,7 @@ namespace server_side {
             static constexpr auto INVALID_MATRIX_VALUE = 8;
             static constexpr auto NUM_VALUES_NOT_EQUALS_MATRIX_WIDTH = 9;
             static constexpr auto LAST_ROW_NOT_EMPTY = 10;
+            static constexpr auto VALUE_MUST_BE_POSITIVE = 11;
 
             explicit SocketOStream(int sockfd);
             void writeOneMassege(std::string output, std::uint32_t status = 0) const;

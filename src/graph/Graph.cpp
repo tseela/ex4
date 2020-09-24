@@ -14,7 +14,7 @@ graph::Graph::Graph(const matrix::MatrixClass *matrix, const uint32_t startX, co
         throw runtime_error("Error! Invalid arguments for start point or end point.");
     }
 
-    m_matrixGraph = matrix;
+    m_matrixGraph = std::make_unique<matrix::MatrixClass>(*matrix);
     m_start_x = startX;
     m_start_y = startY;
     m_end_x = endX;
@@ -56,8 +56,6 @@ string graph::Graph::to_string() const {
     s += std::to_string(static_cast<int>(m_end_x)) + "|" + std::to_string(static_cast<int>(m_end_y));
     return s;
 }
-
-graph::Graph::~Graph() { delete(m_matrixGraph); }
 
 string graph::Graph::to_string(const Direction& direction) {
     if (direction == UP) {

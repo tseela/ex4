@@ -1,8 +1,8 @@
 #include "ProblemsClientHandler.hpp"
 
-#define NOT_ENOUGH_ARGUMENS std::runtime_error("Expecting more arguments")
-#define NOT_SUPPORT_PROBLEM std::runtime_error("The given problem isn't supported")
-#define START_BREAKS_ERROR std::runtime_error("Expecting 2 break lines after first messege")
+#define NOT_ENOUGH_ARGUMENS throw std::runtime_error("Expecting more arguments")
+#define NOT_SUPPORT_PROBLEM throw std::runtime_error("The given problem isn't supported")
+#define START_BREAKS_ERROR throw std::runtime_error("Expecting 2 break lines after first messege")
 using namespace server_side;
 
 ProblemsClientHandler::ProblemsClientHandler() {
@@ -30,14 +30,14 @@ void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
                          checksBreakLines.end(), ::isspace), checksBreakLines.end());
                 if(checksBreakLines.size() != 0) {
                         out->writeOneMassege(SocketOStream::NO_RESPONSE, SocketOStream::NO_START_BREAKS);
-                        throw START_BREAKS_ERROR;
+                        START_BREAKS_ERROR;
                 }
         }
 
         auto problemStartIndex = firstLine.find_first_of(SPACE);
         if(problemStartIndex == std::string::npos) {
                 out->writeOneMassege(SocketOStream::NO_RESPONSE, SocketOStream::NOT_ENOUGH_ARG);
-                throw NOT_ENOUGH_ARGUMENS;
+                NOT_ENOUGH_ARGUMENS;
         }
 
         std::string problemString = firstLine.substr(problemStartIndex);
@@ -45,7 +45,7 @@ void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
         problemStartIndex = problemString.find_first_not_of(SPACE);
         if(problemStartIndex == std::string::npos) {
                 out->writeOneMassege(SocketOStream::NO_RESPONSE, SocketOStream::NOT_ENOUGH_ARG);
-                throw NOT_ENOUGH_ARGUMENS;
+                NOT_ENOUGH_ARGUMENS;
         }
 
         problemString = problemString.substr(problemStartIndex);
@@ -68,7 +68,7 @@ void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
         auto pair = m_problems.find(problemString);
         if(pair == m_problems.end()) {
                 out->writeOneMassege(SocketOStream::NO_RESPONSE, SocketOStream::NOT_SUPPORTED_PROBLEM);
-                throw NOT_SUPPORT_PROBLEM;
+                NOT_SUPPORT_PROBLEM;
         }
 
         lock.unlock();

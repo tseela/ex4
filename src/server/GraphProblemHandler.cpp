@@ -2,12 +2,13 @@
 
 #include <iostream>/////////////////////////
 
-#define UNKOWN_ALG std::runtime_error("Got unkown algoritem")
-#define ROW_WITH_TWO_VALUES_MISSING std::runtime_error("One of the rows with two values is missing")
-#define INT_ROW_WITH_TWO_VALUES std::runtime_error("One of the rows with two values doesn't contain int")
-#define VALUE_ERROR std::runtime_error("Invalid matrix's value")
-#define NUM_VALUES_ERROR std::runtime_error("Num of values in matrix's row not equals to matrix width")
-#define LAST_ROW_NOT_EMPTY_ERROR std::runtime_error("Last row should be empty")
+#define UNKOWN_ALG throw std::runtime_error("Got unkown algoritem")
+#define ROW_WITH_TWO_VALUES_MISSING throw std::runtime_error("One of the rows with two values is missing")
+#define INT_ROW_WITH_TWO_VALUES throw std::runtime_error("One of the rows with two values doesn't contain int")
+#define VALUE_ERROR throw std::runtime_error("Invalid matrix's value")
+#define NUM_VALUES_ERROR throw std::runtime_error("Num of values in matrix's row not equals to matrix width")
+#define LAST_ROW_NOT_EMPTY_ERROR throw std::runtime_error("Last row should be empty")
+#define VALUE_IS_NOT_POSITIVE throw std::runtime_error("Value in the matrix must be positive")
 
 using namespace std;/////////////////////////////
 using namespace server_side;
@@ -45,12 +46,16 @@ void GraphProblemHandler::getMatixRaw(SocketIStream* in, SocketOStream* out,
         std::string row = in->readOneMassege();
         row.erase(remove_if(row.begin(), row.end(), ::isspace), row.end());
 
+        //we want that before ever "," would be value
+        row = row + ",end";
+
         std::uint32_t valLoc = 0;
         std::size_t found = row.find_first_of(",");
         while(found != std::string::npos && found + 1 != row.size()) {
                 double val = 0;
                 std::string valStr = row.substr(0, found);
                 row = row.substr(found + 1);
+
                 if(valStr.compare(CLIENT_BORDER) == 0) {
                         val = graph::Graph::BORDER;
                 }else{
@@ -60,6 +65,11 @@ void GraphProblemHandler::getMatixRaw(SocketIStream* in, SocketOStream* out,
                                 out->writeOneMassege(SocketOStream::NO_RESPONSE, SocketOStream::INVALID_MATRIX_VALUE);
                                 VALUE_ERROR;
                         }
+
+                        if(val <= 0) {
+                                out->writeOneMassege(SocketOStream::NO_RESPONSE, SocketOStream::VALUE_MUST_BE_POSITIVE);
+                                VALUE_IS_NOT_POSITIVE;
+                        }
                 }
 
                 if(valLoc >= matrix->getWidth()){
@@ -68,7 +78,9 @@ void GraphProblemHandler::getMatixRaw(SocketIStream* in, SocketOStream* out,
                 }
 
                 matrix->setValue(rowIndex, valLoc, val);
+                found = row.find_first_of(",");
                 ++valLoc;
+                
         }
 
         if(valLoc != matrix->getWidth()){
@@ -111,8 +123,8 @@ void GraphProblemHandler::handleProblem(std::unique_ptr<SocketIStream> in,
                 //geting the problem
                 std::vector<std::uint32_t> matrixSize = getTwoValueRaw(in.get(), out.get());
 
-                std::uint32_t height = *matrixSize.rbegin();
-                std::uint32_t width = *matrixSize.rend();
+                std::uint32_t height = matrixSize.front();
+                std::uint32_t width = matrixSize.back();
 
                 std::unique_ptr<matrix::MatrixClass> matrix = std::make_unique<matrix::MatrixClass>(height, width);
 
@@ -122,24 +134,24 @@ void GraphProblemHandler::handleProblem(std::unique_ptr<SocketIStream> in,
 
                 std::vector<std::uint32_t> start = getTwoValueRaw(in.get(), out.get());
 
-                std::uint32_t xStart = *start.rbegin();
-                std::uint32_t yStart = *start.rend();
+                std::uint32_t xStart = start.front();
+                std::uint32_t yStart = start.back();
 
                 std::vector<std::uint32_t> end = getTwoValueRaw(in.get(), out.get());
 
-                std::uint32_t xEnd = *end.rbegin();
-                std::uint32_t yEnd = *end.rend();
+                std::uint32_t xEnd = end.front();
+                std::uint32_t yEnd = end.back();
 
                 auto graphProblem = std::make_unique<solver::problem::MatrixGraphProblem>(matrix.get(), xStart, yStart, xEnd, yEnd);
 
+                
                 std::unique_ptr<solver::Solver> solver = std::make_unique<solver::Solver>(graphProblem.get(), graphSolution.get());
+
 
                 std::string lastRow = in->readOneMassege();
                 lastRow.erase(remove_if(lastRow.begin(), lastRow.end(), ::isspace), lastRow.end());
-
                 if(lastRow.empty()) {
                         out->writeOneMassege(solver->getStringSolution());
-
                         //wirting to log server file -success
                         std::string contant = files::readFileContent(SocketServer::LOG_LOCATION);
                         files::writeFileContent(SocketServer::LOG_LOCATION, contant + SUCCESS_MASSEGE);

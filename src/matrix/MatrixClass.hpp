@@ -140,14 +140,14 @@ public:
 	 * 
 	 * @param[in] source The matrix to copy.
 	 */
-	MatrixClass(MatrixClass&& source) = delete;
+	MatrixClass(MatrixClass&& source);
 
 	/**
 	 * @brief assignment opperator (move assignment).
 	 *
 	 * @param[in] source The assigned MatrixClass.
 	 */
-	MatrixClass& operator=(MatrixClass&& source) = delete;
+	MatrixClass& operator=(MatrixClass&& source);
 
 //another operators. warning! they return new MatrixClass
 

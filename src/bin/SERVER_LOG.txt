@@ -1,7 +1,4 @@
 Welcome to the server log file!
 New client was accepted!
-Timeout has past, Client disconnected
-Task Failed, Client disconnected with this exception: Timeout has past, Client disconnected
-New client was accepted!
-Timeout has past, Client disconnected
-Task Failed, Client disconnected with this exception: Timeout has past, Client disconnected
+Task Failed, Client disconnected with this exception: One of the rows with two values is missingNew client was accepted!
+Task complited, Client disconnected

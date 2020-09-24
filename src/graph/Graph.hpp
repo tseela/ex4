@@ -100,11 +100,6 @@ public:
      */
     std::string to_string() const;
 
-	/**
-	 * @brief Destructor for destroying the graph.
-	 */
-	~Graph();
-
     /**
      * @brief Converts a direction into string.
      * 
@@ -124,7 +119,7 @@ public:
 
 private:
 
-    const matrix::MatrixClass *m_matrixGraph;
+    std::unique_ptr<matrix::MatrixClass> m_matrixGraph;
 
     // start point
     std::uint32_t m_start_x;
