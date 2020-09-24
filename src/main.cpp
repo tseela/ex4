@@ -16,7 +16,7 @@ using namespace solver::solution;
 void initializeMatrix(matrix::MatrixClass* matrix) {
     for (uint32_t i = 0; i < matrix->getHeight(); ++i) {
         for (uint32_t j = 0; j < matrix->getWidth(); ++j) {
-            matrix->setValue(i, j, (rand() % 99) + 1);
+            matrix->setValue(i, j, rand() % 99);
         }
     }
 }
@@ -42,8 +42,8 @@ int numOfSteps(const std::string& input) {
 int main() {
     try {
     string s = "";
-    string s1[4] = {"", "", "", ""};
-    string s2[4] = {"", "", "", ""};
+    string s1 = "";
+    string s2 = "";
     auto dfs = new graph_solution::DFS();
     auto bfs = new graph_solution::BFS();
     auto a_star = new graph_solution::AStar();
@@ -71,21 +71,17 @@ int main() {
         solvers.push_back(new Solver(p, best));
 
         for (auto j = static_cast<int>(solvers.size()) - 1; j >= 0; --j) {
-            s1[j] += to_string(numOfSteps(solvers[j]->getStringSolution(false))) + "," + to_string(size) + "\n";
-            s2[j] += to_string(getCost(solvers[j]->getStringSolution(false))) + "," + to_string(size) + "\n";
+            s1 += to_string(numOfSteps(solvers[j]->getStringSolution())) + "," + to_string(size) + ",,";
+            s2 += to_string(getCost(solvers[j]->getStringSolution())) + "," + to_string(size) + ",,";
             solvers.pop_back();
         }
+        s1 += "\n";
+        s2 += "\n";
     }
 
     files::writeFileContent("matrices.txt", s);
-    files::writeFileContent("dfs_1.txt", s1[0]);
-    files::writeFileContent("dfs_2.txt", s2[0]);
-    files::writeFileContent("bfs_1.txt", s1[1]);
-    files::writeFileContent("bfs_2.txt", s2[1]);
-    files::writeFileContent("Astar_1.txt", s1[2]);
-    files::writeFileContent("Astar_2.txt", s2[2]);
-    files::writeFileContent("best_1.txt", s1[3]);
-    files::writeFileContent("best_2.txt", s2[3]);
+    files::writeFileContent("1.txt", s1);
+    files::writeFileContent("2.txt", s2);
     } catch (matrix::ErrorCodeException e) {
         e.printErrorMessage();
     }
