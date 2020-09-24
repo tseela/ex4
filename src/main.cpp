@@ -16,7 +16,7 @@ using namespace solver::solution;
 void initializeMatrix(matrix::MatrixClass* matrix) {
     for (uint32_t i = 0; i < matrix->getHeight(); ++i) {
         for (uint32_t j = 0; j < matrix->getWidth(); ++j) {
-            matrix->setValue(i, j, rand() % 99);
+            matrix->setValue(i, j, rand() % 99 + 1);
         }
     }
 }
@@ -70,18 +70,6 @@ int main() {
         solvers.push_back(new Solver(p, a_star));
         solvers.push_back(new Solver(p, best));
 
-        if (solvers[0]->getStringSolution().empty()) {
-            initializeMatrix(matrix);
-            p = new problem::MatrixGraphProblem(matrix, 0, 0, matrix->getHeight() - 1, matrix->getWidth() - 1);
-
-            solvers.clear();
-
-            solvers.push_back(new Solver(p, dfs));
-            solvers.push_back(new Solver(p, bfs));
-            solvers.push_back(new Solver(p, a_star));
-            solvers.push_back(new Solver(p, best));
-        }
-
         s1 += to_string(size) + ",,";
         for (auto j = static_cast<int>(solvers.size()) - 1; j >= 0; --j) {
             s1 += to_string(numOfSteps(solvers[j]->getStringSolution())) + ",";
@@ -91,7 +79,6 @@ int main() {
         s1 += "\n";
         s2 += "\n";
     }
-
     files::writeFileContent("matrices.txt", s);
     files::writeFileContent("1.txt", s1);
     files::writeFileContent("2.txt", s2);
