@@ -1,1 +1,0 @@
-1570.000000,BFS,Down,Right,Down,Down,Down,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right,Right
