@@ -3,6 +3,8 @@
 #define THROW_SYSTEM_ERROR() \
     throw std::system_error { errno, std::system_category() }
 
+#define TIMOUT_ERROR() throw std::runtime_error("Timeout has past, Client disconnected\n")
+
 using namespace server_side;
 
 SocketIStream::SocketIStream(int sockfd) : m_sockfd(sockfd), m_isSecceded(false) {
@@ -19,6 +21,10 @@ std::string SocketIStream::readOneMassege() {
 
     if (m_tExp) {
         std::rethrow_exception(m_tExp);
+    }
+
+    if(!m_isSecceded) {
+        TIMOUT_ERROR();
     }
     return m_line.data();
 }
@@ -59,6 +65,6 @@ void SocketIStream::stop() {
         out->writeOneMassege(SocketOStream::NO_RESPONSE, SocketOStream::TIMEOUT_HAS_PASSED);
 
         std::string contant = readFileContent(FILE_TO_NOTIFY);
-        writeFileContent(FILE_TO_NOTIFY, contant + "Timeout has past, Client disconnected\n");
+        writeFileContent(FILE_TO_NOTIFY, contant + TIMEOUT_FAILED);
     }
 }

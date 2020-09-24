@@ -1,7 +1,5 @@
 #include "ProblemsClientHandler.hpp"
 
-#include <iostream>
-
 #define NOT_ENOUGH_ARGUMENS std::runtime_error("Expecting more arguments")
 #define NOT_SUPPORT_PROBLEM std::runtime_error("The given problem isn't supported")
 #define START_BREAKS_ERROR std::runtime_error("Expecting 2 break lines after first messege")
@@ -15,7 +13,6 @@ void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
      std::unique_ptr<SocketOStream> out) const {
         int numOfBreakLine = 0;
         std::string firstLine = in->readOneMassege();
-        std::cout<<"first line was read"<<std::endl;///////////
 
         std::string checksBreakLines = firstLine;
         while(numOfBreakLine != REQUIRED_BREAKS) {
@@ -28,7 +25,6 @@ void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
                 }
 
                 checksBreakLines = in->readOneMassege();
-                std::cout<<"oh no"<<std::endl;///////////
                 std::string chekNotImportedMassege = checksBreakLines;
                 checksBreakLines.erase(remove_if(checksBreakLines.begin(),
                          checksBreakLines.end(), isspace), checksBreakLines.end());

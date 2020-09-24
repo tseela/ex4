@@ -19,8 +19,8 @@ void SocketOStream::writeOneMassege(std::string output,
     massege += "response-length: ";
     massege += std::to_string(output.size());
     massege += BREAK_LINE;
-    massege += BREAK_LINE;
     massege += output;
+    massege += BREAK_LINE;
 
     //sending the messege
     if (write(m_sockfd, massege.data(), massege.length()) < 0) {

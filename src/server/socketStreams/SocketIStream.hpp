@@ -23,6 +23,7 @@ namespace server_side {
         std::thread m_tStop;
 
         public:
+            static constexpr auto TIMEOUT_FAILED = "Timeout has past, Client disconnected\n";
             static constexpr auto FILE_TO_NOTIFY = "SERVER_LOG.txt";
             static constexpr auto BUFFER_SIZE = 1024;
             static constexpr auto STRING_TIMEOUT= "";
