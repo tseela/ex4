@@ -18,7 +18,7 @@ namespace solver {
  */
 class Problem {
 public:
-    static constexpr int START_INDEX = 0;
+    static constexpr auto START_INDEX = 0;
     static constexpr auto NOT_INITIALIZED = "";
 
     /**

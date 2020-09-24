@@ -33,7 +33,7 @@ public:
     static constexpr auto CACHE_FILES_DIR = "cache/files";
     static constexpr auto CACHE_FILES_DIR_ = "cache/files/";
 
-    static constexpr int CACHE_LINE_LENGTH = 26;
+    static constexpr auto CACHE_LINE_LENGTH = 26;
 
     /**
      * @brief Construct a new Cache Manager object.

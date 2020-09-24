@@ -9,7 +9,7 @@
  */
 class CurrentTime {
 public:
-    static constexpr std::uint32_t TIME_STRING_LENGTH = 14;
+    static constexpr auto TIME_STRING_LENGTH = 14;
 
     /**
      * @brief Construct a new Current Time object.
