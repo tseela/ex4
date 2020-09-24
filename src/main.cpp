@@ -21,7 +21,7 @@ int main() {
     matrix->setValue(2, 1, 5);
     matrix->setValue(2, 0, 1);
 
-    auto p = new problem::MatrixGraphProblem(matrix, 0, 0, 1, 1);
+    auto p = new problem::MatrixGraphProblem(matrix, 0, 0, matrix->getHeight() - 1, matrix->getWidth() - 1);
     auto dfs = new graph_solution::DFS();
     auto bfs = new graph_solution::BFS();
     auto a_star = new graph_solution::AStar();
