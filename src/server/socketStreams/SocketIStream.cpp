@@ -9,11 +9,13 @@ SocketIStream::SocketIStream(int sockfd) : m_sockfd(sockfd), m_isSecceded(false)
     m_line = STRING_TIMEOUT;
 }
 
-std::string SocketIStream::readOneLine() {
+std::string SocketIStream::readOneMassege() {
     m_isSecceded = false;
     m_line = STRING_TIMEOUT;
     m_tRead = std::thread(&SocketIStream::tryToRead, this);
-    stop();
+    m_tStop = std::thread(&SocketIStream::stop, this);
+    m_tRead.join();
+    m_tStop.join();
 
     if (m_tExp) {
         std::rethrow_exception(m_tExp);
@@ -38,6 +40,10 @@ void SocketIStream::tryToRead() {
     } catch (const std::exception& e) {
         m_tExp = std::current_exception();
     }
+
+    if (0 != pthread_cancel(m_tStop.native_handle())) {
+        THROW_SYSTEM_ERROR(); 
+    }
 }
 
 void SocketIStream::stop() {
@@ -48,9 +54,11 @@ void SocketIStream::stop() {
             THROW_SYSTEM_ERROR(); 
         }
 
+        
+        std::unique_ptr<SocketOStream> out = std::make_unique<SocketOStream>(m_sockfd);
+        out->writeOneMassege(SocketOStream::NO_RESPONSE, SocketOStream::TIMEOUT_HAS_PASSED);
+
         std::string contant = readFileContent(FILE_TO_NOTIFY);
         writeFileContent(FILE_TO_NOTIFY, contant + "Timeout has past, Client disconnected\n");
     }
-
-    m_tRead.join();
 }

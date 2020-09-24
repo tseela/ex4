@@ -38,7 +38,7 @@ void MySerialServer::threadAccept(int sockfd, const std::shared_ptr<ClientHandle
             std::lock_guard<std::mutex> guard(m_mut);
 
             std::string contant = readFileContent(SocketServer::LOG_LOCATION);
-            writeFileContent(SocketServer::LOG_LOCATION, contant + "New client was accepted!\n");
+            writeFileContent(SocketServer::LOG_LOCATION, contant + ACCEPTE_MASSEGE_TO_LOG);
 
             m_accepting = true;
 
@@ -52,13 +52,11 @@ void MySerialServer::threadAccept(int sockfd, const std::shared_ptr<ClientHandle
                 try{
                     std::string contant = readFileContent(SocketServer::LOG_LOCATION);
                     writeFileContent(SocketServer::LOG_LOCATION,
-                     contant + "Task Failed, Client disconnected with this exception: " + error);
+                     contant + FAILED_MASSEGE_TO_LOG + error);
                 } catch (const std::exception& eLog) {
-                    std::cerr<<"Couldn't write to server log file that was an exception in client"<<std::endl;
+                    std::cerr<<WRITING_MASSEGE_TO_LOG_FAILED<<std::endl;
                 }
-                if (write(cliSockfd, error.data(), error.size()) < 0) {
-                    std::cerr<<"Couldn't write to client this exception:"<<e.what()<<std::endl;
-                }
+
                 close(cliSockfd);
             } else {
                 std::cerr<<e.what()<<std::endl;

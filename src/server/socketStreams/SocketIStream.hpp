@@ -1,6 +1,7 @@
 #pragma once
 
 #include "file_reading.hpp"
+#include "SocketOStream.hpp"
 
 #include <unistd.h>
 
@@ -19,15 +20,16 @@ namespace server_side {
         std::string m_line;
         std::exception_ptr m_tExp = nullptr;
         std::thread m_tRead;
+        std::thread m_tStop;
 
         public:
             static constexpr auto FILE_TO_NOTIFY = "SERVER_LOG.txt";
             static constexpr auto BUFFER_SIZE = 1024;
-            static constexpr std::string_view STRING_TIMEOUT= "";
+            static constexpr auto STRING_TIMEOUT= "";
             static constexpr std::chrono::seconds READ_TIMEOUT = std::chrono::seconds(5);
 
             explicit SocketIStream(int sockfd);
-            std::string readOneLine();
+            std::string readOneMassege();
 
         private:
             void stop();

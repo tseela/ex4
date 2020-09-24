@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <map>
 #include <mutex>
+#include <cstddef>
 
 namespace server_side {
     class ProblemsClientHandler: public ClientHandler {
@@ -15,7 +16,8 @@ namespace server_side {
         std::map<std::string, std::shared_ptr<ProblemHandler>> m_problems;
     
         public:
-            static constexpr std::string_view SPACE = " ";
+            static constexpr auto SPACE = " ";
+            static constexpr auto REQUIRED_BREAKS = 2;
 
             ProblemsClientHandler();
 

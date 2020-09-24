@@ -8,14 +8,14 @@ using namespace server_side;
 void GraphProblemHandler::handleProblem(const std::unique_ptr<SocketIStream> in,
         const std::unique_ptr<SocketOStream> out, std::string alg) const {
                 cout<<alg<<endl;
-                out->writeOneLine("bay");
+                out->writeOneMassege("bay");
 
-                std::string firstLine = in->readOneLine();
+                std::string firstLine = in->readOneMassege();
                 if(firstLine.compare(SocketIStream::STRING_TIMEOUT) == 0) {
                         return; //leave the client
                 }
                 cout<<firstLine<<endl;
 
                 std::string contant = readFileContent(SocketServer::LOG_LOCATION);
-                writeFileContent(SocketServer::LOG_LOCATION, contant + "Task complited, Client disconnected");
+                writeFileContent(SocketServer::LOG_LOCATION, contant + SUCCESS_MASSEGE);
      }
