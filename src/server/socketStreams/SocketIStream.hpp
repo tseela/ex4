@@ -26,7 +26,7 @@ namespace server_side {
             static constexpr auto TIMEOUT_FAILED = "Timeout has past, Client disconnected\n";
             static constexpr auto FILE_TO_NOTIFY = "SERVER_LOG.txt";
             static constexpr auto BUFFER_SIZE = 1024;
-            static constexpr auto STRING_TIMEOUT= "";
+            static constexpr auto START_STRING = "";
             static constexpr std::chrono::seconds READ_TIMEOUT = std::chrono::seconds(5);
 
             explicit SocketIStream(int sockfd);

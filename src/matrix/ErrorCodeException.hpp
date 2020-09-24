@@ -3,15 +3,16 @@
 #include "ErrorCode.h"
 
 #include <iostream>
+#include <exception>
 
 using std::endl;
 using std::cerr;
 
 namespace matrix {
 
-class ErrorCodeException{
+class ErrorCodeException : public std::exception{
 //Fields
-const ErrorCode _errorCode;
+ErrorCode m_errorCode;
 
 //methods
 public:
@@ -33,7 +34,7 @@ public:
 	/**
 	 * @brief Checks prints error code's error message.
 	 */
-	void printErrorMessage() const;
+	virtual const char* what() const noexcept override;
 
 	/**
 	 * @brief Destroy the ErrorCodeException object.
@@ -47,7 +48,7 @@ public:
      * 
      * @param er the ErrorCode.
      */
-    static void throwErrorIfNeeded(ErrorCode er);
+    static void throwErrorIfNeeded(const ErrorCode er);
 };
 
 }

@@ -8,12 +8,12 @@
 using namespace server_side;
 
 SocketIStream::SocketIStream(int sockfd) : m_sockfd(sockfd), m_isSecceded(false) {
-    m_line = STRING_TIMEOUT;
+    m_line = START_STRING;
 }
 
 std::string SocketIStream::readOneMassege() {
     m_isSecceded = false;
-    m_line = STRING_TIMEOUT;
+    m_line = START_STRING;
     m_tRead = std::thread(&SocketIStream::tryToRead, this);
     m_tStop = std::thread(&SocketIStream::stop, this);
     m_tRead.join();

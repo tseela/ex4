@@ -27,15 +27,11 @@ void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
                 checksBreakLines = in->readOneMassege();
                 std::string chekNotImportedMassege = checksBreakLines;
                 checksBreakLines.erase(remove_if(checksBreakLines.begin(),
-                         checksBreakLines.end(), isspace), checksBreakLines.end());
+                         checksBreakLines.end(), ::isspace), checksBreakLines.end());
                 if(checksBreakLines.size() != 0) {
                         out->writeOneMassege(SocketOStream::NO_RESPONSE, SocketOStream::NO_START_BREAKS);
                         throw START_BREAKS_ERROR;
                 }
-        }
-
-        if(firstLine.compare(SocketIStream::STRING_TIMEOUT) == 0) {
-                return; //leave the client
         }
 
         auto problemStartIndex = firstLine.find_first_of(SPACE);
@@ -58,11 +54,11 @@ void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
         auto problemEndIndex = problemString.find_first_of(SPACE);
         if(problemEndIndex == std::string::npos) {
                 problemString.erase(remove_if(problemString.begin(),
-                        problemString.end(), isspace), problemString.end());
+                        problemString.end(), ::isspace), problemString.end());
                 algString = ProblemHandler::DEFAULT_ALG;
         } else {
                 algString = problemString.substr(problemEndIndex);
-                algString.erase(remove_if(algString.begin(), algString.end(), isspace), algString.end());
+                algString.erase(remove_if(algString.begin(), algString.end(), ::isspace), algString.end());
 
                 problemString = problemString.substr(0, problemEndIndex);    
         }
