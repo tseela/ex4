@@ -51,6 +51,8 @@ int main() {
     vector<Solver *> solvers;
 
     for (auto i = 0; i < 500; ++i) {
+        
+        cout << i << endl;
 
         auto x = (rand() % 96) + 5;
         auto y = (rand() % 96) + 5;
@@ -68,7 +70,7 @@ int main() {
         solvers.push_back(new Solver(p, a_star));
         solvers.push_back(new Solver(p, best));
 
-        for (auto j = static_cast<int>(solvers.size()) - 1; j > 0;) {
+        for (auto j = static_cast<int>(solvers.size()) - 1; j >= 0; --j) {
             s1[j] += to_string(numOfSteps(solvers[j]->getStringSolution(false))) + "," + to_string(size) + "\n";
             s2[j] += to_string(getCost(solvers[j]->getStringSolution(false))) + "," + to_string(size) + "\n";
             solvers.pop_back();

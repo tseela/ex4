@@ -124,6 +124,8 @@ AStar::Step::Step(const graph::Graph& graph) {
 }
 
 AStar::Step::Step(const graph::Graph& graph, const Step& before, const Direction direction) {
+    vertex_x = before.vertex_x;
+    vertex_y = before.vertex_y;
     graph::Graph::updateByDirection(vertex_x, vertex_y, direction);
     my_path = before.my_path + "," + graph::Graph::to_string(direction);
     g_cost = before.g_cost + graph(vertex_x, vertex_y);

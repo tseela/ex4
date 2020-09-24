@@ -34,9 +34,11 @@ string solver::solution::graph_solution::BFS::algorithm(const graph::Graph& grap
 
 void BFS_search(const graph::Graph& graph, const matrix::MatrixClass& isStepped, BestPath& best) {
     queue<Step> trails;
-    trails.push(Step(graph.startX(), graph.startY(), "", graph(graph.startX(), graph.startY()), isStepped));
+    trails.push(Step(graph.startX(), graph.startY(), "", graph(graph.startX(), graph.startY())));
 
-    while(!trails.empty()) {
+    auto steps = isStepped;
+
+    while (!trails.empty()) {
         Step this_step = trails.front();
         trails.pop();
 
@@ -63,7 +65,8 @@ void BFS_search(const graph::Graph& graph, const matrix::MatrixClass& isStepped,
             if (graph.canStep(this_step.vertex_x, this_step.vertex_y, direction)) {
                 graph::Graph::updateByDirection(x, y, direction);
 
-                if (this_step.isStepped(x, y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
+                if (steps(x, y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
+                    steps.setValue(x, y, MatrixGraphSolution::WAS_STEPPED);
                     trails.push(Step(graph, this_step, direction));
                 }
             }
@@ -72,20 +75,18 @@ void BFS_search(const graph::Graph& graph, const matrix::MatrixClass& isStepped,
     best.bestCost = BestPath::NOT_FOUND;
 }
 
-Step::Step(const std::uint32_t x, const std::uint32_t y, const std::string& path, const double cost,
-    const matrix::MatrixClass& steps) : isStepped(steps) {
-        vertex_x = x;
-        vertex_y = y;
-        my_path = path;
-        my_cost = cost;
+Step::Step(const std::uint32_t x, const std::uint32_t y, const std::string& path, const double cost) {
+    vertex_x = x;
+    vertex_y = y;
+    my_path = path;
+    my_cost = cost;
 }
 
-Step::Step(const graph::Graph& graph, const Step& before, const Direction direction) : isStepped(before.isStepped) {
+Step::Step(const graph::Graph& graph, const Step& before, const Direction direction) {
     auto x = before.vertex_x;
     auto y = before.vertex_y;
 
     my_path = before.my_path + "," + graph::Graph::to_string(direction);
-    isStepped.setValue(x, y, MatrixGraphSolution::WAS_STEPPED);
 
     graph::Graph::updateByDirection(x, y, direction);
     
