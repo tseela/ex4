@@ -25,7 +25,7 @@ string solver::solution::graph_solution::BFS::algorithm(const graph::Graph& grap
 
     BFS_search(graph, *isStepped, best);
 
-    if (best.bestPath.compare("") == 0) {
+    if (best.bestPath.empty()) {
         return PATH_NOT_FOUND;
     }
 

@@ -15,7 +15,7 @@ string solver::Solver::getStringSolution(bool useCache /*= true*/) const {
         cache.saveInCache(command);
 
         // if there is a backup file for this problem's solution, we will return it's content
-        if (cache.getBackUpFile(command).compare("") != 0) {
+        if (!cache.getBackUpFile(command).empty()) {
             return files::readFileContent(cache.getBackUpFile(command));
         }
     }

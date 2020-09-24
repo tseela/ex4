@@ -26,7 +26,7 @@ string solver::solution::graph_solution::AStar::algorithm(const Graph& graph) co
 
     AStar_search(graph, *isStepped, best);
 
-    if (best.bestPath.compare("") == 0) {
+    if (best.bestPath.empty()) {
         return PATH_NOT_FOUND;
     }
 

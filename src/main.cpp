@@ -70,9 +70,22 @@ int main() {
         solvers.push_back(new Solver(p, a_star));
         solvers.push_back(new Solver(p, best));
 
+        if (solvers[0]->getStringSolution().empty()) {
+            initializeMatrix(matrix);
+            p = new problem::MatrixGraphProblem(matrix, 0, 0, matrix->getHeight() - 1, matrix->getWidth() - 1);
+
+            solvers.clear();
+
+            solvers.push_back(new Solver(p, dfs));
+            solvers.push_back(new Solver(p, bfs));
+            solvers.push_back(new Solver(p, a_star));
+            solvers.push_back(new Solver(p, best));
+        }
+
+        s1 += to_string(size) + ",,";
         for (auto j = static_cast<int>(solvers.size()) - 1; j >= 0; --j) {
-            s1 += to_string(numOfSteps(solvers[j]->getStringSolution())) + "," + to_string(size) + ",,";
-            s2 += to_string(getCost(solvers[j]->getStringSolution())) + "," + to_string(size) + ",,";
+            s1 += to_string(numOfSteps(solvers[j]->getStringSolution())) + ",";
+            s2 += to_string(getCost(solvers[j]->getStringSolution())) + ",";
             solvers.pop_back();
         }
         s1 += "\n";
