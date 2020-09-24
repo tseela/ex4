@@ -30,13 +30,35 @@ namespace server_side {
         public:
             static constexpr auto NUM_ACCEPTING_THREADS = 10;
 
+            /**
+             * @brief Construct a new My Parallel Server object.
+             * 
+             */
             MyParallelServer();
+
+
             virtual void acceptClients(int sockfd, const std::shared_ptr<ClientHandler> ch) override;
             
 
         private:
+            /**
+             * @brief this thread-func is accepting clients.
+             * 
+             * @param sockfd of the server.
+             */
             void threadAccept(int sockfd);
+
+            /**
+             * @brief this thried-func is to handle the clients.
+             * 
+             * @param ch the ClientHandler.
+             */
             void oneThreadAccept(const std::shared_ptr<ClientHandler> ch);
+
+            /**
+             * @brief this function tells when to stop the server.
+             * 
+             */
             void stop();
     };
 }

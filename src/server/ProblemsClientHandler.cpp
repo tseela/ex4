@@ -11,9 +11,11 @@ ProblemsClientHandler::ProblemsClientHandler() {
 
 void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
      std::unique_ptr<SocketOStream> out) const {
+        //riding the first messege
         int numOfBreakLine = 0;
         std::string firstLine = in->readOneMassege();
 
+        //check for two break lines
         std::string checksBreakLines = firstLine;
         while(numOfBreakLine != REQUIRED_BREAKS) {
                 std::size_t found = checksBreakLines.rfind(SocketOStream::BREAK_LINE);
@@ -34,6 +36,7 @@ void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
                 }
         }
 
+        //gets the problem string & the alg string
         auto problemStartIndex = firstLine.find_first_of(SPACE);
         if(problemStartIndex == std::string::npos) {
                 out->writeOneMassege(SocketOStream::NO_RESPONSE, SocketOStream::NOT_ENOUGH_ARG);
@@ -52,11 +55,11 @@ void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
 
         std::string algString;
         auto problemEndIndex = problemString.find_first_of(SPACE);
-        if(problemEndIndex == std::string::npos) {
+        if(problemEndIndex == std::string::npos) { //if alg wasn't sended (default alg)
                 problemString.erase(remove_if(problemString.begin(),
                         problemString.end(), ::isspace), problemString.end());
                 algString = ProblemHandler::DEFAULT_ALG;
-        } else {
+        } else {//if the alg was sended
                 algString = problemString.substr(problemEndIndex);
                 algString.erase(remove_if(algString.begin(), algString.end(), ::isspace), algString.end());
 
@@ -65,6 +68,7 @@ void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
 
         std::unique_lock<std::mutex> lock(m_lockMap);
 
+        //searching the problem in the map
         auto pair = m_problems.find(problemString);
         if(pair == m_problems.end()) {
                 out->writeOneMassege(SocketOStream::NO_RESPONSE, SocketOStream::NOT_SUPPORTED_PROBLEM);

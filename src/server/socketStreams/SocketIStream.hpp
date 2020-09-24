@@ -27,13 +27,33 @@ namespace server_side {
             static constexpr auto FILE_TO_NOTIFY = "SERVER_LOG.txt";
             static constexpr auto BUFFER_SIZE = 1024;
             static constexpr auto START_STRING = "";
-            static constexpr std::chrono::seconds READ_TIMEOUT = std::chrono::seconds(30);
+            static constexpr std::chrono::seconds READ_TIMEOUT = std::chrono::seconds(5);
 
+            /**
+             * @brief Construct a new Socket I Stream object.
+             * 
+             * @param sockfd of the client connection.
+             */
             explicit SocketIStream(int sockfd);
+
+            /**
+             * @brief Reading one massege from the client.
+             * 
+             * @return std::string the massege.
+             */
             std::string readOneMassege();
 
         private:
+            /**
+             * @brief stops the reading if the timeout has pased.
+             * 
+             */
             void stop();
+
+            /**
+             * @brief trying to read the massege.
+             * 
+             */
             void tryToRead();
     };
 }

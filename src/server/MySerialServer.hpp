@@ -21,12 +21,27 @@ namespace server_side {
         std::mutex m_mut;
 
         public:
+            /**
+            * @brief Construct a new My Serial Server object.
+            * 
+            */
             MySerialServer();
             virtual void acceptClients(int sockfd, const std::shared_ptr<ClientHandler> ch) override;
             
 
         private:
+            /**
+             * @brief this function accepting clients.
+             * 
+             * @param sockfd of the server.
+             * @param ch the ClientHandler.
+            */
             void threadAccept(int sockfd, const std::shared_ptr<ClientHandler> ch);
+
+            /**
+             * @brief this function tells when to stop the server.
+             * 
+             */
             void stop();
     };
 }

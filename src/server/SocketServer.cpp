@@ -6,6 +6,7 @@
 using namespace server_side;
 
 SocketServer::SocketServer() {
+    //the server log file:
     files::writeFileContent(LOG_LOCATION, LOG_TITLE);
 }
 

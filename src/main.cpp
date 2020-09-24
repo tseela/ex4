@@ -26,10 +26,11 @@ int main(int argc, const char *argv[]) {
         std::unique_ptr<Server> server;
         std::shared_ptr<ProblemsClientHandler> probCH = std::make_shared<ProblemsClientHandler>();
 
+        //defining the supported problems.
         std::shared_ptr<ProblemHandler> graphProblem = std::make_shared<GraphProblemHandler>();
-
         probCH->addProblemHandler("find-graph-path", graphProblem);
 
+        //gets the port
         auto port = 0;
 
         try{
@@ -42,6 +43,7 @@ int main(int argc, const char *argv[]) {
             throw std::runtime_error("The port for server should be between 1024-49151");
         }
 
+        //gets the asked server
         if(argc == 2) {
             if(strcmp(argv[startIndex + 1], "parallel") == 0) {
                 server = std::make_unique<MyParallelServer>();
@@ -54,6 +56,7 @@ int main(int argc, const char *argv[]) {
             server = std::make_unique<MyParallelServer>();
         }
 
+        //starts the servr
         server->start(port, probCH);
     } catch (const std::exception& e) {
         std::cerr<<e.what()<<std::endl;

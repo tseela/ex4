@@ -28,7 +28,19 @@ namespace server_side {
             static constexpr auto LAST_ROW_NOT_EMPTY = 10;
             static constexpr auto VALUE_MUST_BE_POSITIVE = 11;
 
+            /**
+             * @brief Construct a new Socket O Stream object.
+             * 
+             * @param sockfd of the client connection.
+             */
             explicit SocketOStream(int sockfd);
+
+            /**
+             * @brief writes one massege.
+             * 
+             * @param output the rsponse to the client.
+             * @param status the massege status.
+             */
             void writeOneMassege(std::string output, std::uint32_t status = 0) const;
     };
 }

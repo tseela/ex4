@@ -10,7 +10,9 @@ MySerialServer::MySerialServer() : m_accepting(false){}
 
 void MySerialServer::acceptClients(int sockfd, const std::shared_ptr<ClientHandler> ch) {
     try{
+        //start the server
         m_tAccept = std::thread(&MySerialServer::threadAccept, this, sockfd, ch);
+        //stops according to the tineout
         stop(); //detroys also the thread
 
         if (m_tExp) {
@@ -27,6 +29,7 @@ void MySerialServer::threadAccept(int sockfd, const std::shared_ptr<ClientHandle
     while(true) {
         int cliSockfd;
         try{
+            //waiting the accept client
             m_accepting = false;
             sockaddr_in cliAddr;
             socklen_t cliLen = sizeof(cliAddr);
@@ -34,7 +37,7 @@ void MySerialServer::threadAccept(int sockfd, const std::shared_ptr<ClientHandle
             if(cliSockfd < 0) {
                 THROW_SYSTEM_ERROR(); 
             }
-
+            //handeling the client
             std::lock_guard<std::mutex> guard(m_mut);
 
             std::string contant = files::readFileContent(SocketServer::LOG_LOCATION);
@@ -47,7 +50,7 @@ void MySerialServer::threadAccept(int sockfd, const std::shared_ptr<ClientHandle
             ch->handleClient(std::move(in), std::move(out));
             close(cliSockfd);
         } catch (const std::exception& e) {
-            if(m_accepting) {
+            if(m_accepting) { //if we now who thw client is.
                 std::string error = e.what();
                 try{
                     std::string contant = files::readFileContent(SocketServer::LOG_LOCATION);
@@ -58,7 +61,7 @@ void MySerialServer::threadAccept(int sockfd, const std::shared_ptr<ClientHandle
                 }
 
                 close(cliSockfd);
-            } else {
+            } else {//if we dont
                 std::cerr<<e.what()<<std::endl;
             }
         }
@@ -67,16 +70,17 @@ void MySerialServer::threadAccept(int sockfd, const std::shared_ptr<ClientHandle
 
 void MySerialServer::stop() {
     do {
-        if(m_accepting) {
+        if(m_accepting) {//waits until m_accepting == false
             std::lock_guard<std::mutex> guard(m_mut);
         }
 
-        if(!m_accepting) {
+        if(!m_accepting) {//start timeout - clients not connected
             std::this_thread::sleep_for(SERVER_TIMEOUT);
         } 
         
     } while (m_accepting);
 
+    //stop the thread from accepting clients
     if (0 != pthread_cancel(m_tAccept.native_handle())) {
             THROW_SYSTEM_ERROR(); 
     }
