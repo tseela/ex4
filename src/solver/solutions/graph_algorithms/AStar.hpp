@@ -3,6 +3,9 @@
 #include "MatrixGraphSolution.hpp"
 #include "BestPath.hpp"
 #include <queue>
+#include <cmath>
+
+namespace AStar {
 
 struct Step {
     std::uint32_t vertex_x;
@@ -11,13 +14,14 @@ struct Step {
     double g_cost;
     // will be the minimum cost of the trail from (x, y) to the end point
     double h_func;
-    matrix::MatrixClass isStepped;
 
-    Step(const graph::Graph& graph, const matrix::MatrixClass& steps);
+    Step(const graph::Graph& graph);
     Step(const graph::Graph& graph, const Step& before, const Direction direction);
 
-    double getf();
+    double f();
 };
+
+}
 
 namespace solver {
 

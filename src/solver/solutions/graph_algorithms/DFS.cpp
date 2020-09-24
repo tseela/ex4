@@ -51,18 +51,18 @@ void DFS_search(const Graph& graph, matrix::MatrixClass isStepped, string path,
 
     // if we can make a step (in any direction) we will make it and activate our recursive func on it
     if (graph.canStep(x, y, UP) && isStepped(x - 1, y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-        DFS_search(graph, isStepped, path + "," + to_string(UP), cost, x - 1, y, best);
+        DFS_search(graph, isStepped, path + "," + graph::Graph::to_string(UP), cost, x - 1, y, best);
     }
 
     if (graph.canStep(x, y, DOWN) && isStepped(x + 1, y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-        DFS_search(graph, isStepped, path + "," + to_string(DOWN), cost, x + 1, y, best);
+        DFS_search(graph, isStepped, path + "," + graph::Graph::to_string(DOWN), cost, x + 1, y, best);
     }
 
     if (graph.canStep(x, y, LEFT) && isStepped(x, y - 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-        DFS_search(graph, isStepped, path + "," + to_string(LEFT), cost, x, y - 1, best);
+        DFS_search(graph, isStepped, path + "," + graph::Graph::to_string(LEFT), cost, x, y - 1, best);
     }
 
     if (graph.canStep(x, y, RIGHT) && isStepped(x, y + 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
-        DFS_search(graph, isStepped, path + "," + to_string(RIGHT), cost, x, y + 1, best);
+        DFS_search(graph, isStepped, path + "," + graph::Graph::to_string(RIGHT), cost, x, y + 1, best);
     }
 }

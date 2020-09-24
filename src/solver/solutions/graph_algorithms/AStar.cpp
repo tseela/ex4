@@ -3,13 +3,13 @@
 using namespace std;
 using namespace solver::solution;
 using namespace graph;
+using namespace AStar;
 
-void AStar_search(const Graph& graph, matrix::MatrixClass isStepped, string path, 
-double cost, uint32_t x, uint32_t y, BestPath& best);
+void AStar_search(const Graph& graph, const matrix::MatrixClass& isStepped, BestPath& best);
 
 solver::solution::graph_solution::AStar::AStar() {}
 
-string solver::solution::graph_solution::AStar::getCacheString() const { return "AStar"; }
+string solver::solution::graph_solution::AStar::getCacheString() const { return "A*"; }
 
 string solver::solution::graph_solution::AStar::algorithm(const Graph& graph) const {
     // if the end point and the start point are the same, the cost is 0
@@ -25,7 +25,7 @@ string solver::solution::graph_solution::AStar::algorithm(const Graph& graph) co
     BestPath best = BestPath();
     best.initialFields(graph);
 
-    AStar_search(graph, *isStepped, "", 0, graph.startX(), graph.startY(), best);
+    AStar_search(graph, *isStepped, best);
 
     if (best.bestPath.compare("") == 0) {
         return "Could not find any path.";
@@ -34,18 +34,21 @@ string solver::solution::graph_solution::AStar::algorithm(const Graph& graph) co
     return to_string(best.bestCost) + "," + getCacheString() + best.bestPath;
 }
 
-void AStar_search(const Graph& graph, matrix::MatrixClass isStepped, string path, 
-    double cost, uint32_t x, uint32_t y, BestPath& best) {
-    
-    queue<Step> trails;
-    trails.push(Step(graph, isStepped));
+void AStar_search(const Graph& graph, const matrix::MatrixClass& isStepped, BestPath& best) {
+    // a queue for the vertices we check right now
+    queue<Step> open;
+    open.push(Step(graph));
 
+    // a vector for the steps we need to check next
     vector<Step> success;
+    // a matrix indicator for the vertices we allready checked
+    matrix::MatrixClass closed = isStepped;
 
-    while (!trails.empty()) {
-        Step this_step = trails.front();
-        trails.pop();
+    while (!open.empty()) {
+        Step this_step = open.front();
+        open.pop();
 
+        // updates the best cost & path if we make it to the end point
         if (this_step.vertex_x == graph.endX() && this_step.vertex_y == graph.endY()) {
             if (best.bestCost > this_step.g_cost) {
                 best.bestCost = this_step.g_cost;
@@ -56,35 +59,64 @@ void AStar_search(const Graph& graph, matrix::MatrixClass isStepped, string path
 
         // if we can make a step (in any direction) we will push it's trail into our success queue
         if (graph.canStep(this_step.vertex_x, this_step.vertex_y, UP) && 
-            this_step.isStepped(this_step.vertex_x - 1, this_step.vertex_y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
+            closed(this_step.vertex_x - 1, this_step.vertex_y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
                 success.push_back(Step(graph, this_step, UP));
         }
 
         if (graph.canStep(this_step.vertex_x, this_step.vertex_y, DOWN) && 
-            this_step.isStepped(this_step.vertex_x + 1, this_step.vertex_y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
+            closed(this_step.vertex_x + 1, this_step.vertex_y) == MatrixGraphSolution::WAS_NOT_STEPPED) {
                 success.push_back(Step(graph, this_step, DOWN));
         }
 
         if (graph.canStep(this_step.vertex_x, this_step.vertex_y, LEFT) && 
-            this_step.isStepped(this_step.vertex_x, this_step.vertex_y - 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
+            closed(this_step.vertex_x, this_step.vertex_y - 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
                 success.push_back(Step(graph, this_step, LEFT));
         }
 
         if (graph.canStep(this_step.vertex_x, this_step.vertex_y, RIGHT) && 
-            this_step.isStepped(this_step.vertex_x, this_step.vertex_y + 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
+            closed(this_step.vertex_x, this_step.vertex_y + 1) == MatrixGraphSolution::WAS_NOT_STEPPED) {
                 success.push_back(Step(graph, this_step, RIGHT));
         }
 
-        for (auto i = 0; i < success.size(); ++i) {
-            if (graph.canStep(success.at(i).vertex_x, success.at(i).vertex_y)) {
-                // do something
+        queue<Step> helper;
+
+        // for every step we can make, we will check if it is allready in open.
+        // if not, we will add it to open, and else we will keep in open it's "better version"
+        // which will be the one with the lower f() value.
+        for (Step my_step : success) {
+            bool isAllreadyHere = false;
+            while (!open.empty()) {
+                Step step = open.front();
+                open.pop();
+
+                // if the step is allready in open, we will put the best version on it in helper
+                if (step.vertex_x == my_step.vertex_x && step.vertex_y == my_step.vertex_y) {
+                    isAllreadyHere = true;
+                    if (my_step.f() < step.f()) {
+                        helper.push(my_step);
+                        continue;
+                    }
+                }
+                helper.push(step);
+            }
+
+            // if my_step isn't in open we will add it here
+            if (!isAllreadyHere) {
+                helper.push(my_step);
+            }
+
+            // when finished, we put all of the 'minimum f' steps in open and keep searching with them
+            while (!helper.empty()) {
+                open.push(helper.front());
+                helper.pop();
             }
         }
         success.clear();
+        closed.setValue(this_step.vertex_x, this_step.vertex_y, MatrixGraphSolution::WAS_STEPPED);
     }
 }
 
-Step::Step(const graph::Graph& graph, const matrix::MatrixClass& steps) : isStepped(steps) {
+AStar::Step::Step(const graph::Graph& graph) {
     vertex_x = graph.startX();
     vertex_y = graph.startY();
     my_path = "";
@@ -92,12 +124,12 @@ Step::Step(const graph::Graph& graph, const matrix::MatrixClass& steps) : isStep
     h_func = 0;
 }
 
-Step::Step(const graph::Graph& graph, const Step& before, const Direction direction) : isStepped(before.isStepped) {
+AStar::Step::Step(const graph::Graph& graph, const Step& before, const Direction direction) {
     graph::Graph::updateByDirection(vertex_x, vertex_y, direction);
-    isStepped.setValue(vertex_x, vertex_y, MatrixGraphSolution::WAS_STEPPED);
     my_path = before.my_path + "," + graph::Graph::to_string(direction);
     g_cost = before.g_cost + graph(vertex_x, vertex_y);
-    h_func = graph::Graph::MIN_STEP_COST * (abs(vertex_x - graph.endX()) + abs(vertex_y - graph.endY()));
+    h_func = graph::Graph::MIN_STEP_COST * (std::abs(static_cast<double>(vertex_x - graph.endX())) + 
+        std::abs(static_cast<double>(vertex_y - graph.endY())));
 }
 
-double Step::getf() { return h_func + g_cost; }
+double AStar::Step::f() { return h_func + g_cost; }

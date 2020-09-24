@@ -22,7 +22,7 @@ bool graph::Graph::canStep(const std::uint32_t p_x, const std::uint32_t p_y, con
     uint32_t y = p_y;
     try {
         updateByDirection(x, y, direction);
-    } catch (runtime_error e) {
+    } catch (const runtime_error& e) {
         return false;
     }
 
@@ -62,8 +62,8 @@ string graph::Graph::to_string(const Direction& direction) {
     return "";
 }
 
-void graph::Graph::updateByDirection(uint32_t& x, uint32_t y, const Direction& direction) {
-    if ((x == 0 || y == 0) && direction != NONE) {
+void graph::Graph::updateByDirection(uint32_t& x, uint32_t& y, const Direction& direction) {
+    if ((direction == LEFT && y == 0) || (x == 0 && direction == UP)) {
         throw runtime_error("Error! Can't update the point as needed. x & y must be bigger then 0.");
     }
 

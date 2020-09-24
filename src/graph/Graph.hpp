@@ -53,7 +53,7 @@ public:
 
     static std::string to_string(const Direction& direction);
 
-    static void updateByDirection(std::uint32_t& x, std::uint32_t y, const Direction& direction);
+    static void updateByDirection(std::uint32_t& x, std::uint32_t& y, const Direction& direction);
 
 private:
 
