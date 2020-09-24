@@ -28,7 +28,7 @@ string solver::solution::graph_solution::AStar::algorithm(const Graph& graph) co
     AStar_search(graph, *isStepped, best);
 
     if (best.bestPath.compare("") == 0) {
-        return "Could not find any path.";
+        return PATH_NOT_FOUND;
     }
 
     return to_string(best.bestCost) + "," + getCacheString() + best.bestPath;

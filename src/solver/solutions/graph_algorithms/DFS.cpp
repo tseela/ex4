@@ -27,7 +27,7 @@ string solver::solution::graph_solution::DFS::algorithm(const Graph& graph) cons
     DFS_search(graph, *isStepped, "", 0, graph.startX(), graph.startY(), best);
 
     if (best.bestPath.compare("") == 0) {
-        return "Could not find any path.";
+        return PATH_NOT_FOUND;
     }
 
     return to_string(best.bestCost) + "," + getCacheString() + best.bestPath;

@@ -13,7 +13,7 @@ using namespace solver::solution;
 
 int main() {
     auto matrix = new MatrixClass(3, 2);
-    matrix->setValue(0, 1, 7);
+    matrix->setValue(0, 1, 0);
     matrix->setValue(1, 0, 0);
     matrix->setValue(1, 1, 3);
     matrix->setValue(0, 0, 1);

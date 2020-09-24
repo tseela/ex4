@@ -11,13 +11,10 @@ solver::solution::MatrixGraphSolution::MatrixGraphSolution() {}
 string solver::solution::MatrixGraphSolution::getOutputFileType() const { return "txt"; }
 
 void solver::solution::MatrixGraphSolution::writeToFile(const Problem* graphProblem, const string& fileName) const {
-    auto graph = getGraph(graphProblem);
-    string solution = algorithm(*graph);
-
     if (fileName == PRINT) {
-        cout << solution << endl;
+        cout << getSolutionString(graphProblem) << endl;
     } else {
-        files::writeFileContent(fileName, solution);
+        files::writeFileContent(fileName, getSolutionString(graphProblem));
     }
 }
 

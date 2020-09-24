@@ -27,7 +27,7 @@ string solver::solution::graph_solution::BestFS::algorithm(const Graph& graph) c
     BestFS_search(graph, best);
 
     if (best.bestPath.compare("") == 0) {
-        return "Could not find any path.";
+        return PATH_NOT_FOUND;
     }
 
     return to_string(best.bestCost) + "," + getCacheString() + best.bestPath;

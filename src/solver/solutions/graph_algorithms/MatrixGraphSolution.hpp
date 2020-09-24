@@ -13,6 +13,7 @@ class MatrixGraphSolution : public solver::Solution {
 public:
     static constexpr auto WAS_STEPPED = 1;
     static constexpr auto WAS_NOT_STEPPED = 0;
+    static constexpr auto PATH_NOT_FOUND = "";
 
     /**
      * @brief Construct a new Matrix Graph Solution object.
