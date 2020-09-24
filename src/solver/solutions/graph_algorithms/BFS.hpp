@@ -15,7 +15,6 @@ struct Step {
     std::uint32_t vertex_y;
     std::string my_path;
     double my_cost;
-    matrix::MatrixClass isStepped;
 
     /**
      * @brief Construct a new Step object.
@@ -24,10 +23,8 @@ struct Step {
      * @param y - col
      * @param path - path untill this cell
      * @param cost - cost of the path
-     * @param steps - the famuos steps matrix
      */
-    Step(const std::uint32_t x, const std::uint32_t y, const std::string& path, const double cost,
-        const matrix::MatrixClass& steps);
+    Step(const std::uint32_t x, const std::uint32_t y, const std::string& path, const double cost);
     /**
      * @brief Construct a new Step object.
      * 

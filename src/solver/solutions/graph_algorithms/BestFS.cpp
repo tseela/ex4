@@ -23,11 +23,10 @@ string solver::solution::graph_solution::BestFS::algorithm(const Graph& graph) c
     isStepped->setValue(graph.startX(), graph.startY(), MatrixGraphSolution::WAS_STEPPED);
 
     BestPath best = BestPath();
-    best.initialFields(graph);
 
     BestFS_search(graph, *isStepped, best);
 
-    if (best.bestPath.compare("") == 0) {
+    if (best.bestCost == BestPath::NOT_FOUND) {
         return PATH_NOT_FOUND;
     }
 
@@ -50,11 +49,9 @@ void BestFS_search(const Graph& graph, const matrix::MatrixClass& isStepped, Bes
 
         // updates the best cost & path if we make it to the end point
         if (this_step.vertex_x == graph.endX() && this_step.vertex_y == graph.endY()) {
-            if (best.bestCost > this_step.cost) {
-                best.bestCost = this_step.cost;
-                best.bestPath = this_step.my_path;
-            }
-            continue;
+            best.bestCost = this_step.cost;
+            best.bestPath = this_step.my_path;
+            return;
         }
 
         vector<Direction> all_directions;
@@ -115,6 +112,7 @@ void BestFS_search(const Graph& graph, const matrix::MatrixClass& isStepped, Bes
         success.clear();
         closed.setValue(this_step.vertex_x, this_step.vertex_y, MatrixGraphSolution::WAS_STEPPED);
     }
+    best.bestCost = BestPath::NOT_FOUND;
 }
 
 BestFS::Step::Step(const graph::Graph& graph) {
@@ -125,6 +123,8 @@ BestFS::Step::Step(const graph::Graph& graph) {
 }
 
 BestFS::Step::Step(const graph::Graph& graph, const Step& before, const Direction direction) {
+    vertex_x = before.vertex_x;
+    vertex_y = before.vertex_y;
     graph::Graph::updateByDirection(vertex_x, vertex_y, direction);
     my_path = before.my_path + "," + graph::Graph::to_string(direction);
     cost = before.cost + graph(vertex_x, vertex_y);

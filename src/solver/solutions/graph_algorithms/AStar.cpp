@@ -23,7 +23,6 @@ string solver::solution::graph_solution::AStar::algorithm(const Graph& graph) co
     isStepped->setValue(graph.startX(), graph.startY(), MatrixGraphSolution::WAS_STEPPED);
 
     BestPath best = BestPath();
-    best.initialFields(graph);
 
     AStar_search(graph, *isStepped, best);
 
@@ -50,11 +49,9 @@ void AStar_search(const Graph& graph, const matrix::MatrixClass& isStepped, Best
 
         // updates the best cost & path if we make it to the end point
         if (this_step.vertex_x == graph.endX() && this_step.vertex_y == graph.endY()) {
-            if (best.bestCost > this_step.g_cost) {
-                best.bestCost = this_step.g_cost;
-                best.bestPath = this_step.my_path;
-            }
-            continue;
+            best.bestCost = this_step.g_cost;
+            best.bestPath = this_step.my_path;
+            return;
         }
 
         vector<Direction> all_directions;
@@ -115,6 +112,7 @@ void AStar_search(const Graph& graph, const matrix::MatrixClass& isStepped, Best
         success.clear();
         closed.setValue(this_step.vertex_x, this_step.vertex_y, MatrixGraphSolution::WAS_STEPPED);
     }
+    best.bestCost = BestPath::NOT_FOUND;
 }
 
 AStar::Step::Step(const graph::Graph& graph) {
@@ -126,6 +124,8 @@ AStar::Step::Step(const graph::Graph& graph) {
 }
 
 AStar::Step::Step(const graph::Graph& graph, const Step& before, const Direction direction) {
+    vertex_x = before.vertex_x;
+    vertex_y = before.vertex_y;
     graph::Graph::updateByDirection(vertex_x, vertex_y, direction);
     my_path = before.my_path + "," + graph::Graph::to_string(direction);
     g_cost = before.g_cost + graph(vertex_x, vertex_y);
