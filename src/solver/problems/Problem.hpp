@@ -13,10 +13,8 @@
 namespace solver {
 
 /**
- * @brief this class represent one Problem in the cache
- * that is not cache Problem. But it could be uses
- * to represent a part of a search Problem that would
- * represent the Problem we are locking for.
+ * @brief this class represent one Problem.
+ * 
  */
 class Problem {
 public:

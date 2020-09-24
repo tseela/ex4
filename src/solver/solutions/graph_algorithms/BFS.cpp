@@ -2,6 +2,7 @@
 
 using namespace std;
 using namespace solver::solution;
+using namespace BFS;
 
 void BFS_search(const graph::Graph& graph, const matrix::MatrixClass& isStepped, BestPath& best);
 

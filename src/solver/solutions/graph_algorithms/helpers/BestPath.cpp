@@ -1,6 +1,8 @@
 #include "BestPath.hpp"
 
 void BestPath::initialFields(const graph::Graph& graph) {
+    // cost will be the sum of all of the vertices in the graph + 1
+    // path will be ""
     bestCost = 1;
     bestPath = "";
     for (uint32_t i = 0; i < graph.getHeight(); ++i) {

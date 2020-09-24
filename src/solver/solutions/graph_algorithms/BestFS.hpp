@@ -13,6 +13,10 @@ namespace graph_solution {
 
 class BestFS : public solver::solution::MatrixGraphSolution {
 public:
+    /**
+     * @brief Construct a new BestFS object.
+     * 
+     */
     BestFS();
 
     std::string getCacheString() const override;
