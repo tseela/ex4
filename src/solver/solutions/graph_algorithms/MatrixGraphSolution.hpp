@@ -22,8 +22,6 @@ public:
 
     std::string getOutputFileType() const override final;
 
-    std::string getCacheCode() const override final;
-
     std::string getSolutionString(const Problem* problem) const override final;
 
     void writeToFile(const Problem* problem, const std::string& fileName) const override final;

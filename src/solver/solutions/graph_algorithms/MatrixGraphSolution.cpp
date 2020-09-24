@@ -8,8 +8,6 @@ solver::solution::MatrixGraphSolution::MatrixGraphSolution() {}
 
 string solver::solution::MatrixGraphSolution::getOutputFileType() const { return "txt"; }
 
-string solver::solution::MatrixGraphSolution::getCacheCode() const { return "graph"; }
-
 void solver::solution::MatrixGraphSolution::writeToFile(const Problem* graphProblem, const string& fileName) const {
     auto problem = dynamic_cast<MatrixGraphProblem *>(const_cast<Problem *>(graphProblem));
     auto graph = problem->getGraph();
@@ -23,9 +21,13 @@ void solver::solution::MatrixGraphSolution::writeToFile(const Problem* graphProb
 }
 
 string solver::solution::MatrixGraphSolution::getSolutionString(const Problem* graphProblem) const {
-    auto problem = dynamic_cast<MatrixGraphProblem *>(const_cast<Problem *>(graphProblem));
-    auto graph = problem->getGraph();
-    return algorithm(*graph);
+    try {
+        auto problem = dynamic_cast<MatrixGraphProblem *>(const_cast<Problem *>(graphProblem));
+        auto graph = problem->getGraph();
+        return algorithm(*graph);
+    } catch (const exception& e) {
+        throw runtime_error("Error! Solution does not match the problem.");
+    }
 }
 
 void solver::solution::MatrixGraphSolution::initialSteps(matrix::MatrixClass& steps) {

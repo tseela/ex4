@@ -59,13 +59,6 @@ public:
     virtual std::string getOutputFileType() const = 0;
 
     /**
-     * @brief Get the Cache Code of the object (the begining of the CacheString).
-     * 
-     * @return string 
-     */
-    virtual std::string getCacheCode() const = 0;
-
-    /**
      * @brief Writes the result to the output file.
      * 
      */

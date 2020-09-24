@@ -12,5 +12,5 @@ void solver::cache::Operation::writeToFile(const std::string& fileName) const { 
 string solver::cache::Operation::getOutputFileType() const { return m_solution->getOutputFileType(); }
 
 string solver::cache::Operation::getCacheString() const {
-    return m_solution->getCacheCode() + " " + m_solution->getCacheString() + " " + m_problem->getCacheString();
+    return m_problem->getCacheCode() + " " + m_solution->getCacheString() + " " + m_problem->getCacheString();
 }

@@ -9,11 +9,6 @@ solver::Solver::Solver(const Problem* problem, const Solution* solution) {
 }
 
 string solver::Solver::getStringSolution(bool useCache /*= true*/) const {
-    // if the cache codes of the two doesn't match we can't activate the solution on the problem.
-    if (m_problem->getCacheCode().compare(m_solution->getCacheCode()) != 0) {
-        throw runtime_error("Problem & Solution doesn't match!");
-    }
-
     if (useCache) {
         auto cache = CacheManager();
         auto command = Operation(m_problem, m_solution);
