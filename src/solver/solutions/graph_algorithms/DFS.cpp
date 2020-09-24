@@ -4,8 +4,7 @@ using namespace std;
 using namespace solver::solution;
 using namespace graph;
 
-void DFS_search(const Graph& graph, matrix::MatrixClass isStepped, string path, 
-double cost, uint32_t x, uint32_t y, BestPath& best);
+void DFS_search(const Graph&, matrix::MatrixClass&, const string&, const double, const uint32_t, const uint32_t, BestPath&);
 
 solver::solution::graph_solution::DFS::DFS() {}
 
@@ -34,9 +33,11 @@ string solver::solution::graph_solution::DFS::algorithm(const Graph& graph) cons
     return to_string(best.bestCost) + "," + getCacheString() + best.bestPath;
 }
 
-void DFS_search(const Graph& graph, matrix::MatrixClass isStepped, string path, 
-    double cost, uint32_t x, uint32_t y, BestPath& best) {
+void DFS_search(const Graph& graph, matrix::MatrixClass& isStepped, const string& p_path, 
+    const double p_cost, const uint32_t x, const uint32_t y, BestPath& best) {
     
+    string path = p_path;
+    double cost = p_cost;
     cost += graph(x, y);
     isStepped.setValue(x, y, MatrixGraphSolution::WAS_STEPPED);
 

@@ -3,7 +3,7 @@
 using namespace std;
 using namespace solver::solution;
 
-void BFS_search(const graph::Graph& graph, matrix::MatrixClass isStepped, BestPath& best);
+void BFS_search(const graph::Graph& graph, const matrix::MatrixClass& isStepped, BestPath& best);
 
 solver::solution::graph_solution::BFS::BFS() {}
 
@@ -32,7 +32,7 @@ string solver::solution::graph_solution::BFS::algorithm(const graph::Graph& grap
     return to_string(best.bestCost) + "," + getCacheString() + best.bestPath;
 }
 
-void BFS_search(const graph::Graph& graph, matrix::MatrixClass isStepped, BestPath& best) {
+void BFS_search(const graph::Graph& graph, const matrix::MatrixClass& isStepped, BestPath& best) {
     queue<Step> trails;
     trails.push(Step(graph.startX(), graph.startY(), "", graph(graph.startX(), graph.startY()), isStepped));
 
@@ -71,16 +71,18 @@ void BFS_search(const graph::Graph& graph, matrix::MatrixClass isStepped, BestPa
     }
 }
 
-Step::Step(std::uint32_t x, std::uint32_t y, std::string path, double cost, const matrix::MatrixClass& steps) : isStepped(steps) {
-    vertex_x = x;
-    vertex_y = y;
-    my_path = path;
-    my_cost = cost;
+Step::Step(const std::uint32_t x, const std::uint32_t y, const std::string& path, const double cost,
+    const matrix::MatrixClass& steps) : isStepped(steps) {
+        vertex_x = x;
+        vertex_y = y;
+        my_path = path;
+        my_cost = cost;
 }
 
-Step::Step(const graph::Graph& graph, const Step& before, Direction direction) : isStepped(before.isStepped) {
+Step::Step(const graph::Graph& graph, const Step& before, const Direction direction) : isStepped(before.isStepped) {
     auto x = before.vertex_x;
     auto y = before.vertex_y;
+
     my_path = before.my_path + "," + graph::Graph::to_string(direction);
     isStepped.setValue(x, y, MatrixGraphSolution::WAS_STEPPED);
 

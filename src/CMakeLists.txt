@@ -27,10 +27,11 @@ ${CMAKE_SOURCE_DIR}/solver/cache_manager/hash ${CMAKE_SOURCE_DIR}/server ${PAREN
 
 add_executable(ex4.out main.cpp
 files/file_reading.cpp graph/Graph.cpp matrix/ErrorCodeException.cpp matrix/MatrixClass.cpp time/CurrentTime.cpp
-solver/Solver.cpp solver/problems/Problem.cpp solver/problems/MatrixGraphProblem.cpp
-solver/solutions/Solution.cpp solver/solutions/graph_algorithms/MatrixGraphSolution.cpp solver/solutions/graph_algorithms/DFS.cpp
-solver/solutions/graph_algorithms/BFS.cpp solver/solutions/graph_algorithms/AStar.cpp solver/solutions/graph_algorithms/helpers/BestPath.cpp
-solver/cache_manager/CacheManager.cpp solver/cache_manager/StringFunctions.cpp solver/cache_manager/Operation.cpp
+solver/Solver.cpp solver/problems/Problem.cpp solver/problems/MatrixGraphProblem.cpp solver/solutions/Solution.cpp
+solver/solutions/graph_algorithms/MatrixGraphSolution.cpp solver/solutions/graph_algorithms/DFS.cpp
+solver/solutions/graph_algorithms/BestFS.cpp solver/solutions/graph_algorithms/BFS.cpp
+solver/solutions/graph_algorithms/AStar.cpp solver/solutions/graph_algorithms/helpers/BestPath.cpp
+solver/cache_manager/CacheManager.cpp solver/cache_manager/Operation.cpp
 solver/cache_manager/hash/crc32.cpp solver/cache_manager/hash/crc32FileReader.cpp)
 target_link_libraries(ex4.out matrix)
 
