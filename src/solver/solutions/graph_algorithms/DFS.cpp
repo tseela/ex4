@@ -22,7 +22,6 @@ string solver::solution::graph_solution::DFS::algorithm(const Graph& graph) cons
     isStepped->setValue(graph.startX(), graph.startY(), MatrixGraphSolution::WAS_STEPPED);
 
     BestPath best = BestPath();
-    best.initialFields(graph);
 
     DFS_search(graph, *isStepped, "", 0, graph.startX(), graph.startY(), best);
 
@@ -41,12 +40,10 @@ void DFS_search(const Graph& graph, matrix::MatrixClass& isStepped, const string
     cost += graph(x, y);
     isStepped.setValue(x, y, MatrixGraphSolution::WAS_STEPPED);
 
-    // if out start point equals to the end point we will return and update the best cost & path
+    // if out start point equals to the end point we will update the best cost & path and return
     if (graph.endX() == x && graph.endY() == y) {
-        if (best.bestCost > cost) {
-            best.bestCost = cost;
-            best.bestPath = path;
-        }
+        best.bestCost = cost;
+        best.bestPath = path;
         return;
     }
 

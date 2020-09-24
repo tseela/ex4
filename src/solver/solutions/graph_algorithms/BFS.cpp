@@ -22,7 +22,6 @@ string solver::solution::graph_solution::BFS::algorithm(const graph::Graph& grap
     isStepped->setValue(graph.startX(), graph.startY(), MatrixGraphSolution::WAS_STEPPED);
 
     BestPath best = BestPath();
-    best.initialFields(graph);
 
     BFS_search(graph, *isStepped, best);
 
@@ -41,13 +40,11 @@ void BFS_search(const graph::Graph& graph, const matrix::MatrixClass& isStepped,
         Step this_step = trails.front();
         trails.pop();
 
-        // if this is the end point we will save it (if needed) in best and move to the next step in trails
+        // if this is the end point we will save it and return
         if (this_step.vertex_x == graph.endX() && this_step.vertex_y == graph.endY()) {
-            if (best.bestCost > this_step.my_cost) {
-                best.bestCost = this_step.my_cost;
-                best.bestPath = this_step.my_path;
-            }
-            continue;
+            best.bestCost = this_step.my_cost;
+            best.bestPath = this_step.my_path;
+            return;
         }
 
         vector<Direction> all_directions;
@@ -72,6 +69,7 @@ void BFS_search(const graph::Graph& graph, const matrix::MatrixClass& isStepped,
             }
         }
     }
+    best.bestCost = BestPath::NOT_FOUND;
 }
 
 Step::Step(const std::uint32_t x, const std::uint32_t y, const std::string& path, const double cost,

@@ -1,15 +1,11 @@
 #include "BestPath.hpp"
 
-void BestPath::initialFields(const graph::Graph& graph) {
-    // cost will be the sum of all of the vertices in the graph + 1
-    // path will be ""
-    bestCost = 1;
+BestPath::BestPath() {
+    bestCost = NOT_FOUND;
     bestPath = "";
-    for (uint32_t i = 0; i < graph.getHeight(); ++i) {
-        for (uint32_t j = 0; j < graph.getWidth(); ++j) {
-            if (graph.canStep(i, j)) {
-                bestCost += graph(i, j);
-            }
-        }
-    }
+}
+
+BestPath::BestPath(const double cost, const std::string& path) {
+    bestCost = cost;
+    bestPath = path;
 }

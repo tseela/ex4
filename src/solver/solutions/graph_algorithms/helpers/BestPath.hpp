@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Graph.hpp"
 #include <string>
 
 /**
@@ -8,13 +7,22 @@
  * 
  */
 struct BestPath {
+    static constexpr auto NOT_FOUND = -1;
+
     double bestCost;
     std::string bestPath;
 
     /**
-     * @brief Initials the fields for the algorithm.
+     * @brief Construct a new Best Path object which repressents a path that wasn't found.
      * 
-     * @param graph 
      */
-    void initialFields(const graph::Graph& graph);
+    BestPath();
+
+    /**
+     * @brief Construct a new Best Path object.
+     * 
+     * @param cost 
+     * @param path 
+     */
+    BestPath(const double cost, const std::string& path);
 };
