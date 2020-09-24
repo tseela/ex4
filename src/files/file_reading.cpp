@@ -1,6 +1,6 @@
 #include "file_reading.hpp"
 
-std::string readFileContent(const std::string& filePath) {
+std::string files::readFileContent(const std::string& filePath) {
   // Opens input-only file (ifstream) in binary mode.
   std::ifstream in(filePath, std::ios::binary);
 
@@ -26,7 +26,7 @@ std::string readFileContent(const std::string& filePath) {
   return content;
 }
 
-void writeFileContent(const std::string& filePath, const std::string& content) {
+void files::writeFileContent(const std::string& filePath, const std::string& content) {
   // Opens output-only file (ofstream) in binary mode, and truncates all
   //    existing content from the file.
   std::ofstream out(filePath, std::ios::binary | std::ios::trunc);

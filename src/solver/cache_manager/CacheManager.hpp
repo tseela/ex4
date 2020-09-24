@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Operation.hpp"
 #include "file_reading.hpp"
 #include "CurrentTime.hpp"
-#include "Operation.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -18,44 +18,47 @@
 #include <errno.h>
 #include <system_error>
 
-class Operation;
+namespace solver {
+
+namespace cache {
 
 /**
  * @brief this class stands for the cache.
  */
 class CacheManager {
 public:
-    static constexpr char CACHE_FILE[] = "src/bin/cache/Cache__DONT_TOUCH_THIS_FILE.txt";
-    static constexpr char CACHE_LINE[] = "Cache Manager is running!\n";
-    static constexpr char CACHE_DIR[] = "src/bin/cache";
-    static constexpr char CACHE_FILES_DIR[] = "src/bin/cache/files";
-    static constexpr char CACHE_FILES_DIR_[] = "src/bin/cache/files/";
+    static constexpr auto CACHE_FILE = "cache/Cache__DONT_TOUCH_THIS_FILE.txt";
+    static constexpr auto CACHE_LINE = "Cache Manager is running!\n";
+    static constexpr auto CACHE_DIR = "cache";
+    static constexpr auto CACHE_FILES_DIR = "cache/files";
+    static constexpr auto CACHE_FILES_DIR_ = "cache/files/";
 
     static constexpr int CACHE_LINE_LENGTH = 26;
 
     /**
      * @brief Construct a new Cache Manager object.
      * 
-     * @param op the operation that is given.
      */
-    CacheManager(std::unique_ptr<Operation>& op);
+    CacheManager();
 
     /**
-     * @brief Does an operation.
+     * @brief Saves a command in the cache.
      * 
-     * @param operation - the operation.
+     * @param command - the operation.
      * @param isSearched - is the operation is searched or not.
      * @param isClear - if the operation is clear or not.
      */
-    void performOperation(bool isSearched = false, bool isClear = false) const;
+    void saveInCache(const solver::cache::Operation& command, const bool isSearched = false, const bool isClear = false) const;
 
     /**
-     * @brief Search an operation in the cache.
+     * @brief Search a command in the cache.
      * 
-     * @param operation
-     * @return string 
+     * @param command - the command.
+     * @return string - the date of the last use of the command.
      */
-    std::string search() const;
+    std::string search(const solver::cache::Operation& command) const;
+
+    std::string getBackUpFile(const solver::cache::Operation& command) const;
 
     /**
      * @brief Checks if a command is search operation.
@@ -64,7 +67,7 @@ public:
      * @param argv the command.
      * @return true if the operation is search, else false.
      */
-    static bool isSearch(int argc, const char* argv[]);
+    static bool isSearch(const int argc, const char* argv[]);
 
     /**
      * @brief Checks if a command is clear operation.
@@ -73,8 +76,9 @@ public:
      * @param argv the command.
      * @return true if the operation is clear, else false. 
      */
-    static bool isClear(int argc, const char* argv[]);
-
-private:
-    std::unique_ptr<Operation> _operation;
+    static bool isClear(const int argc, const char* argv[]);
 };
+
+}
+
+}

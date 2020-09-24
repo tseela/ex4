@@ -1,10 +1,9 @@
 #include "CacheManager.hpp"
 
 using namespace std;
+using namespace solver::cache;
 
-CacheManager::CacheManager(unique_ptr<Operation>& op) {
-    _operation = move(op);
-}
+solver::cache::CacheManager::CacheManager() {}
 
 /**
  * @brief throws an error if the user added a file named like our cache file.
@@ -12,9 +11,13 @@ CacheManager::CacheManager(unique_ptr<Operation>& op) {
  */
 void checkCacheFileExists() {
     //make the dir cache
-    mkdir(CacheManager::CACHE_DIR, 0777);
+    if (!std::filesystem::exists(CacheManager::CACHE_DIR) && mkdir(CacheManager::CACHE_DIR, 0777) < 0) {
+        throw system_error{errno, system_category()};
+    }
     //make the dir for the cache files
-    mkdir(CacheManager::CACHE_FILES_DIR, 0777);
+    if (!std::filesystem::exists(CacheManager::CACHE_FILES_DIR) && mkdir(CacheManager::CACHE_FILES_DIR, 0777) < 0) {
+        throw system_error{errno, system_category()};
+    }
     // opening the cache file
     const auto cachefd = open(CacheManager::CACHE_FILE, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
     if (cachefd < 0) {
@@ -28,7 +31,8 @@ void checkCacheFileExists() {
 
     int errorID = read(cachefd, cacheID, CacheManager::CACHE_LINE_LENGTH);
     if (errorID == 0) { // empty file
-        int errorWriting = write(cachefd, CacheManager::CACHE_LINE, CacheManager::CACHE_LINE_LENGTH);
+        int errorWriting = write(cachefd, CacheManager::CACHE_LINE, 
+            CacheManager::CACHE_LINE_LENGTH);
         if (errorWriting < 0) {
           close(cachefd);
           throw system_error{errno, system_category()}; 
@@ -47,12 +51,12 @@ void checkCacheFileExists() {
  * @brief Creates a Beckup File.
  * for an operation.
  * 
- * @param _operation the operation to make beckup file for.
+ * @param command the command to make beckup file for.
  * @param index the index of the beckup file.
  */
-void createBeckupFile(const Operation& _operation, unsigned int index) {
-    //gets the files name.
-    string fileName = "src/bin/cache/files/" + std::to_string(index) + "." + _operation.getOutputFileType();
+void createBeckupFile(const Operation& command, unsigned int index) {
+    //gets the files name
+    string fileName = CacheManager::CACHE_FILES_DIR_ + std::to_string(index) + "." + command.getOutputFileType();
 
     //opening (& creating if needed) the file.
     const auto cachefd = open(fileName.c_str(), O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
@@ -61,8 +65,8 @@ void createBeckupFile(const Operation& _operation, unsigned int index) {
     }
 
     //try to write the beckupfile.
-    try{
-        _operation.writeToFile(fileName);
+    try {
+        command.writeToFile(fileName);
     } catch(const exception& e) {
         close(cachefd);
         throw e;
@@ -100,7 +104,8 @@ uint32_t getCashFileIndex() {
     return std::stoi(line.substr(line.find("|") + 1)) + 1;
 }
 
-void CacheManager::performOperation(bool isSearched /*= false*/, bool isClear /*= false*/) const {
+void solver::cache::CacheManager::saveInCache(const Operation& command, const bool isSearched /*= false*/, 
+    const bool isClear /*= false*/) const {
     //chcking if the catch file exists & creating it if neede.
     checkCacheFileExists();
 
@@ -114,7 +119,7 @@ void CacheManager::performOperation(bool isSearched /*= false*/, bool isClear /*
 
     //if search operation
     if (isSearched) {
-        string search = this->search();
+        string search = this->search(command);
         if (search == "") {
              cout << "result wasn't found in cache" << endl;
         } else {
@@ -123,42 +128,35 @@ void CacheManager::performOperation(bool isSearched /*= false*/, bool isClear /*
         return;
     }
 
-    //searching for the operatin in the cache file. 
-    string result = search();
+    // searching for the operatin in the cache file. 
+    string result = search(command);
 
-    //if found the operation
+    // if we found the command
     if (result.compare("") != 0) {
-        // first we will find the cache file that suits to the operation and copy it to our destination file
+        // first we will find the cache file that suits the operation
         string replace, fileName;
         unsigned int index = stoi(result.substr(result.find_last_of('|') + 1));
-        fileName = CACHE_FILES_DIR_ + to_string(index) + '.' + _operation->getOutputFileType();
-
-        //writing the content from the beckup file to the output file.
-        _operation->writeToOutputFile(readFileContent(fileName));
 
         // changing the time & date
         CurrentTime ct = CurrentTime();
         replace = ct.getTime() + '|' + std::to_string(index);
 
         // replace the date (the whole line) in the cache file
-        string cache = readFileContent(CACHE_FILE);
+        string cache = files::readFileContent(CACHE_FILE);
         cache.replace(cache.find(result), result.size(), replace);
-        writeFileContent(CACHE_FILE, cache);
+        files::writeFileContent(CACHE_FILE, cache);
 
         return;
     }
 
-    //if the operation not in cache file.
-
-    //writing the result to the output operation.
-    _operation->writeToOutputFile();
+    // if the operation not in cache file:
 
     // writes the operation line into the cache file
     string cacheCopy = "";
     if (!isSearched) {
-        cacheCopy += readFileContent(CACHE_FILE);
+        cacheCopy += files::readFileContent(CACHE_FILE);
         cacheCopy.erase(0, CACHE_LINE_LENGTH);
-        string cache = CACHE_LINE + _operation->getCacheString();
+        string cache = CACHE_LINE + command.getCacheString();
         //adding the time & date
         cache += ",";
         CurrentTime ct = CurrentTime();
@@ -172,13 +170,13 @@ void CacheManager::performOperation(bool isSearched /*= false*/, bool isClear /*
         //adding the other cache
         cache += cacheCopy;
 
-        writeFileContent(CACHE_FILE, cache);
+        files::writeFileContent(CACHE_FILE, cache);
 
-        createBeckupFile(*_operation, index);
+        createBeckupFile(command, index);
     }
 }
 
-string CacheManager::search() const {   
+string solver::cache::CacheManager::search(const Operation& command) const {   
     //opens the catch file 
     ifstream cacheFile;
     cacheFile.open(CACHE_FILE);
@@ -186,14 +184,8 @@ string CacheManager::search() const {
         throw std::system_error(errno, system_category());
     }
 
-    //exception
     string line, operationLine;
-    if (_operation != nullptr) {
-        operationLine = _operation->getCacheString();
-    } else {
-        cacheFile.close();
-        throw runtime_error(UNKNOWN_COMMAND);
-    }
+    operationLine = command.getCacheString();
 
     // checks if every begining of a line is similar to the CacheString of the operation
     // if it finds the similar one it will return something to print
@@ -210,7 +202,15 @@ string CacheManager::search() const {
     return ""; //didn't find
 }
 
-bool CacheManager::isSearch(int argc, const char* argv[]) {
+string solver::cache::CacheManager::getBackUpFile(const Operation& command) const {
+    string result = search(command);
+    if (result.compare("") == 0) {
+        return "";
+    }
+    return CACHE_FILES_DIR_ + result.substr(result.find_last_of('|') + 1) + '.' + command.getOutputFileType();
+}
+
+bool solver::cache::CacheManager::isSearch(const int argc, const char* argv[]) {
     // to few arguments
     if (argc < 3) {
         return false;
@@ -218,7 +218,7 @@ bool CacheManager::isSearch(int argc, const char* argv[]) {
     return strcmp(argv[0], "cache") == 0 && strcmp(argv[1], "search") == 0;
 }
 
-bool CacheManager::isClear(int argc, const char* argv[]) {
+bool solver::cache::CacheManager::isClear(const int argc, const char* argv[]) {
     // only 2 arguments in this cache operation
     if (argc != 2) {
         return false;

@@ -64,7 +64,7 @@ void SocketIStream::stop() {
         std::unique_ptr<SocketOStream> out = std::make_unique<SocketOStream>(m_sockfd);
         out->writeOneMassege(SocketOStream::NO_RESPONSE, SocketOStream::TIMEOUT_HAS_PASSED);
 
-        std::string contant = readFileContent(FILE_TO_NOTIFY);
-        writeFileContent(FILE_TO_NOTIFY, contant + TIMEOUT_FAILED);
+        std::string contant = files::readFileContent(FILE_TO_NOTIFY);
+        files::writeFileContent(FILE_TO_NOTIFY, contant + TIMEOUT_FAILED);
     }
 }

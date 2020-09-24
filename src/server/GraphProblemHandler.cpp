@@ -19,6 +19,6 @@ void GraphProblemHandler::handleProblem(const std::unique_ptr<SocketIStream> in,
                 cout<<firstLine<<endl;
 
                 //wirting to log server file -success
-                std::string contant = readFileContent(SocketServer::LOG_LOCATION);
-                writeFileContent(SocketServer::LOG_LOCATION, contant + SUCCESS_MASSEGE);
+                std::string contant = files::readFileContent(SocketServer::LOG_LOCATION);
+                files::writeFileContent(SocketServer::LOG_LOCATION, contant + SUCCESS_MASSEGE);
      }

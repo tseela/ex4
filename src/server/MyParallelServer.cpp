@@ -31,8 +31,8 @@ void MyParallelServer::threadAccept(int sockfd) {
 
             std::unique_lock<std::mutex> lock(m_mutCliVec);
 
-            std::string contant = readFileContent(SocketServer::LOG_LOCATION);
-            writeFileContent(SocketServer::LOG_LOCATION, contant + ACCEPTE_MASSEGE_TO_LOG);
+            std::string contant = files::readFileContent(SocketServer::LOG_LOCATION);
+            files::writeFileContent(SocketServer::LOG_LOCATION, contant + ACCEPTE_MASSEGE_TO_LOG);
 
             m_cliSocketfd.push(cliSockfd);
 
@@ -82,8 +82,8 @@ void MyParallelServer::oneThreadAccept(const std::shared_ptr<ClientHandler> ch) 
             std::string error = e.what();
 
             try{
-                std::string contant = readFileContent(SocketServer::LOG_LOCATION);
-                writeFileContent(SocketServer::LOG_LOCATION,
+                std::string contant = files::readFileContent(SocketServer::LOG_LOCATION);
+                files::writeFileContent(SocketServer::LOG_LOCATION,
                 contant + FAILED_MASSEGE_TO_LOG + error);
             } catch (const std::exception& eLog) {
                 std::cerr<<WRITING_MASSEGE_TO_LOG_FAILED<<std::endl;

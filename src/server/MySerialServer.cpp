@@ -37,8 +37,8 @@ void MySerialServer::threadAccept(int sockfd, const std::shared_ptr<ClientHandle
 
             std::lock_guard<std::mutex> guard(m_mut);
 
-            std::string contant = readFileContent(SocketServer::LOG_LOCATION);
-            writeFileContent(SocketServer::LOG_LOCATION, contant + ACCEPTE_MASSEGE_TO_LOG);
+            std::string contant = files::readFileContent(SocketServer::LOG_LOCATION);
+            files::writeFileContent(SocketServer::LOG_LOCATION, contant + ACCEPTE_MASSEGE_TO_LOG);
 
             m_accepting = true;
 
@@ -50,8 +50,8 @@ void MySerialServer::threadAccept(int sockfd, const std::shared_ptr<ClientHandle
             if(m_accepting) {
                 std::string error = e.what();
                 try{
-                    std::string contant = readFileContent(SocketServer::LOG_LOCATION);
-                    writeFileContent(SocketServer::LOG_LOCATION,
+                    std::string contant = files::readFileContent(SocketServer::LOG_LOCATION);
+                    files::writeFileContent(SocketServer::LOG_LOCATION,
                      contant + FAILED_MASSEGE_TO_LOG + error);
                 } catch (const std::exception& eLog) {
                     std::cerr<<WRITING_MASSEGE_TO_LOG_FAILED<<std::endl;

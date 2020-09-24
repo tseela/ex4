@@ -5,7 +5,7 @@ using namespace std;
 uint32_t crc32(const string& filePath) {
     //reads the file as needed
     string s =  "";
-    s += readFileContent(filePath);
+    s += files::readFileContent(filePath);
 
     return crc32FromString(s);
 }
@@ -14,7 +14,7 @@ uint32_t crc32FromString(const string& file) {
     //because of /0
     unsigned int length = file.length() + 1;
 
-   // declaring character array 
+    // declaring character array 
     char *buffer = new char[length];
 
     // copying the contents of the 
