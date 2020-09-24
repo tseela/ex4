@@ -2,6 +2,7 @@
 
 #include "SocketServer.hpp"
 #include "ProblemHandler.hpp"
+#include "Solver.hpp"
 #include "MatrixGraphProblem.hpp"
 #include "MatrixGraphSolution.hpp"
 #include "AStar.hpp"
@@ -12,6 +13,7 @@
 #include <string>
 #include <algorithm>
 #include <cstddef>
+#include <vector>
 
 namespace server_side {
     class GraphProblemHandler: public ProblemHandler {
@@ -27,5 +29,7 @@ namespace server_side {
 
             void getMatixRaw(SocketIStream* in, SocketOStream* out,
                  matrix::MatrixClass* matrix, std::uint32_t rowIndex) const;
+
+            std::vector<std::uint32_t> getTwoValueRaw(SocketIStream* in, SocketOStream* out) const;
     };
 }

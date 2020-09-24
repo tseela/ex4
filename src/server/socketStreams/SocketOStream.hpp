@@ -21,10 +21,11 @@ namespace server_side {
             static constexpr auto TIMEOUT_HAS_PASSED = 3;
             static constexpr auto NO_START_BREAKS = 4;
             static constexpr auto NOT_SUPPORTED_ALG = 5;
-            static constexpr auto MISSING_MATRIX_SIZE = 6;
-            static constexpr auto NOT_INT_MATRIX_SIZE = 7;
+            static constexpr auto MISSING_ROW_WITH_TWO_VALUES = 6;
+            static constexpr auto NO_INT_ROW_WITH_TWO_VALUES = 7;
             static constexpr auto INVALID_MATRIX_VALUE = 8;
             static constexpr auto NUM_VALUES_NOT_EQUALS_MATRIX_WIDTH = 9;
+            static constexpr auto LAST_ROW_NOT_EMPTY = 10;
 
             explicit SocketOStream(int sockfd);
             void writeOneMassege(std::string output, std::uint32_t status = 0) const;
