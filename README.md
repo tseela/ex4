@@ -8,17 +8,17 @@ We support DFS, BFS, A* and BestFS.
 
 ### Errors the server might return
 ```cpp
-NOT_ENOUGH_ARG                                      // the user didn't send enough arguments
-NOT_SUPPORTED_PROBLEM                               // the problem the user entered has no reference in the server
-TIMEOUT_HAS_PASSED                                  // the user didn't send anything to the server for more then 5 seconds
-NO_START_BREAKS                                     // there supposed to be 2 empty lines (but the user forgot that...)
-NOT_SUPPORTED_ALG                                   // the givven algorithm is not supported by the server
-MISSING_ROW_WITH_TWO_VALUES                         // a value is missing from a line
-NO_INT_ROW_WITH_TWO_VALUES                          // a value that supposed to be `int` is missing
-INVALID_MATRIX_VALUE                                // the given matrix has an invalid cell value
-NUM_VALUES_NOT_EQUALS_MATRIX_WIDTH                  // there are too many or too little numbers in one line of the matrix
-LAST_ROW_NOT_EMPTY                                  // the last row isn't empty
-VALUE_MUST_BE_POSITIVE                              // there is a value in the matrix which is smaller then 1
+NOT_ENOUGH_ARG = 1                      // the user didn't send enough arguments
+NOT_SUPPORTED_PROBLEM = 2               // the problem the user entered has no reference in the server
+TIMEOUT_HAS_PASSED = 3                  // the user didn't send anything to the server for more then 5 seconds
+NO_START_BREAKS = 4                     // there supposed to be 2 empty lines (but the user forgot that...)
+NOT_SUPPORTED_ALG = 5                   // the givven algorithm is not supported by the server
+MISSING_ROW_WITH_TWO_VALUES = 6         // a value is missing from a line
+NO_INT_ROW_WITH_TWO_VALUES = 7          // a value that supposed to be `int` is missing
+INVALID_MATRIX_VALUE = 8                // the given matrix has an invalid cell value
+NUM_VALUES_NOT_EQUALS_MATRIX_WIDTH = 9  // there are too many or too little numbers in one line of the matrix
+LAST_ROW_NOT_EMPTY = 10                 // the last row isn't empty
+VALUE_MUST_BE_POSITIVE = 11             // there is a value in the matrix which is smaller then 1
 ```
 
 Our server supports a serial & parallel version, it kicks users the don't send anything to the server for more then 5 seconds and it will shut down 2 hours after no user connects it.
