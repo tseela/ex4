@@ -181,6 +181,8 @@ void GraphProblemHandler::handleProblem(std::unique_ptr<SocketIStream> in,
                           graphSolution.get());
 
                 //try to solve the problem
+                //we choose to go safe and not to use the cash but you can
+                //use it by changing false to true
                 out->writeOneMassege(solver->getStringSolution(false));
      }
 

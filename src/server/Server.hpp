@@ -8,7 +8,7 @@
 namespace server_side {
     class Server {
         public:
-            static constexpr auto SERVER_BACKLOG = 20;
+            static constexpr auto SERVER_BACKLOG = 40;
             static constexpr std::chrono::seconds SERVER_TIMEOUT = std::chrono::hours(2);
 
             /**
