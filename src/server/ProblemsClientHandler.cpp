@@ -2,7 +2,6 @@
 
 #define NOT_ENOUGH_ARGUMENS throw std::runtime_error("Expecting more arguments")
 #define NOT_SUPPORT_PROBLEM throw std::runtime_error("The given problem isn't supported")
-#define START_BREAKS_ERROR throw std::runtime_error("Expecting 2 break lines after first messege")
 using namespace server_side;
 
 ProblemsClientHandler::ProblemsClientHandler() {
@@ -12,29 +11,7 @@ ProblemsClientHandler::ProblemsClientHandler() {
 void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
      std::unique_ptr<SocketOStream> out) const {
         //riding the first messege
-        int numOfBreakLine = 0;
         std::string firstLine = in->readOneMassege();
-
-        //check for two break lines
-        std::string checksBreakLines = firstLine;
-        while(numOfBreakLine != REQUIRED_BREAKS) {
-                std::size_t found = checksBreakLines.rfind(SocketOStream::BREAK_LINE);
-                if (found != std::string::npos) {
-                        //deleting the found break
-                        checksBreakLines.replace(found, SocketOStream::BREAK_LINE_SIZE, "");
-                        ++numOfBreakLine;
-                        continue;
-                }
-
-                checksBreakLines = in->readOneMassege();
-                std::string chekNotImportedMassege = checksBreakLines;
-                checksBreakLines.erase(remove_if(checksBreakLines.begin(),
-                         checksBreakLines.end(), ::isspace), checksBreakLines.end());
-                if(checksBreakLines.size() != 0) {
-                        out->writeOneMassege(SocketOStream::NO_RESPONSE, SocketOStream::NO_START_BREAKS);
-                        START_BREAKS_ERROR;
-                }
-        }
 
         //gets the problem string & the alg string
         auto problemStartIndex = firstLine.find_first_of(SPACE);
@@ -43,6 +20,7 @@ void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
                 NOT_ENOUGH_ARGUMENS;
         }
 
+        //deleting the "solce" word
         std::string problemString = firstLine.substr(problemStartIndex);
 
         problemStartIndex = problemString.find_first_not_of(SPACE);
@@ -50,7 +28,7 @@ void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
                 out->writeOneMassege(SocketOStream::NO_RESPONSE, SocketOStream::NOT_ENOUGH_ARG);
                 NOT_ENOUGH_ARGUMENS;
         }
-
+        //deleting start spaces
         problemString = problemString.substr(problemStartIndex);
 
         std::string algString;

@@ -37,19 +37,21 @@ std::string SocketIStream::readOneMassege() {
 
 void SocketIStream::tryToRead() {
     try{
-        std::string buffer(BUFFER_SIZE, '\0');
+        while(!massegeEnd()) {
+            std::string buffer(BUFFER_SIZE, '\0');
 
-        //reading from the client
-        const auto numBytesRead = read(m_sockfd, buffer.data(), buffer.size() - 1);
-        m_isSecceded = true;
-        if (numBytesRead < 0) {
-            //close(sockfd) is handeled in the servers
-            THROW_SYSTEM_ERROR();
+            //reading from the client
+            const auto numBytesRead = read(m_sockfd, buffer.data(), buffer.size() - 1);
+            m_isSecceded = true;
+            if (numBytesRead < 0) {
+                //close(sockfd) is handeled in the servers
+                THROW_SYSTEM_ERROR();
+            }
+
+            buffer[numBytesRead] = '\0';
+
+            m_line += buffer;
         }
-
-        buffer[numBytesRead] = '\0';
-
-        m_line = buffer;
     } catch (const std::exception& e) {
         m_tExp = std::current_exception();
     }
@@ -77,4 +79,9 @@ void SocketIStream::stop() {
         std::string contant = files::readFileContent(FILE_TO_NOTIFY);
         files::writeFileContent(FILE_TO_NOTIFY, contant + TIMEOUT_FAILED);
     }
+}
+
+bool SocketIStream::massegeEnd(){
+    return m_line.size() >= END_MASSEGE_LENTGH &&
+     0 == m_line.compare(m_line.size()-END_MASSEGE_LENTGH, END_MASSEGE_LENTGH, END_MASSEGE);
 }

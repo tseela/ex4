@@ -4,7 +4,7 @@ project(ex4 VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 17)
 
-#add_compile_options(-Wall -Wextra -pedantic -Werror -Wnon-virtual-dtor -Wshadow)
+add_compile_options(-Wall -Wextra -pedantic -Werror -Wnon-virtual-dtor -Wshadow)
 
 get_filename_component(PARENT_DIR ${CMAKE_SOURCE_DIR} DIRECTORY)
 

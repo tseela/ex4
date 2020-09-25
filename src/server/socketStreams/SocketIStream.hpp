@@ -27,6 +27,8 @@ namespace server_side {
             static constexpr auto FILE_TO_NOTIFY = "SERVER_LOG.txt";
             static constexpr auto BUFFER_SIZE = 1024;
             static constexpr auto START_STRING = "";
+            static constexpr auto END_MASSEGE = "\r\n\r\n";
+            static constexpr auto END_MASSEGE_LENTGH = 2;
             static constexpr std::chrono::seconds READ_TIMEOUT = std::chrono::seconds(5);
 
             /**
@@ -55,5 +57,7 @@ namespace server_side {
              * 
              */
             void tryToRead();
+
+            bool massegeEnd();
     };
 }

@@ -19,14 +19,13 @@ namespace server_side {
             static constexpr auto NOT_ENOUGH_ARG = 1;
             static constexpr auto NOT_SUPPORTED_PROBLEM = 2;
             static constexpr auto TIMEOUT_HAS_PASSED = 3;
-            static constexpr auto NO_START_BREAKS = 4;
-            static constexpr auto NOT_SUPPORTED_ALG = 5;
-            static constexpr auto MISSING_ROW_WITH_TWO_VALUES = 6;
-            static constexpr auto NO_INT_ROW_WITH_TWO_VALUES = 7;
-            static constexpr auto INVALID_MATRIX_VALUE = 8;
-            static constexpr auto NUM_VALUES_NOT_EQUALS_MATRIX_WIDTH = 9;
-            static constexpr auto LAST_ROW_NOT_EMPTY = 10;
-            static constexpr auto VALUE_MUST_BE_POSITIVE = 11;
+            static constexpr auto NOT_SUPPORTED_ALG = 4;
+            static constexpr auto MISSING_ROW = 5;
+            static constexpr auto NO_INT_ROW_WITH_TWO_VALUES = 6;
+            static constexpr auto INVALID_MATRIX_VALUE = 7;
+            static constexpr auto NUM_VALUES_NOT_EQUALS_MATRIX_WIDTH = 8;
+            static constexpr auto VALUE_MUST_BE_POSITIVE = 9;
+            static constexpr auto MISSING_ROW_WITH_TWO_VALUES = 10;
 
             /**
              * @brief Construct a new Socket O Stream object.
