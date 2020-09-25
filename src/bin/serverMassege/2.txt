@@ -3,6 +3,7 @@ status: 0
 response-length: 0
 
 Version: 1.0
-status: 4
-response-length: 0
+status: 0
+response-length: 33
 
+5.000000,A*,Down,Down,Right,Right

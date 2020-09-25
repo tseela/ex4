@@ -59,7 +59,16 @@ void open_socket_and_send(int port, int ClientsIndex) {
             }
 
             if(numOfLine == 2) {
-                std::this_thread::sleep_for(std::chrono::seconds(1));
+                std::string buffer(1024, '\0'); 
+                const auto numBytesRead = read(sockfd, buffer.data(), buffer.size() - 1);
+                if (numBytesRead < 0) {
+                    close(sockfd);
+                    THROW_SYSTEM_ERROR();
+                }
+                buffer[numBytesRead] = '\0';
+
+                std::string contant = files::readFileContent("serverMassege/" + fileName);
+                files::writeFileContent("serverMassege/" + fileName, contant + buffer.data());
             }
 
         } catch(...) {//if the server closed the connection
@@ -72,7 +81,7 @@ void open_socket_and_send(int port, int ClientsIndex) {
         const auto numBytesRead = read(sockfd, buffer.data(), buffer.size() - 1);
         if (numBytesRead < 0) {
             close(sockfd);
-            THROW_SYSTEM_ERROR();
+            break; //the server closed the socket
         }
         buffer[numBytesRead] = '\0';
 
@@ -82,14 +91,14 @@ void open_socket_and_send(int port, int ClientsIndex) {
 
         std::string contant = files::readFileContent("serverMassege/" + fileName);
         files::writeFileContent("serverMassege/" + fileName, contant + buffer.data());
-        }
+    }
                     
     close(sockfd);
 }
 
 int main() {
-    auto port = 1025;
-    auto numOfClientsToTest = 6;
+    auto port = 1028;
+    auto numOfClientsToTest = 9;
 
     std::vector<std::thread> threads;
     try {
