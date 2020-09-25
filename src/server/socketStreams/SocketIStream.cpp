@@ -38,6 +38,7 @@ std::string SocketIStream::readOneMassege() {
 void SocketIStream::tryToRead() {
     try{
         while(!massegeEnd()) {
+            m_isSecceded = false;
             std::string buffer(BUFFER_SIZE, '\0');
 
             //reading from the client
@@ -49,8 +50,9 @@ void SocketIStream::tryToRead() {
             }
 
             buffer[numBytesRead] = '\0';
-
-            m_line += buffer;
+            
+            std::string copy = buffer;
+            m_line += copy.data();
         }
     } catch (const std::exception& e) {
         m_tExp = std::current_exception();
@@ -74,14 +76,11 @@ void SocketIStream::stop() {
         //writes to client timeout has passed.
         std::unique_ptr<SocketOStream> out = std::make_unique<SocketOStream>(m_sockfd);
         out->writeOneMassege(SocketOStream::NO_RESPONSE, SocketOStream::TIMEOUT_HAS_PASSED);
-
-        //writes to the server log.
-        std::string contant = files::readFileContent(FILE_TO_NOTIFY);
-        files::writeFileContent(FILE_TO_NOTIFY, contant + TIMEOUT_FAILED);
     }
 }
 
-bool SocketIStream::massegeEnd(){
+bool SocketIStream::massegeEnd() const{
+
     return m_line.size() >= END_MASSEGE_LENTGH &&
      0 == m_line.compare(m_line.size()-END_MASSEGE_LENTGH, END_MASSEGE_LENTGH, END_MASSEGE);
 }

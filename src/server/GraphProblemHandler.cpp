@@ -12,6 +12,7 @@ using namespace server_side;
 
 std::unique_ptr<solver::solution::MatrixGraphSolution> GraphProblemHandler::getSolution(
         SocketOStream* out, std::string alg) const{
+
         if(alg.compare(DEFAULT_ALG) == 0) {//gets the default alg if needed.
                 alg = GRAPH_DEFAULT_ALG;
         }
@@ -19,16 +20,16 @@ std::unique_ptr<solver::solution::MatrixGraphSolution> GraphProblemHandler::getS
         std::unique_ptr<solver::solution::MatrixGraphSolution> graphSolution;
         
         //geting the alg according to its name.
-        if(alg.compare("DFS")) {
+        if(alg.compare("DFS") == 0) {
                 graphSolution = std::make_unique<solver::solution::graph_solution::DFS>();
 
-        } else if(alg.compare("BFS")) {
+        } else if(alg.compare("BFS") == 0) {
                 graphSolution = std::make_unique<solver::solution::graph_solution::BFS>();
 
-        } else if(alg.compare("BestFS")) {
+        } else if(alg.compare("BestFS") == 0) {
                 graphSolution = std::make_unique<solver::solution::graph_solution::BestFS>();
                         
-        }else if(alg.compare("A*")) {
+        }else if(alg.compare("A*") == 0) {
                 graphSolution = std::make_unique<solver::solution::graph_solution::AStar>();
                         
         } else {
