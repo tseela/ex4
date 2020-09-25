@@ -24,6 +24,7 @@ link_directories(${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/files)
 
 
 add_executable(tester.out main.cpp files/file_reading.cpp)
+target_link_libraries(tester.out pthread)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
