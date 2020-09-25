@@ -3,4 +3,11 @@ New client was accepted!
 New client was accepted!
 New client was accepted!
 New client was accepted!
-Task Failed, Client disconnected with this exception: Num of values in matrix's row not equals to matrix widthTask complited, Client disconnectedTask Failed, Client disconnected with this exception: Timeout has past, Client disconnected
+New client was accepted!
+New client was accepted!
+Task complited, Client disconnected
+Task complited, Client disconnected
+Task complited, Client disconnected
+Task Failed, Client disconnected with this exception: Timeout has past, Client disconnected
+Task complited, Client disconnected
+Task Failed, Client disconnected with this exception: Num of values in matrix's row not equals to matrix width

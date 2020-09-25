@@ -11,7 +11,6 @@ SocketServer::SocketServer() {
 }
 
 void SocketServer::start(int port, const std::shared_ptr<ClientHandler> ch) {
-
     //creating the socket
     const auto sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
@@ -31,14 +30,14 @@ void SocketServer::start(int port, const std::shared_ptr<ClientHandler> ch) {
     if (0 > bind(sockfd, reinterpret_cast<const sockaddr*>(&connectAddress), 
     sizeof(connectAddress))){
         close(sockfd);
-        THROW_SYSTEM_ERROR(); 
+        THROW_SYSTEM_ERROR();
     }
 
     //intalize num of clients to listen to
 
     if(0 > listen(sockfd, SERVER_BACKLOG)) {
         close(sockfd);
-        THROW_SYSTEM_ERROR(); 
+        THROW_SYSTEM_ERROR();
     }
 
     //accepting the clients

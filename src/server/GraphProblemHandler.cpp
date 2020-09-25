@@ -181,12 +181,7 @@ void GraphProblemHandler::handleProblem(std::unique_ptr<SocketIStream> in,
                           graphSolution.get());
 
                 //try to solve the problem
-                out->writeOneMassege(solver->getStringSolution());
-                //wirting to log server file -success
-                std::string contant = 
-                        files::readFileContent(SocketServer::LOG_LOCATION);
-                files::writeFileContent(SocketServer::LOG_LOCATION,
-                         contant + SUCCESS_MASSEGE);
+                out->writeOneMassege(solver->getStringSolution(false));
      }
 
      std::string GraphProblemHandler::getNextRow(std::string& massege, SocketOStream* out) const {

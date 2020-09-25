@@ -91,7 +91,7 @@ void MyParallelServer::oneThreadAccept(const std::shared_ptr<ClientHandler> ch) 
             try{//writing to the log server
                 std::string contant = files::readFileContent(SocketServer::LOG_LOCATION);
                 files::writeFileContent(SocketServer::LOG_LOCATION,
-                contant + FAILED_MASSEGE_TO_LOG + error);
+                contant + FAILED_MASSEGE_TO_LOG + error + BREAK_LINE_LOG);
             } catch (const std::exception& eLog) {
                 std::cerr<<WRITING_MASSEGE_TO_LOG_FAILED<<std::endl;
             }

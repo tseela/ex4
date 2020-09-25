@@ -3,7 +3,7 @@
 #define THROW_SYSTEM_ERROR() \
     throw std::system_error { errno, std::system_category() }
 
-#define TIMOUT_ERROR() throw std::runtime_error("Timeout has past, Client disconnected\n")
+#define TIMOUT_ERROR() throw std::runtime_error("Timeout has past, Client disconnected")
 
 using namespace server_side;
 
@@ -58,10 +58,8 @@ void SocketIStream::tryToRead() {
         m_tExp = std::current_exception();
     }
 
-    //if succedd stops the timeout counter
-    if (0 != pthread_cancel(m_tStop.native_handle())) {
-        THROW_SYSTEM_ERROR(); 
-    }
+    //if succedd try to stops the timeout counter (if can if no its still ok)
+    pthread_cancel(m_tStop.native_handle());
 }
 
 void SocketIStream::stop() {

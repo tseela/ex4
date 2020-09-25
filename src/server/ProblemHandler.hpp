@@ -11,7 +11,7 @@ namespace server_side {
         public:
             static constexpr auto DEFAULT_ALG = "default";
 
-            static constexpr auto SUCCESS_MASSEGE = "Task complited, Client disconnected";
+            static constexpr auto SUCCESS_MASSEGE = "Task complited, Client disconnected\n";
 
             /**
              * @brief the protocol to handle the problem.

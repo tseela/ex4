@@ -7,6 +7,7 @@ std::string files::readFileContent(const std::string& filePath) {
   // The file is in a bad state. The error can be retrieved
   //	using the global `errno` in linux (#include <cerrno>).
   if (in.fail()) {
+printf("a");///////
     throw std::system_error(errno, std::system_category());
   }
 
@@ -19,6 +20,7 @@ std::string files::readFileContent(const std::string& filePath) {
   //  it did not, it means that an error occurred.
   if (in.fail()) {
     in.close();
+printf("b");///////
     throw std::system_error(errno, std::system_category());
   }
 
@@ -33,12 +35,14 @@ void files::writeFileContent(const std::string& filePath, const std::string& con
 
   // The file is in a bad state.
   if (out.fail()) {
+printf("c");///////
     throw std::system_error(errno, std::system_category());
   }
 
   out.write(content.data(), static_cast<std::streamsize>(content.length()));
   if (out.fail()) {
     out.close();
+printf("d");///////
     throw std::system_error(errno, std::system_category());
   }
 

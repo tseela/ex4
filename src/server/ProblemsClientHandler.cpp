@@ -58,6 +58,10 @@ void ProblemsClientHandler::handleClient(std::unique_ptr<SocketIStream> in,
 
         out->writeOneMassege(SocketOStream::NO_RESPONSE);
         problem->handleProblem(std::move(in), std::move(out), std::move(algString));
+
+        //wirting to log server file -success
+        std::string contant = files::readFileContent(SocketServer::LOG_LOCATION);
+        files::writeFileContent(SocketServer::LOG_LOCATION, contant + ProblemHandler::SUCCESS_MASSEGE);
      }
 
         void ProblemsClientHandler::addProblemHandler(std::string problemString,

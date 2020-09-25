@@ -2,6 +2,7 @@
 
 #include "ClientHandler.hpp"
 #include "ProblemHandler.hpp"
+#include "SocketServer.hpp"
 
 #include <string>
 #include <algorithm>
